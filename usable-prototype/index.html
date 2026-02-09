@@ -7,8 +7,101 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Deck Selection Phase -->
+    <div id="deck-selection-phase" class="phase active">
+        <div class="deck-selection-content">
+            <h1>Select Game Configuration</h1>
+            
+            <div class="recommendation-box">
+                <h3>⚡ Recommended Combinations</h3>
+                <p><strong>Target 1.5-2 goals/game:</strong> Balanced Scoring + Attack Boosted</p>
+                <p><strong>Target 2.5-3 goals/game:</strong> High Action + Attack Boosted or Offensive</p>
+                <p>Decks marked with ⚡ are optimized for higher scoring with realistic conversion rates (~45-55%)</p>
+                <p><em>Note: Simulations draft new random teams each match to test game balance</em></p>
+            </div>
+            
+            <div class="deck-section">
+                <h2>Player Deck</h2>
+                <div class="deck-options">
+                    <label class="deck-option">
+                        <input type="radio" name="player-deck" value="balanced-scoring" checked>
+                        <div class="deck-card">
+                            <h3>⚡ Balanced Scoring</h3>
+                            <p>GK -25%, Elite attackers</p>
+                            <p class="deck-desc">Target: ~1.5-2 goals/game</p>
+                        </div>
+                    </label>
+                    <label class="deck-option">
+                        <input type="radio" name="player-deck" value="high-action">
+                        <div class="deck-card">
+                            <h3>⚡ High Action</h3>
+                            <p>GK -30%, Attack boost</p>
+                            <p class="deck-desc">Target: ~2-2.5 goals/game</p>
+                        </div>
+                    </label>
+                    <label class="deck-option">
+                        <input type="radio" name="player-deck" value="all">
+                        <div class="deck-card">
+                            <h3>All Players</h3>
+                            <p>Groups 4 & 5 (96 players)</p>
+                            <p class="deck-desc">Full pool, low scoring</p>
+                        </div>
+                    </label>
+                    <label class="deck-option">
+                        <input type="radio" name="player-deck" value="elite">
+                        <div class="deck-card">
+                            <h3>Elite Only</h3>
+                            <p>Group 5 (48 players)</p>
+                            <p class="deck-desc">Top tier, moderate scoring</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="deck-section">
+                <h2>Action Card Deck</h2>
+                <div class="deck-options">
+                    <label class="deck-option">
+                        <input type="radio" name="action-deck" value="attack-boosted" checked>
+                        <div class="deck-card">
+                            <h3>⚡ Attack Boosted</h3>
+                            <p>Attack +70%, Defense -50%</p>
+                            <p class="deck-desc">Best for 1.5-2 goals/game</p>
+                        </div>
+                    </label>
+                    <label class="deck-option">
+                        <input type="radio" name="action-deck" value="offensive">
+                        <div class="deck-card">
+                            <h3>⚡ Offensive</h3>
+                            <p>More attack, fewer negatives</p>
+                            <p class="deck-desc">Higher scoring games</p>
+                        </div>
+                    </label>
+                    <label class="deck-option">
+                        <input type="radio" name="action-deck" value="standard">
+                        <div class="deck-card">
+                            <h3>Standard</h3>
+                            <p>Balanced mix</p>
+                            <p class="deck-desc">Low scoring, defensive</p>
+                        </div>
+                    </label>
+                    <label class="deck-option">
+                        <input type="radio" name="action-deck" value="positive">
+                        <div class="deck-card">
+                            <h3>Positive Heavy</h3>
+                            <p>More positive cards</p>
+                            <p class="deck-desc">Moderate scoring boost</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <button id="confirm-decks-btn" class="primary-btn">Confirm Selection</button>
+        </div>
+    </div>
+
     <!-- Draft Phase -->
-    <div id="draft-phase" class="phase active">
+    <div id="draft-phase" class="phase">
         <div class="draft-header">
             <h1>Team Draft</h1>
             <div class="draft-info">

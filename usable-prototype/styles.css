@@ -64,6 +64,117 @@ button {
     margin: 20px 0;
 }
 
+/* Deck Selection */
+.deck-selection-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.deck-selection-content h1 {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.recommendation-box {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(59, 130, 246, 0.2));
+    border: 2px solid #fbbf24;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.recommendation-box h3 {
+    font-size: 24px;
+    color: #fbbf24;
+    margin-bottom: 15px;
+}
+
+.recommendation-box p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #e5e7eb;
+}
+
+.recommendation-box strong {
+    color: #fff;
+}
+
+.deck-section {
+    margin-bottom: 50px;
+}
+
+.deck-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #fbbf24;
+    text-align: center;
+}
+
+.deck-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.deck-option {
+    cursor: pointer;
+    position: relative;
+}
+
+.deck-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.deck-card {
+    background: rgba(0,0,0,0.4);
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.deck-option:hover .deck-card {
+    border-color: #3b82f6;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.deck-option input[type="radio"]:checked + .deck-card {
+    border-color: #fbbf24;
+    background: rgba(251, 191, 36, 0.15);
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+}
+
+.deck-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.deck-card p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #e5e7eb;
+}
+
+.deck-card .deck-desc {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-top: 10px;
+    font-style: italic;
+}
+
 /* Simulation Controls */
 .simulation-controls {
     max-width: 800px;

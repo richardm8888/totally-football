@@ -1,9 +1,13 @@
 // Game State
 const gameState = {
-    phase: 'draft', // 'draft', 'gameplay', 'endgame', 'simulation'
+    phase: 'deck-selection', // 'deck-selection', 'draft', 'gameplay', 'endgame', 'simulation'
     players: {
-        1: { squad: [], actionCards: [], score: 0, cardsUsed: 0 },
-        2: { squad: [], actionCards: [], score: 0, cardsUsed: 0 }
+        1: { squad: [], actionCards: [], score: 0, cardsUsed: 0, shots: 0 },
+        2: { squad: [], actionCards: [], score: 0, cardsUsed: 0, shots: 0 }
+    },
+    deckSelection: {
+        playerDeck: 'all',
+        actionDeck: 'standard'
     },
     draft: {
         currentPlayer: 1,
@@ -147,11 +151,150 @@ async function initGame() {
     console.log('Players loaded:', gameState.allPlayers.length);
     console.log('Action cards loaded:', gameState.actionCardDeck.length);
     
-    if (gameState.allPlayers.length > 0) {
+    // Show deck selection
+    setupDeckSelection();
+}
+
+// ============= DECK SELECTION =============
+function setupDeckSelection() {
+    document.getElementById('confirm-decks-btn').addEventListener('click', () => {
+        const playerDeck = document.querySelector('input[name="player-deck"]:checked').value;
+        const actionDeck = document.querySelector('input[name="action-deck"]:checked').value;
+        
+        gameState.deckSelection.playerDeck = playerDeck;
+        gameState.deckSelection.actionDeck = actionDeck;
+        
+        // Apply deck filters
+        applyDeckFilters();
+        
+        // Move to draft phase
+        document.getElementById('deck-selection-phase').classList.remove('active');
+        document.getElementById('draft-phase').classList.add('active');
+        gameState.phase = 'draft';
+        
         startDraftPhase();
-    } else {
-        console.error('No players loaded! Check CSV file.');
+    });
+}
+
+function applyDeckFilters() {
+    // Filter players based on selected deck
+    const allPlayersBackup = [...gameState.allPlayers];
+    
+    switch (gameState.deckSelection.playerDeck) {
+        case 'balanced-scoring':
+            // Elite players with reduced GK stats - target 1.5-2 goals/game
+            gameState.allPlayers = allPlayersBackup
+                .filter(p => p.group === 5)
+                .map(p => {
+                    if (p.position === 'gk') {
+                        return {
+                            ...p,
+                            saving: Math.max(2, Math.floor(p.saving * 0.7)),
+                            intercepting: Math.max(2, Math.floor(p.intercepting * 0.8))
+                        };
+                    }
+                    // Boost shooting
+                    return {
+                        ...p,
+                        shooting: Math.min(7, p.shooting + 1)
+                    };
+                });
+            break;
+        case 'high-action':
+            // Elite players with weakened GKs - target 2.5-3 goals/game
+            gameState.allPlayers = allPlayersBackup
+                .filter(p => p.group === 5)
+                .map(p => {
+                    if (p.position === 'gk') {
+                        return {
+                            ...p,
+                            saving: Math.max(2, Math.floor(p.saving * 0.65)),
+                            intercepting: Math.max(2, Math.floor(p.intercepting * 0.75))
+                        };
+                    }
+                    return {
+                        ...p,
+                        shooting: Math.min(7, p.shooting + 1),
+                        dribbling: Math.min(7, p.dribbling + 1)
+                    };
+                });
+            break;
+        case 'elite':
+            gameState.allPlayers = allPlayersBackup.filter(p => p.group === 5);
+            break;
+        default:
+            // All players - no modifications
+            break;
     }
+    
+    // Filter action cards based on selected deck
+    const allCardsBackup = [...gameState.actionCardDeck];
+    
+    switch (gameState.deckSelection.actionDeck) {
+        case 'attack-boosted':
+            // Favor attacking cards but keep some defensive strength
+            gameState.actionCardDeck = allCardsBackup.filter(c => {
+                const isAttacking = c.type === 'PASSING' || c.type === 'DRIBBLING' || c.type === 'SHOOTING';
+                const isDefensive = c.type === 'TACKLING' || c.type === 'INTERCEPTING' || c.type === 'SAVING';
+                
+                if (isAttacking) {
+                    // Keep all positive attack cards
+                    if (c.value > 0) return true;
+                    // Keep 50% of negative attack cards
+                    return Math.random() > 0.5;
+                }
+                
+                if (isDefensive) {
+                    // Keep positive defense at 70% rate (increased from 60%)
+                    if (c.value > 0) return Math.random() > 0.3;
+                    // Keep negative defense
+                    return true;
+                }
+                
+                return true;
+            });
+            break;
+        case 'offensive':
+            // More attacking bias
+            gameState.actionCardDeck = allCardsBackup.filter(c => {
+                const isAttacking = c.type === 'PASSING' || c.type === 'DRIBBLING' || c.type === 'SHOOTING';
+                const isDefensive = c.type === 'TACKLING' || c.type === 'INTERCEPTING' || c.type === 'SAVING';
+                
+                if (c.value === -3) return Math.random() > 0.5; // Reduce -3
+                if (isAttacking && c.value > 0) return true; // All positive attack
+                if (isDefensive && c.value > 1) return Math.random() > 0.3; // 70% of +2,+3 defense
+                return Math.random() > 0.2; // 80% of remaining
+            });
+            break;
+        case 'positive':
+            // Keep all positive cards, only some negative cards
+            gameState.actionCardDeck = allCardsBackup.filter(c => c.value >= 0 || Math.random() > 0.5);
+            break;
+        default:
+            // Standard - all cards
+            break;
+    }
+    
+    // Apply global filter: limit defensive cards to ±2 max
+    gameState.actionCardDeck = gameState.actionCardDeck.filter(c => {
+        const isDefensive = c.type === 'TACKLING' || c.type === 'INTERCEPTING' || c.type === 'SAVING';
+        if (isDefensive && Math.abs(c.value) > 2) {
+            return false;
+        }
+        return true;
+    });
+    
+    // Apply global filter: limit defensive cards to ±2 max
+    gameState.actionCardDeck = gameState.actionCardDeck.filter(c => {
+        const isDefensive = c.type === 'TACKLING' || c.type === 'INTERCEPTING' || c.type === 'SAVING';
+        if (isDefensive && Math.abs(c.value) > 2) {
+            return false;
+        }
+        return true;
+    });
+    
+    console.log('Filtered players:', gameState.allPlayers.length);
+    console.log('Filtered action cards:', gameState.actionCardDeck.length);
 }
 
 // ============= DRAFT PHASE =============
@@ -500,6 +643,11 @@ function selectAction(action) {
     gameState.gameplay.currentAction = action;
     document.getElementById('action-selection').style.display = 'none';
     
+    // Track shots
+    if (action === 'shoot') {
+        gameState.players[gameState.gameplay.possession].shots++;
+    }
+    
     // If shooting, defender is automatically goalkeeper
     if (action === 'shoot') {
         const defender = gameState.gameplay.possession === 1 ? 2 : 1;
@@ -843,7 +991,39 @@ function runSimulations(count) {
     displayStats(stats);
 }
 
+function draftRandomTeams() {
+    // Get available players (excluding goalkeepers for now)
+    const availablePlayers = gameState.allPlayers.filter(p => p.position !== 'gk');
+    const goalkeepers = gameState.allPlayers.filter(p => p.position === 'gk');
+    
+    // Shuffle players
+    const shuffled = [...availablePlayers].sort(() => Math.random() - 0.5);
+    
+    // Draft 7 outfield players per team + 1 GK
+    const team1 = shuffled.slice(0, 7);
+    const team2 = shuffled.slice(7, 14);
+    
+    // Add random goalkeeper to each team
+    const shuffledGKs = [...goalkeepers].sort(() => Math.random() - 0.5);
+    team1.push(shuffledGKs[0]);
+    team2.push(shuffledGKs[1]);
+    
+    // Deal action cards (10 per team, shuffled)
+    const shuffledCards1 = [...gameState.actionCardDeck].sort(() => Math.random() - 0.5).slice(0, 10);
+    const shuffledCards2 = [...gameState.actionCardDeck].sort(() => Math.random() - 0.5).slice(0, 10);
+    
+    return {
+        team1,
+        team2,
+        cards1: shuffledCards1,
+        cards2: shuffledCards2
+    };
+}
+
 function simulateMatch() {
+    // Draft new random teams for this simulation
+    const draft = draftRandomTeams();
+    
     // Create a deep copy of game state for simulation
     const simState = {
         possession: 1,
@@ -851,10 +1031,20 @@ function simulateMatch() {
         usedPlayers: { 1: [], 2: [] },
         keepSamePlayer: false,
         scores: { 1: 0, 2: 0 },
+        shots: { 1: 0, 2: 0 },
         cardsUsed: { 1: 0, 2: 0 },
+        actionStats: {
+            pass: { attempts: 0, successes: 0 },
+            dribble: { attempts: 0, successes: 0 },
+            shoot: { attempts: 0, successes: 0 }
+        },
+        squads: {
+            1: draft.team1,
+            2: draft.team2
+        },
         actionCards: {
-            1: [...gameState.players[1].actionCards],
-            2: [...gameState.players[2].actionCards]
+            1: [...draft.cards1],
+            2: [...draft.cards2]
         }
     };
     
@@ -866,7 +1056,10 @@ function simulateMatch() {
     return {
         p1Score: simState.scores[1],
         p2Score: simState.scores[2],
-        winner: simState.scores[1] > simState.scores[2] ? 1 : simState.scores[2] > simState.scores[1] ? 2 : 0
+        p1Shots: simState.shots[1],
+        p2Shots: simState.shots[2],
+        winner: simState.scores[1] > simState.scores[2] ? 1 : simState.scores[2] > simState.scores[1] ? 2 : 0,
+        actionStats: simState.actionStats
     };
 }
 
@@ -886,9 +1079,14 @@ function simulateTurn(simState) {
     // Select action
     const action = selectBestAction(simState.ballZone);
     
+    // Track shots
+    if (action === 'shoot') {
+        simState.shots[attacker]++;
+    }
+    
     // Select defending player
     const defendingPlayer = action === 'shoot' 
-        ? gameState.players[defender].squad.find(p => p.position === 'gk')
+        ? simState.squads[defender].find(p => p.position === 'gk')
         : selectBestDefender(defender, action, simState);
     
     // Select action cards
@@ -907,36 +1105,48 @@ function simulateTurn(simState) {
     // Resolve duel
     const result = resolveDuelSimulation(attackingPlayer, defendingPlayer, attackCard, defendCard, action, simState.ballZone);
     
+    // Track action stats
+    simState.actionStats[action].attempts++;
+    if (result.attackerWins) {
+        simState.actionStats[action].successes++;
+    }
+    
     // Update state based on result
     if (result.attackerWins) {
         if (action === 'shoot') {
+            // Goal scored!
             simState.scores[attacker]++;
+            // Possession changes, restart from build-up
             simState.possession = defender;
             simState.ballZone = 'build-up';
             simState.keepSamePlayer = false;
+            simState.usedPlayers[1] = [];
+            simState.usedPlayers[2] = [];
         } else if (action === 'dribble') {
             advanceZoneSimulation(simState);
             simState.keepSamePlayer = true;
             simState.lastAttackingPlayer = attackingPlayer;
         } else {
+            // Successful pass
             advanceZoneSimulation(simState);
             simState.keepSamePlayer = false;
         }
     } else {
+        // Defender wins - possession changes
         simState.possession = defender;
-        if (action === 'shoot') {
-            simState.ballZone = 'build-up';
-        }
+        simState.ballZone = 'build-up';
         simState.keepSamePlayer = false;
+        simState.usedPlayers[1] = [];
+        simState.usedPlayers[2] = [];
     }
 }
 
 function selectBestPlayer(player, simState) {
-    const availablePlayers = gameState.players[player].squad.filter(
+    const availablePlayers = simState.squads[player].filter(
         p => !simState.usedPlayers[player].includes(p) && p.position !== 'gk'
     );
     
-    if (availablePlayers.length === 0) return gameState.players[player].squad[0];
+    if (availablePlayers.length === 0) return simState.squads[player][0];
     
     // Select based on zone
     const zone = simState.ballZone;
@@ -953,14 +1163,24 @@ function selectBestPlayer(player, simState) {
 }
 
 function selectBestAction(zone) {
-    if (zone === 'final-third') return 'shoot';
-    if (zone === 'progression') return Math.random() > 0.5 ? 'dribble' : 'pass';
-    return 'pass';
+    if (zone === 'final-third') {
+        // Can only shoot in final third
+        return 'shoot';
+    }
+    if (zone === 'progression') {
+        // 50% shoot (with -1 penalty), 40% dribble, 10% pass
+        const rand = Math.random();
+        if (rand > 0.5) return 'shoot';
+        if (rand > 0.1) return 'dribble';
+        return 'pass';
+    }
+    // Build-up: 40% pass, 60% dribble to advance faster
+    return Math.random() > 0.6 ? 'pass' : 'dribble';
 }
 
 function selectBestDefender(player, action, simState) {
-    const availablePlayers = gameState.players[player].squad.filter(p => p.position !== 'gk');
-    if (availablePlayers.length === 0) return gameState.players[player].squad[0];
+    const availablePlayers = simState.squads[player].filter(p => p.position !== 'gk');
+    if (availablePlayers.length === 0) return simState.squads[player][0];
     
     if (action === 'pass') {
         return availablePlayers.sort((a, b) => b.intercepting - a.intercepting)[0];
@@ -985,8 +1205,12 @@ function selectBestActionCard(cards, action, isAttacker) {
     // Find matching cards
     const matchingCards = cards.filter(c => c.type === targetType);
     if (matchingCards.length > 0) {
-        // Return highest value card
-        return matchingCards.sort((a, b) => b.value - a.value)[0];
+        // 70% chance to pick best card, 30% chance for random matching card
+        if (Math.random() > 0.3) {
+            return matchingCards.sort((a, b) => b.value - a.value)[0];
+        } else {
+            return matchingCards[Math.floor(Math.random() * matchingCards.length)];
+        }
     }
     
     // Try to hurt opponent
@@ -995,7 +1219,12 @@ function selectBestActionCard(cards, action, isAttacker) {
                         (isAttacker ? 'TACKLING' : 'DRIBBLING');
     const opponentCards = cards.filter(c => c.type === opponentType);
     if (opponentCards.length > 0) {
-        return opponentCards.sort((a, b) => a.value - b.value)[0]; // Most negative
+        // 70% chance to pick most negative, 30% random
+        if (Math.random() > 0.3) {
+            return opponentCards.sort((a, b) => a.value - b.value)[0]; // Most negative
+        } else {
+            return opponentCards[Math.floor(Math.random() * opponentCards.length)];
+        }
     }
     
     // Return random card
@@ -1027,21 +1256,28 @@ function resolveDuelSimulation(attacker, defender, attackCard, defendCard, actio
     let attackCardBonus = 0;
     let defendCardBonus = 0;
     
-    if (attackCard.type === attackStatName) {
-        attackCardBonus = attackCard.value;
-    } else if (attackCard.type === defendStatName) {
-        defendCardBonus += attackCard.value;
+    // Handle attack card
+    if (attackCard) {
+        if (attackCard.type === attackStatName) {
+            attackCardBonus = attackCard.value;
+        } else if (attackCard.type === defendStatName) {
+            defendCardBonus += attackCard.value;
+        }
     }
     
-    if (defendCard.type === defendStatName) {
-        defendCardBonus += defendCard.value;
-    } else if (defendCard.type === attackStatName) {
-        attackCardBonus += defendCard.value;
+    // Handle defend card
+    if (defendCard) {
+        if (defendCard.type === defendStatName) {
+            defendCardBonus += defendCard.value;
+        } else if (defendCard.type === attackStatName) {
+            attackCardBonus += defendCard.value;
+        }
     }
     
     const attackTotal = attackStat + attackCardBonus + shootingPenalty;
     const defendTotal = defendStat + defendCardBonus;
     
+    // Attacker must beat defender (ties go to defender)
     return {
         attackerWins: attackTotal > defendTotal,
         attackTotal,
@@ -1067,6 +1303,26 @@ function calculateStats(results) {
     const totalP2Goals = results.reduce((sum, r) => sum + r.p2Score, 0);
     const totalGoals = totalP1Goals + totalP2Goals;
     
+    const totalP1Shots = results.reduce((sum, r) => sum + r.p1Shots, 0);
+    const totalP2Shots = results.reduce((sum, r) => sum + r.p2Shots, 0);
+    const totalShots = totalP1Shots + totalP2Shots;
+    
+    // Aggregate action stats
+    const actionStats = {
+        pass: { attempts: 0, successes: 0 },
+        dribble: { attempts: 0, successes: 0 },
+        shoot: { attempts: 0, successes: 0 }
+    };
+    
+    results.forEach(r => {
+        actionStats.pass.attempts += r.actionStats.pass.attempts;
+        actionStats.pass.successes += r.actionStats.pass.successes;
+        actionStats.dribble.attempts += r.actionStats.dribble.attempts;
+        actionStats.dribble.successes += r.actionStats.dribble.successes;
+        actionStats.shoot.attempts += r.actionStats.shoot.attempts;
+        actionStats.shoot.successes += r.actionStats.shoot.successes;
+    });
+    
     return {
         totalGames,
         p1Wins,
@@ -1075,9 +1331,37 @@ function calculateStats(results) {
         totalP1Goals,
         totalP2Goals,
         totalGoals,
+        totalP1Shots,
+        totalP2Shots,
+        totalShots,
         avgP1Goals: (totalP1Goals / totalGames).toFixed(2),
         avgP2Goals: (totalP2Goals / totalGames).toFixed(2),
-        avgGoalsPerGame: (totalGoals / totalGames).toFixed(2)
+        avgGoalsPerGame: (totalGoals / totalGames).toFixed(2),
+        avgP1Shots: (totalP1Shots / totalGames).toFixed(2),
+        avgP2Shots: (totalP2Shots / totalGames).toFixed(2),
+        avgShotsPerGame: (totalShots / totalGames).toFixed(2),
+        p1Conversion: totalP1Shots > 0 ? ((totalP1Goals / totalP1Shots) * 100).toFixed(1) : '0.0',
+        p2Conversion: totalP2Shots > 0 ? ((totalP2Goals / totalP2Shots) * 100).toFixed(1) : '0.0',
+        actionStats: {
+            pass: {
+                attempts: actionStats.pass.attempts,
+                successes: actionStats.pass.successes,
+                avgPerGame: (actionStats.pass.attempts / totalGames).toFixed(2),
+                successRate: actionStats.pass.attempts > 0 ? ((actionStats.pass.successes / actionStats.pass.attempts) * 100).toFixed(1) : '0.0'
+            },
+            dribble: {
+                attempts: actionStats.dribble.attempts,
+                successes: actionStats.dribble.successes,
+                avgPerGame: (actionStats.dribble.attempts / totalGames).toFixed(2),
+                successRate: actionStats.dribble.attempts > 0 ? ((actionStats.dribble.successes / actionStats.dribble.attempts) * 100).toFixed(1) : '0.0'
+            },
+            shoot: {
+                attempts: actionStats.shoot.attempts,
+                successes: actionStats.shoot.successes,
+                avgPerGame: (actionStats.shoot.attempts / totalGames).toFixed(2),
+                successRate: actionStats.shoot.attempts > 0 ? ((actionStats.shoot.successes / actionStats.shoot.attempts) * 100).toFixed(1) : '0.0'
+            }
+        }
     };
 }
 
@@ -1098,6 +1382,39 @@ function displayStats(stats) {
                 <p>Avg per game: ${stats.avgGoalsPerGame}</p>
                 <p>P1 avg: ${stats.avgP1Goals}</p>
                 <p>P2 avg: ${stats.avgP2Goals}</p>
+            </div>
+            <div class="stat-box">
+                <h5>Shots</h5>
+                <p>Total: ${stats.totalShots}</p>
+                <p>Avg per game: ${stats.avgShotsPerGame}</p>
+                <p>P1 avg: ${stats.avgP1Shots}</p>
+                <p>P2 avg: ${stats.avgP2Shots}</p>
+            </div>
+            <div class="stat-box">
+                <h5>Conversion Rate</h5>
+                <p>Player 1: ${stats.p1Conversion}%</p>
+                <p>Player 2: ${stats.p2Conversion}%</p>
+                <p>Overall: ${stats.totalShots > 0 ? ((stats.totalGoals / stats.totalShots) * 100).toFixed(1) : '0.0'}%</p>
+            </div>
+        </div>
+        <div class="stats-grid" style="margin-top: 20px;">
+            <div class="stat-box">
+                <h5>Passing</h5>
+                <p>Total: ${stats.actionStats.pass.attempts}</p>
+                <p>Avg per game: ${stats.actionStats.pass.avgPerGame}</p>
+                <p>Success rate: ${stats.actionStats.pass.successRate}%</p>
+            </div>
+            <div class="stat-box">
+                <h5>Dribbling</h5>
+                <p>Total: ${stats.actionStats.dribble.attempts}</p>
+                <p>Avg per game: ${stats.actionStats.dribble.avgPerGame}</p>
+                <p>Success rate: ${stats.actionStats.dribble.successRate}%</p>
+            </div>
+            <div class="stat-box">
+                <h5>Shooting</h5>
+                <p>Total: ${stats.actionStats.shoot.attempts}</p>
+                <p>Avg per game: ${stats.actionStats.shoot.avgPerGame}</p>
+                <p>Success rate: ${stats.actionStats.shoot.successRate}%</p>
             </div>
         </div>
     `;
