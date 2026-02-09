@@ -182,18 +182,17 @@ function applyDeckFilters() {
     
     switch (gameState.deckSelection.playerDeck) {
         case 'balanced-scoring':
-            // Elite players with reduced GK stats - target 1.5-2 goals/game
+            // Elite players with slightly reduced GK stats - target 1.5-2 goals/game
             gameState.allPlayers = allPlayersBackup
                 .filter(p => p.group === 5)
                 .map(p => {
                     if (p.position === 'gk') {
                         return {
                             ...p,
-                            saving: Math.max(2, Math.floor(p.saving * 0.7)),
-                            intercepting: Math.max(2, Math.floor(p.intercepting * 0.8))
+                            saving: Math.max(4, Math.floor(p.saving * 0.80))
                         };
                     }
-                    // Boost shooting
+                    // Boost shooting slightly
                     return {
                         ...p,
                         shooting: Math.min(7, p.shooting + 1)
@@ -201,20 +200,19 @@ function applyDeckFilters() {
                 });
             break;
         case 'high-action':
-            // Elite players with weakened GKs - target 2.5-3 goals/game
+            // Elite players with slightly weakened GKs - target 2.5-3 goals/game
             gameState.allPlayers = allPlayersBackup
                 .filter(p => p.group === 5)
                 .map(p => {
                     if (p.position === 'gk') {
                         return {
                             ...p,
-                            saving: Math.max(2, Math.floor(p.saving * 0.65)),
-                            intercepting: Math.max(2, Math.floor(p.intercepting * 0.75))
+                            saving: Math.max(4, Math.floor(p.saving * 0.85))
                         };
                     }
+                    // Only boost dribbling to help progression
                     return {
                         ...p,
-                        shooting: Math.min(7, p.shooting + 1),
                         dribbling: Math.min(7, p.dribbling + 1)
                     };
                 });
@@ -232,7 +230,7 @@ function applyDeckFilters() {
     
     switch (gameState.deckSelection.actionDeck) {
         case 'attack-boosted':
-            // Favor attacking cards but keep some defensive strength
+            // Favor attacking cards but maintain defensive balance
             gameState.actionCardDeck = allCardsBackup.filter(c => {
                 const isAttacking = c.type === 'PASSING' || c.type === 'DRIBBLING' || c.type === 'SHOOTING';
                 const isDefensive = c.type === 'TACKLING' || c.type === 'INTERCEPTING' || c.type === 'SAVING';
@@ -240,15 +238,13 @@ function applyDeckFilters() {
                 if (isAttacking) {
                     // Keep all positive attack cards
                     if (c.value > 0) return true;
-                    // Keep 50% of negative attack cards
-                    return Math.random() > 0.5;
+                    // Keep 40% of negative attack cards
+                    return Math.random() > 0.6;
                 }
                 
                 if (isDefensive) {
-                    // Keep positive defense at 70% rate (increased from 60%)
-                    if (c.value > 0) return Math.random() > 0.3;
-                    // Keep negative defense
-                    return true;
+                    // Keep 85% of all defensive cards to give GKs more options
+                    return Math.random() > 0.15;
                 }
                 
                 return true;
@@ -1036,7 +1032,8 @@ function simulateMatch() {
         actionStats: {
             pass: { attempts: 0, successes: 0 },
             dribble: { attempts: 0, successes: 0 },
-            shoot: { attempts: 0, successes: 0 }
+            shoot: { attempts: 0, successes: 0 },
+            'long-pass': { attempts: 0, successes: 0 }
         },
         squads: {
             1: draft.team1,
@@ -1077,7 +1074,7 @@ function simulateTurn(simState) {
     }
     
     // Select action
-    const action = selectBestAction(simState.ballZone);
+    const action = selectBestAction(simState.ballZone, attackingPlayer);
     
     // Track shots
     if (action === 'shoot') {
@@ -1085,9 +1082,12 @@ function simulateTurn(simState) {
     }
     
     // Select defending player
-    const defendingPlayer = action === 'shoot' 
-        ? simState.squads[defender].find(p => p.position === 'gk')
-        : selectBestDefender(defender, action, simState);
+    let defendingPlayer;
+    if (action === 'shoot' || action === 'long-pass') {
+        defendingPlayer = simState.squads[defender].find(p => p.position === 'gk');
+    } else {
+        defendingPlayer = selectBestDefender(defender, action, simState);
+    }
     
     // Select action cards
     const attackCard = selectBestActionCard(simState.actionCards[attacker], action, true);
@@ -1122,6 +1122,10 @@ function simulateTurn(simState) {
             simState.keepSamePlayer = false;
             simState.usedPlayers[1] = [];
             simState.usedPlayers[2] = [];
+        } else if (action === 'long-pass') {
+            // Long pass successful - jump to final third
+            simState.ballZone = 'final-third';
+            simState.keepSamePlayer = false;
         } else if (action === 'dribble') {
             advanceZoneSimulation(simState);
             simState.keepSamePlayer = true;
@@ -1162,20 +1166,39 @@ function selectBestPlayer(player, simState) {
     }
 }
 
-function selectBestAction(zone) {
+function selectBestAction(zone, player) {
     if (zone === 'final-third') {
         // Can only shoot in final third
         return 'shoot';
     }
+    
     if (zone === 'progression') {
-        // 50% shoot (with -1 penalty), 40% dribble, 10% pass
-        const rand = Math.random();
-        if (rand > 0.5) return 'shoot';
-        if (rand > 0.1) return 'dribble';
-        return 'pass';
+        // Compare shooting (with -1 penalty) vs passing vs dribbling
+        const shootingStrength = player.shooting - 1; // -1 penalty from progression
+        const passingStrength = player.passing;
+        const dribblingStrength = player.dribbling;
+        
+        // 30% chance to shoot if it's reasonable, otherwise best of pass/dribble
+        if (shootingStrength >= 4 && Math.random() > 0.7) {
+            return 'shoot';
+        }
+        
+        // Choose best between pass and dribble
+        return passingStrength >= dribblingStrength ? 'pass' : 'dribble';
     }
-    // Build-up: 40% pass, 60% dribble to advance faster
-    return Math.random() > 0.6 ? 'pass' : 'dribble';
+    
+    // Build-up zone: compare regular pass, long pass, and dribble
+    const passingStrength = player.passing;
+    const dribblingStrength = player.dribbling;
+    
+    // Consider long pass if passing is strong enough (5+ base)
+    // 20% chance to attempt long pass if passing is good
+    if (player.passing >= 5 && Math.random() > 0.8) {
+        return 'long-pass';
+    }
+    
+    // Choose between regular pass and dribble based on stats
+    return passingStrength >= dribblingStrength ? 'pass' : 'dribble';
 }
 
 function selectBestDefender(player, action, simState) {
@@ -1196,7 +1219,7 @@ function selectBestActionCard(cards, action, isAttacker) {
     let targetType;
     if (action === 'shoot') {
         targetType = isAttacker ? 'SHOOTING' : 'SAVING';
-    } else if (action === 'pass') {
+    } else if (action === 'pass' || action === 'long-pass') {
         targetType = isAttacker ? 'PASSING' : 'INTERCEPTING';
     } else if (action === 'dribble') {
         targetType = isAttacker ? 'DRIBBLING' : 'TACKLING';
@@ -1246,6 +1269,16 @@ function resolveDuelSimulation(attacker, defender, attackCard, defendCard, actio
         defendStat = defender.intercepting;
         attackStatName = 'PASSING';
         defendStatName = 'INTERCEPTING';
+    } else if (action === 'long-pass') {
+        attackStat = attacker.passing;
+        defendStat = defender.intercepting;
+        attackStatName = 'PASSING';
+        defendStatName = 'INTERCEPTING';
+        // Check for playmaker trait
+        const hasPlaymaker = attacker.traits && attacker.traits.includes('playmaker');
+        if (!hasPlaymaker) {
+            shootingPenalty = -1; // Use shootingPenalty variable for long pass penalty
+        }
     } else {
         attackStat = attacker.dribbling;
         defendStat = defender.tackling;
@@ -1311,7 +1344,8 @@ function calculateStats(results) {
     const actionStats = {
         pass: { attempts: 0, successes: 0 },
         dribble: { attempts: 0, successes: 0 },
-        shoot: { attempts: 0, successes: 0 }
+        shoot: { attempts: 0, successes: 0 },
+        'long-pass': { attempts: 0, successes: 0 }
     };
     
     results.forEach(r => {
@@ -1321,6 +1355,8 @@ function calculateStats(results) {
         actionStats.dribble.successes += r.actionStats.dribble.successes;
         actionStats.shoot.attempts += r.actionStats.shoot.attempts;
         actionStats.shoot.successes += r.actionStats.shoot.successes;
+        actionStats['long-pass'].attempts += r.actionStats['long-pass'].attempts;
+        actionStats['long-pass'].successes += r.actionStats['long-pass'].successes;
     });
     
     return {
@@ -1360,6 +1396,12 @@ function calculateStats(results) {
                 successes: actionStats.shoot.successes,
                 avgPerGame: (actionStats.shoot.attempts / totalGames).toFixed(2),
                 successRate: actionStats.shoot.attempts > 0 ? ((actionStats.shoot.successes / actionStats.shoot.attempts) * 100).toFixed(1) : '0.0'
+            },
+            'long-pass': {
+                attempts: actionStats['long-pass'].attempts,
+                successes: actionStats['long-pass'].successes,
+                avgPerGame: (actionStats['long-pass'].attempts / totalGames).toFixed(2),
+                successRate: actionStats['long-pass'].attempts > 0 ? ((actionStats['long-pass'].successes / actionStats['long-pass'].attempts) * 100).toFixed(1) : '0.0'
             }
         }
     };
@@ -1403,6 +1445,12 @@ function displayStats(stats) {
                 <p>Total: ${stats.actionStats.pass.attempts}</p>
                 <p>Avg per game: ${stats.actionStats.pass.avgPerGame}</p>
                 <p>Success rate: ${stats.actionStats.pass.successRate}%</p>
+            </div>
+            <div class="stat-box">
+                <h5>Long Pass</h5>
+                <p>Total: ${stats.actionStats['long-pass'].attempts}</p>
+                <p>Avg per game: ${stats.actionStats['long-pass'].avgPerGame}</p>
+                <p>Success rate: ${stats.actionStats['long-pass'].successRate}%</p>
             </div>
             <div class="stat-box">
                 <h5>Dribbling</h5>
