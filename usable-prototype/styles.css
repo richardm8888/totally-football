@@ -18,7 +18,8 @@ body {
 }
 
 .phase.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Buttons */
@@ -231,6 +232,11 @@ button {
 }
 
 /* Gameplay Phase */
+
+#gameplay-phase.active {
+    display: block;
+}
+
 .game-header {
     text-align: center;
     margin-bottom: 30px;
@@ -505,7 +511,6 @@ button {
 
 /* End Game Phase */
 #endgame-phase {
-    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
