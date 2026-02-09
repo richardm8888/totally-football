@@ -33,6 +33,21 @@
         <div class="draft-actions">
             <button id="auto-draft-btn" class="secondary-btn">Auto-Draft Teams</button>
             <button id="start-game-btn" class="primary-btn" style="display: none;">Start Match</button>
+            <button id="simulate-btn" class="secondary-btn" style="display: none;">Simulate Match</button>
+        </div>
+    </div>
+
+    <!-- Simulation Phase -->
+    <div id="simulation-phase" class="phase">
+        <div class="simulation-controls">
+            <h3>Simulation Mode</h3>
+            <label>
+                Number of matches: 
+                <input type="number" id="sim-count" value="100" min="1" max="10000" />
+            </label>
+            <button id="run-simulations-btn" class="primary-btn">Run Simulations</button>
+            <button id="back-to-draft-btn" class="secondary-btn">Back to Draft</button>
+            <div id="simulation-results" class="simulation-results"></div>
         </div>
     </div>
 

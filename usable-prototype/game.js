@@ -1,6 +1,6 @@
 // Game State
 const gameState = {
-    phase: 'draft', // 'draft', 'gameplay', 'endgame'
+    phase: 'draft', // 'draft', 'gameplay', 'endgame', 'simulation'
     players: {
         1: { squad: [], actionCards: [], score: 0, cardsUsed: 0 },
         2: { squad: [], actionCards: [], score: 0, cardsUsed: 0 }
@@ -24,6 +24,10 @@ const gameState = {
         waitingForDefenderCard: false,
         usedPlayers: { 1: [], 2: [] },
         keepSamePlayer: false
+    },
+    simulation: {
+        isSimulating: false,
+        results: []
     },
     allPlayers: [],
     actionCardDeck: []
@@ -299,8 +303,10 @@ function finishDraft() {
     
     // Show start button, hide auto-draft
     document.getElementById('start-game-btn').style.display = 'inline-block';
+    document.getElementById('simulate-btn').style.display = 'inline-block';
     document.getElementById('auto-draft-btn').style.display = 'none';
     document.getElementById('start-game-btn').addEventListener('click', startGameplay, { once: true });
+    document.getElementById('simulate-btn').addEventListener('click', showSimulationMode, { once: true });
 }
 
 // ============= GAMEPLAY PHASE =============
@@ -789,15 +795,313 @@ document.getElementById('auto-draft-btn').addEventListener('click', () => {
     
     // Show start button
     document.getElementById('start-game-btn').style.display = 'inline-block';
+    document.getElementById('simulate-btn').style.display = 'inline-block';
     document.getElementById('auto-draft-btn').style.display = 'none';
     
     // Clear draft pool
-    document.getElementById('draft-pool').innerHTML = '<p style="text-align: center; grid-column: 1/-1; font-size: 20px;">Auto-draft complete! Click "Start Match" to begin.</p>';
+    document.getElementById('draft-pool').innerHTML = '<p style="text-align: center; grid-column: 1/-1; font-size: 20px;">Auto-draft complete! Click "Start Match" to play or "Simulate Match" to run simulations.</p>';
     
     // Add event listener for start button
     const startBtn = document.getElementById('start-game-btn');
     startBtn.onclick = startGameplay;
+    
+    const simBtn = document.getElementById('simulate-btn');
+    simBtn.onclick = showSimulationMode;
 });
+
+// ============= SIMULATION MODE =============
+function showSimulationMode() {
+    document.getElementById('draft-phase').classList.remove('active');
+    document.getElementById('simulation-phase').classList.add('active');
+    gameState.phase = 'simulation';
+}
+
+document.getElementById('back-to-draft-btn').addEventListener('click', () => {
+    document.getElementById('simulation-phase').classList.remove('active');
+    document.getElementById('draft-phase').classList.add('active');
+    gameState.phase = 'draft';
+});
+
+document.getElementById('run-simulations-btn').addEventListener('click', () => {
+    const count = parseInt(document.getElementById('sim-count').value);
+    runSimulations(count);
+});
+
+function runSimulations(count) {
+    gameState.simulation.results = [];
+    const resultsDiv = document.getElementById('simulation-results');
+    resultsDiv.innerHTML = '<p>Running simulations...</p>';
+    
+    // Run simulations
+    for (let i = 0; i < count; i++) {
+        const result = simulateMatch();
+        gameState.simulation.results.push(result);
+    }
+    
+    // Calculate statistics
+    const stats = calculateStats(gameState.simulation.results);
+    displayStats(stats);
+}
+
+function simulateMatch() {
+    // Create a deep copy of game state for simulation
+    const simState = {
+        possession: 1,
+        ballZone: 'build-up',
+        usedPlayers: { 1: [], 2: [] },
+        keepSamePlayer: false,
+        scores: { 1: 0, 2: 0 },
+        cardsUsed: { 1: 0, 2: 0 },
+        actionCards: {
+            1: [...gameState.players[1].actionCards],
+            2: [...gameState.players[2].actionCards]
+        }
+    };
+    
+    // Play until all cards are used
+    while (simState.cardsUsed[1] < 10 && simState.cardsUsed[2] < 10) {
+        simulateTurn(simState);
+    }
+    
+    return {
+        p1Score: simState.scores[1],
+        p2Score: simState.scores[2],
+        winner: simState.scores[1] > simState.scores[2] ? 1 : simState.scores[2] > simState.scores[1] ? 2 : 0
+    };
+}
+
+function simulateTurn(simState) {
+    const attacker = simState.possession;
+    const defender = attacker === 1 ? 2 : 1;
+    
+    // Select attacking player (best available for current zone)
+    let attackingPlayer;
+    if (simState.keepSamePlayer && simState.lastAttackingPlayer) {
+        attackingPlayer = simState.lastAttackingPlayer;
+    } else {
+        attackingPlayer = selectBestPlayer(attacker, simState);
+        simState.usedPlayers[attacker].push(attackingPlayer);
+    }
+    
+    // Select action
+    const action = selectBestAction(simState.ballZone);
+    
+    // Select defending player
+    const defendingPlayer = action === 'shoot' 
+        ? gameState.players[defender].squad.find(p => p.position === 'gk')
+        : selectBestDefender(defender, action, simState);
+    
+    // Select action cards
+    const attackCard = selectBestActionCard(simState.actionCards[attacker], action, true);
+    const defendCard = selectBestActionCard(simState.actionCards[defender], action, false);
+    
+    // Remove used cards
+    const attackCardIndex = simState.actionCards[attacker].indexOf(attackCard);
+    simState.actionCards[attacker].splice(attackCardIndex, 1);
+    simState.cardsUsed[attacker]++;
+    
+    const defendCardIndex = simState.actionCards[defender].indexOf(defendCard);
+    simState.actionCards[defender].splice(defendCardIndex, 1);
+    simState.cardsUsed[defender]++;
+    
+    // Resolve duel
+    const result = resolveDuelSimulation(attackingPlayer, defendingPlayer, attackCard, defendCard, action, simState.ballZone);
+    
+    // Update state based on result
+    if (result.attackerWins) {
+        if (action === 'shoot') {
+            simState.scores[attacker]++;
+            simState.possession = defender;
+            simState.ballZone = 'build-up';
+            simState.keepSamePlayer = false;
+        } else if (action === 'dribble') {
+            advanceZoneSimulation(simState);
+            simState.keepSamePlayer = true;
+            simState.lastAttackingPlayer = attackingPlayer;
+        } else {
+            advanceZoneSimulation(simState);
+            simState.keepSamePlayer = false;
+        }
+    } else {
+        simState.possession = defender;
+        if (action === 'shoot') {
+            simState.ballZone = 'build-up';
+        }
+        simState.keepSamePlayer = false;
+    }
+}
+
+function selectBestPlayer(player, simState) {
+    const availablePlayers = gameState.players[player].squad.filter(
+        p => !simState.usedPlayers[player].includes(p) && p.position !== 'gk'
+    );
+    
+    if (availablePlayers.length === 0) return gameState.players[player].squad[0];
+    
+    // Select based on zone
+    const zone = simState.ballZone;
+    if (zone === 'final-third') {
+        // Prioritize shooting
+        return availablePlayers.sort((a, b) => b.shooting - a.shooting)[0];
+    } else if (zone === 'progression') {
+        // Prioritize dribbling or shooting
+        return availablePlayers.sort((a, b) => (b.dribbling + b.shooting) - (a.dribbling + a.shooting))[0];
+    } else {
+        // Prioritize passing
+        return availablePlayers.sort((a, b) => b.passing - a.passing)[0];
+    }
+}
+
+function selectBestAction(zone) {
+    if (zone === 'final-third') return 'shoot';
+    if (zone === 'progression') return Math.random() > 0.5 ? 'dribble' : 'pass';
+    return 'pass';
+}
+
+function selectBestDefender(player, action, simState) {
+    const availablePlayers = gameState.players[player].squad.filter(p => p.position !== 'gk');
+    if (availablePlayers.length === 0) return gameState.players[player].squad[0];
+    
+    if (action === 'pass') {
+        return availablePlayers.sort((a, b) => b.intercepting - a.intercepting)[0];
+    } else if (action === 'dribble') {
+        return availablePlayers.sort((a, b) => b.tackling - a.tackling)[0];
+    }
+    return availablePlayers[0];
+}
+
+function selectBestActionCard(cards, action, isAttacker) {
+    if (cards.length === 0) return null;
+    
+    let targetType;
+    if (action === 'shoot') {
+        targetType = isAttacker ? 'SHOOTING' : 'SAVING';
+    } else if (action === 'pass') {
+        targetType = isAttacker ? 'PASSING' : 'INTERCEPTING';
+    } else if (action === 'dribble') {
+        targetType = isAttacker ? 'DRIBBLING' : 'TACKLING';
+    }
+    
+    // Find matching cards
+    const matchingCards = cards.filter(c => c.type === targetType);
+    if (matchingCards.length > 0) {
+        // Return highest value card
+        return matchingCards.sort((a, b) => b.value - a.value)[0];
+    }
+    
+    // Try to hurt opponent
+    const opponentType = action === 'shoot' ? (isAttacker ? 'SAVING' : 'SHOOTING') :
+                        action === 'pass' ? (isAttacker ? 'INTERCEPTING' : 'PASSING') :
+                        (isAttacker ? 'TACKLING' : 'DRIBBLING');
+    const opponentCards = cards.filter(c => c.type === opponentType);
+    if (opponentCards.length > 0) {
+        return opponentCards.sort((a, b) => a.value - b.value)[0]; // Most negative
+    }
+    
+    // Return random card
+    return cards[Math.floor(Math.random() * cards.length)];
+}
+
+function resolveDuelSimulation(attacker, defender, attackCard, defendCard, action, zone) {
+    let attackStat, defendStat, attackStatName, defendStatName;
+    let shootingPenalty = 0;
+    
+    if (action === 'shoot') {
+        attackStat = attacker.shooting;
+        defendStat = defender.saving;
+        attackStatName = 'SHOOTING';
+        defendStatName = 'SAVING';
+        if (zone === 'progression') shootingPenalty = -1;
+    } else if (action === 'pass') {
+        attackStat = attacker.passing;
+        defendStat = defender.intercepting;
+        attackStatName = 'PASSING';
+        defendStatName = 'INTERCEPTING';
+    } else {
+        attackStat = attacker.dribbling;
+        defendStat = defender.tackling;
+        attackStatName = 'DRIBBLING';
+        defendStatName = 'TACKLING';
+    }
+    
+    let attackCardBonus = 0;
+    let defendCardBonus = 0;
+    
+    if (attackCard.type === attackStatName) {
+        attackCardBonus = attackCard.value;
+    } else if (attackCard.type === defendStatName) {
+        defendCardBonus += attackCard.value;
+    }
+    
+    if (defendCard.type === defendStatName) {
+        defendCardBonus += defendCard.value;
+    } else if (defendCard.type === attackStatName) {
+        attackCardBonus += defendCard.value;
+    }
+    
+    const attackTotal = attackStat + attackCardBonus + shootingPenalty;
+    const defendTotal = defendStat + defendCardBonus;
+    
+    return {
+        attackerWins: attackTotal > defendTotal,
+        attackTotal,
+        defendTotal
+    };
+}
+
+function advanceZoneSimulation(simState) {
+    if (simState.ballZone === 'build-up') {
+        simState.ballZone = 'progression';
+    } else if (simState.ballZone === 'progression') {
+        simState.ballZone = 'final-third';
+    }
+}
+
+function calculateStats(results) {
+    const totalGames = results.length;
+    const p1Wins = results.filter(r => r.winner === 1).length;
+    const p2Wins = results.filter(r => r.winner === 2).length;
+    const draws = results.filter(r => r.winner === 0).length;
+    
+    const totalP1Goals = results.reduce((sum, r) => sum + r.p1Score, 0);
+    const totalP2Goals = results.reduce((sum, r) => sum + r.p2Score, 0);
+    const totalGoals = totalP1Goals + totalP2Goals;
+    
+    return {
+        totalGames,
+        p1Wins,
+        p2Wins,
+        draws,
+        totalP1Goals,
+        totalP2Goals,
+        totalGoals,
+        avgP1Goals: (totalP1Goals / totalGames).toFixed(2),
+        avgP2Goals: (totalP2Goals / totalGames).toFixed(2),
+        avgGoalsPerGame: (totalGoals / totalGames).toFixed(2)
+    };
+}
+
+function displayStats(stats) {
+    const resultsDiv = document.getElementById('simulation-results');
+    resultsDiv.innerHTML = `
+        <h4>Simulation Results (${stats.totalGames} matches)</h4>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h5>Wins</h5>
+                <p>Player 1: ${stats.p1Wins} (${(stats.p1Wins/stats.totalGames*100).toFixed(1)}%)</p>
+                <p>Player 2: ${stats.p2Wins} (${(stats.p2Wins/stats.totalGames*100).toFixed(1)}%)</p>
+                <p>Draws: ${stats.draws} (${(stats.draws/stats.totalGames*100).toFixed(1)}%)</p>
+            </div>
+            <div class="stat-box">
+                <h5>Goals</h5>
+                <p>Total: ${stats.totalGoals}</p>
+                <p>Avg per game: ${stats.avgGoalsPerGame}</p>
+                <p>P1 avg: ${stats.avgP1Goals}</p>
+                <p>P2 avg: ${stats.avgP2Goals}</p>
+            </div>
+        </div>
+    `;
+}
 
 // Start the game when page loads
 window.addEventListener('DOMContentLoaded', initGame);
