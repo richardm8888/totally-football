@@ -1020,9 +1020,12 @@ function simulateMatch() {
     // Draft new random teams for this simulation
     const draft = draftRandomTeams();
     
+    // Randomize starting possession
+    const startingPossession = Math.random() > 0.5 ? 1 : 2;
+    
     // Create a deep copy of game state for simulation
     const simState = {
-        possession: 1,
+        possession: startingPossession,
         ballZone: 'build-up',
         usedPlayers: { 1: [], 2: [] },
         keepSamePlayer: false,
@@ -1083,7 +1086,7 @@ function simulateTurn(simState) {
     
     // Select defending player
     let defendingPlayer;
-    if (action === 'shoot' || action === 'long-pass') {
+    if (action === 'shoot') {
         defendingPlayer = simState.squads[defender].find(p => p.position === 'gk');
     } else {
         defendingPlayer = selectBestDefender(defender, action, simState);
@@ -1205,7 +1208,7 @@ function selectBestDefender(player, action, simState) {
     const availablePlayers = simState.squads[player].filter(p => p.position !== 'gk');
     if (availablePlayers.length === 0) return simState.squads[player][0];
     
-    if (action === 'pass') {
+    if (action === 'pass' || action === 'long-pass') {
         return availablePlayers.sort((a, b) => b.intercepting - a.intercepting)[0];
     } else if (action === 'dribble') {
         return availablePlayers.sort((a, b) => b.tackling - a.tackling)[0];
