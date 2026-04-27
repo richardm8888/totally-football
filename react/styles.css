@@ -1,0 +1,253 @@
+/* ==========================================
+   TOTALLY FOOTBALL — GAME PAGE
+   A Double Time Games Production
+   ========================================== */
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Brand Colors */
+    --color-dark: #0F0F12;
+    --color-light: #FFFFFF;
+    --color-light-dark: #F4F2EE;
+    --color-accent: #068226;
+    
+    /* Game Colors */
+    --color-navy: #000045;
+    --color-green: #068226;
+    
+    /* Typography */
+    --font-primary: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
+    /* Spacing */
+    --spacing-unit: 24px;
+    --spacing-small: 20px;
+    --spacing-medium: 40px;
+    --spacing-large: 80px;
+    --spacing-xlarge: 120px;
+}
+
+main {
+    background-color: var(--color-light);
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-unit);
+}
+
+body {
+    font-family: var(--font-primary);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--color-dark);
+    background-color: var(--color-light-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-unit);
+}
+
+/* Typography */
+h2 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    opacity: 0.6;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+}
+
+.tagline {
+    font-size: 22px;
+    line-height: 1.5;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-navy);
+}
+
+/* Header */
+header {
+    padding: 40px 0;
+}
+
+.publisher-link {
+    display: inline-block;
+}
+
+.publisher-logo {
+    height: 45px;
+    width: auto;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.publisher-link:hover .publisher-logo {
+    opacity: 1;
+}
+
+/* Hero Section */
+.hero {
+    padding: var(--spacing-medium) 0 0 0;
+    text-align: center;
+}
+
+.hero img {
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+}
+
+/* Sections */
+section {
+    padding: 0;
+}
+
+.description,
+.status {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-medium) var(--spacing-unit);
+}
+
+/* Details Grid */
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.detail-item {
+    text-align: center;
+}
+
+.detail-item p {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+/* Status Section */
+.status {
+    text-align: center;
+}
+
+.status h2 {
+    margin-bottom: 12px;
+}
+
+.status p {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+}
+
+/* Divider */
+.divider {
+    width: calc(100% - (var(--spacing-unit) * 2));
+    height: 2px;
+    background-color: var(--color-accent);
+    margin: 0 auto;
+}
+
+/* Footer */
+footer {
+    padding: var(--spacing-unit);
+    background-color: var(--color-navy);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-unit);
+}
+
+.footer-logo {
+    height: 100px;
+    width: auto;
+}
+
+.copyright {
+    font-size: 14px;
+    color: var(--color-light);
+    letter-spacing: 0.05em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --spacing-large: 60px;
+        --spacing-xlarge: 80px;
+    }
+    
+    h2 {
+        font-size: 28px;
+    }
+    
+    p, .tagline {
+        font-size: 17px;
+    }
+    
+    .tagline {
+        font-size: 19px;
+    }
+    
+    .game-logo img {
+        max-width: 100%;
+    }
+    
+    .details-grid {
+        gap: 30px;
+    }
+    
+    .detail-item p {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 24px;
+    }
+    
+    .tagline {
+        font-size: 18px;
+    }
+    
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .publisher-logo {
+        height: 40px;
+    }
+}

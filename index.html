@@ -3,62 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Totally Football | Double Time Games</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Totally Football – The Board Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- MailerLite Universal -->
+    <script>
+        (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+        .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+        n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+        (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+        ml('account', '2070724');
+    </script>
+    <!-- End MailerLite Universal -->
+
+    <style>
+        :root {
+            --navy: #1c2637;
+            --navy-dark: #111923;
+            --navy-mid: #243045;
+            --lime: #b8e04a;
+            --lime-bright: #cdf05a;
+            --slate: #3a4d5c;
+            --white: #ffffff;
+            --off-white: #e8edf2;
+            --text-muted: #7a8fa8;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--navy-dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 80px 24px 100px; overflow: hidden;
+        }
+        /* Pitch lines */
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                repeating-linear-gradient(-52deg, transparent, transparent 80px,
+                    rgba(184,224,74,0.03) 80px, rgba(184,224,74,0.03) 82px);
+            pointer-events: none;
+        }
+        /* Glow */
+        .hero-glow {
+            position: absolute; top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(184,224,74,0.09) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            position: relative; z-index: 2;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(184,224,74,0.12);
+            border: 1px solid rgba(184,224,74,0.35);
+            color: var(--lime);
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+            padding: 7px 20px; border-radius: 100px; margin-bottom: 36px;
+            animation: fadeUp 0.6s ease both;
+        }
+        .hero-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); animation: pulse 2s infinite; }
+        .hero-logo {
+            position: relative; z-index: 2;
+            width: min(560px, 88vw); margin-bottom: 36px;
+            animation: fadeUp 0.7s 0.1s ease both;
+            filter: drop-shadow(0 12px 48px rgba(184,224,74,0.18));
+        }
+        /* Phase pills */
+        .hero-phases {
+            position: relative; z-index: 2;
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 20px;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+        .phase {
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--white); padding: 5px 16px;
+            background: rgba(255,255,255,0.07); border-radius: 4px;
+        }
+        .phase-arrow { color: var(--lime); font-size: 1rem; }
+        .hero-tagline {
+            position: relative; z-index: 2;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
+            letter-spacing: 0.06em; line-height: 0.95;
+            margin-bottom: 20px;
+            animation: fadeUp 0.7s 0.25s ease both;
+        }
+        .hero-tagline .lime { color: var(--lime); }
+        .hero-sub {
+            position: relative; z-index: 2;
+            font-size: clamp(1rem, 2.5vw, 1.15rem); color: var(--text-muted);
+            max-width: 460px; line-height: 1.65; margin-bottom: 48px;
+            animation: fadeUp 0.7s 0.3s ease both;
+        }
+        .hero-cta-group {
+            position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            animation: fadeUp 0.7s 0.35s ease both;
+        }
+        .btn-primary {
+            display: inline-block; background: var(--lime); color: var(--navy-dark);
+            font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: 0.12em;
+            padding: 17px 52px; border-radius: 4px; text-decoration: none; border: none; cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+            box-shadow: 0 4px 28px rgba(184,224,74,0.4);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(184,224,74,0.55); background: var(--lime-bright); }
+        .hero-cta-note { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; }
+        .scroll-hint {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            color: var(--text-muted); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+            animation: bounce 2.2s infinite;
+        }
+        .scroll-hint svg { width: 16px; height: 16px; stroke: var(--lime); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── HOW IT WORKS ── */
+        .how {
+            background: var(--navy);
+            padding: 100px 24px; position: relative;
+        }
+        .how::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--lime) 50%, transparent 100%);
+        }
+        .section-eyebrow {
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
+            color: var(--lime); text-align: center; margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.05em;
+            text-align: center; margin-bottom: 70px; line-height: 1;
+        }
+
+        /* Phase cards */
+        .phases-track {
+            display: flex; align-items: stretch;
+            max-width: 900px; margin: 0 auto 0;
+            gap: 0;
+        }
+        .phase-card {
+            flex: 1; position: relative;
+            background: var(--navy-dark);
+            border: 1px solid rgba(184,224,74,0.1);
+            padding: 36px 28px; text-align: center;
+            transition: border-color 0.25s, transform 0.25s;
+        }
+        .phase-card:first-child { border-radius: 8px 0 0 8px; }
+        .phase-card:last-child  { border-radius: 0 8px 8px 0; }
+        .phase-card:not(:last-child) { border-right: none; }
+        .phase-card:hover { border-color: rgba(184,224,74,0.4); transform: translateY(-4px); z-index: 1; }
+        .phase-num {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--lime); color: var(--navy-dark);
+            font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .phase-label {
+            font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
+            letter-spacing: 0.06em; color: var(--lime); margin-bottom: 10px;
+        }
+        .phase-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* Arrow connectors */
+        .phase-connector {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 4px; color: var(--lime); font-size: 1.4rem;
+            position: relative; top: 0; flex-shrink: 0; margin-top: -4px;
+            background: var(--navy);
+        }
+
+        /* Wildcards callout */
+        .wildcard-strip {
+            max-width: 900px; margin: 28px auto 0;
+            background: rgba(184,224,74,0.06);
+            border: 1px solid rgba(184,224,74,0.2);
+            border-radius: 8px; padding: 22px 32px;
+            display: flex; align-items: center; gap: 18px;
+        }
+        .wildcard-strip .wc-icon img { height: 48px; filter: drop-shadow(0 4px 16px rgba(184,224,74,0.25)); }
+        .wildcard-strip p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; }
+        .wildcard-strip strong { color: var(--white); }
+
+        /* ── FEATURES ── */
+        .features { padding: 100px 24px; background: var(--navy-dark); }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px; max-width: 960px; margin: 0 auto;
+        }
+        .feature-card {
+            background: var(--navy);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px; padding: 30px 26px;
+            position: relative; overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .feature-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+            background: var(--lime); transform: scaleX(0); transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover { transform: translateY(-4px); border-color: rgba(184,224,74,0.25); }
+        .feature-card:hover::after { transform: scaleX(1); }
+        .feature-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+        .feature-title {
+            font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+            font-size: 1.15rem; letter-spacing: 0.04em; margin-bottom: 8px;
+        }
+        .feature-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+
+        /* ── KS CALLOUT ── */
+        .ks-callout {
+            background: var(--navy); padding: 80px 24px; text-align: center;
+            position: relative; overflow: hidden;
+            border-top: 1px solid rgba(184,224,74,0.12);
+            border-bottom: 1px solid rgba(184,224,74,0.12);
+        }
+        .ks-callout::before {
+            content: 'KICKSTARTER'; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 18vw, 160px);
+            color: rgba(184,224,74,0.04); white-space: nowrap; pointer-events: none; letter-spacing: 0.04em;
+        }
+        .ks-callout h2 {
+            font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 6vw, 3.5rem);
+            letter-spacing: 0.05em; margin-bottom: 14px; position: relative;
+        }
+        .ks-callout h2 span { color: var(--lime); }
+        .ks-callout p { color: var(--text-muted); max-width: 440px; margin: 0 auto 32px; line-height: 1.65; position: relative; }
+
+        /* ── SIGNUP ── */
+        .signup {
+            padding: 100px 24px 120px; text-align: center;
+            background: linear-gradient(170deg, var(--navy-dark) 0%, #0a1420 100%);
+            position: relative; overflow: hidden;
+        }
+        .signup::before {
+            content: ''; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
+            width: 700px; height: 550px;
+            background: radial-gradient(circle, rgba(184,224,74,0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .signup-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+        .signup-icon {
+            width: 96px; margin: 0 auto 30px; display: block;
+            filter: drop-shadow(0 4px 32px rgba(184,224,74,0.35));
+        }
+        .signup h2 {
+            font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.4rem, 7vw, 3.6rem);
+            letter-spacing: 0.05em; line-height: 1; margin-bottom: 14px;
+        }
+        .signup h2 em { font-style: normal; color: var(--lime); }
+        .signup p { color: var(--text-muted); font-size: 1rem; margin-bottom: 38px; line-height: 1.65; max-width: 420px; margin-left: auto; margin-right: auto; }
+        .ml-embedded { max-width: 480px; margin: 0 auto; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #0a0f18;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 36px 24px; text-align: center;
+        }
+        .footer-logo { width: 180px; margin: 0 auto 12px; display: block; filter: drop-shadow(0 2px 12px rgba(184,224,74,0.15)); }
+        footer p { font-size: 0.78rem; color: var(--text-muted); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%       { transform: translateX(-50%) translateY(9px); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(0.7); }
+        }
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        @media (max-width: 680px) {
+            .phases-track { flex-direction: column; }
+            .phase-card { border-radius: 0 !important; border-right: 1px solid rgba(184,224,74,0.1) !important; }
+            .phase-card:first-child { border-radius: 8px 8px 0 0 !important; }
+            .phase-card:last-child  { border-radius: 0 0 8px 8px !important; }
+            .phase-connector { display: none; }
+            .wildcard-strip { flex-direction: column; text-align: center; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <main>
-        <section class="hero">
-            <div class="container">
-                <img src="assets/totally-football-logo.png" alt="Totally Football">
-                <p class="tagline">Draft your squad. Play your rivals.<br />Take the bragging rights.</p>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-badge">Coming to Kickstarter</div>
+        <img class="hero-logo" src="assets/logo.png" alt="Totally Football">
+        <!-- <div class="hero-phases">
+            <span class="phase">Build-Up</span>
+            <span class="phase-arrow">&#8594;</span>
+            <span class="phase">Progression</span>
+            <span class="phase-arrow">&#8594;</span>
+            <span class="phase">Final Third</span>
+        </div> -->
+        <h1 class="hero-tagline">Your Squad. Your <span class="lime">Duels.</span> Your Glory.</h1>
+        <p class="hero-sub">The football board game where every ball is contested. Pick your player, win the duel, and drive your squad to glory.</p>
+        <div class="hero-cta-group">
+            <a href="#signup" class="btn-primary">Get Early Access</a>
+            <span class="hero-cta-note">🔔 Be first to know when we launch &nbsp;·&nbsp; No spam, ever</span>
+        </div>
+        <div class="scroll-hint">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            Discover more
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how">
+        <p class="section-eyebrow reveal">How it works</p>
+        <h2 class="section-title reveal">Three Phases. One Winner.</h2>
+
+        <div class="phases-track">
+            <div class="phase-card reveal">
+                <div class="phase-num">1</div>
+                <div class="phase-label">Build-Up</div>
+                <p class="phase-desc">Establish possession and set the platform. Choose your players wisely — every stat matters when the duel begins.</p>
             </div>
-        </section>
-
-        <section class="description">
-            <div class="container">
-                <p>Totally Football is all about the beautiful game - big moments, bold decisions and everything that can go wrong on match day.</p>
+            <div class="phase-card reveal reveal-delay-1">
+                <div class="phase-num">2</div>
+                <div class="phase-label">Progression</div>
+                <p class="phase-desc">Drive the ball forward through 1v1 duels. Out-stat your opponent to advance the play into dangerous territory.</p>
             </div>
-        </section>
-
-        <div class="divider"></div>
-
-        <section class="details">
-            <div class="container">
-                <div class="details-grid">
-                    <div class="detail-item">
-                        <h3>Players</h3>
-                        <p>2-4</p>
-                    </div>
-                    <div class="detail-item">
-                        <h3>Time</h3>
-                        <p>20-30 min</p>
-                    </div>
-                    <div class="detail-item">
-                        <h3>Age</h3>
-                        <p>12+</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="divider"></div>
-
-        <section class="status">
-            <div class="container">
-                <h2>Coming Soon</h2>
-                <p>Launching 2026</p>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <a href="https://richardm8888.github.io/double-time-games"><img src="assets/double-time-games.png" alt="Double Time Games" class="footer-logo"></a>
-                <p class="copyright">&copy; 2026 Double Time Games</p>
+            <div class="phase-card reveal reveal-delay-2">
+                <div class="phase-num">3</div>
+                <div class="phase-label">Final Third</div>
+                <p class="phase-desc">The pressure is on. Win the decisive duel in front of goal and put the ball in the net to take the bragging rights.</p>
             </div>
         </div>
+
+        <div class="wildcard-strip reveal">
+            <span class="wc-icon"><img src="assets/wildcards.png" alt="Wildcards"></span>
+            <p><strong>Wildcards change everything.</strong> Deploy special cards at any moment to swing a duel, disrupt your opponent's rhythm, or protect your lead. Just like the real thing — chaos is always one move away.</p>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <p class="section-eyebrow reveal">Why you'll love it</p>
+        <h2 class="section-title reveal">Built for <span style="color:var(--lime)">Football</span> Fans</h2>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <span class="feature-icon">⚔️</span>
+                <h3 class="feature-title">1v1 Duels</h3>
+                <p class="feature-text">Top-trumps style stat battles mean every card play is a tactical decision. Know your squad and you'll know when to strike.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-1">
+                <span class="feature-icon">🧠</span>
+                <h3 class="feature-title">Deep Strategy</h3>
+                <p class="feature-text">Squad selection, phase management, wildcard timing — there's always a smarter move if you can find it.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <span class="feature-icon">⚡</span>
+                <h3 class="feature-title">Fast to Play</h3>
+                <p class="feature-text">Simple enough to pick up in minutes, deep enough to keep you coming back every match night.</p>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <span class="feature-icon">👥</span>
+                <h3 class="feature-title">2-6 Players</h3>
+                <p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- KS CALLOUT -->
+    <section class="ks-callout">
+        <h2 class="reveal">Launching Soon on <span>Kickstarter</span></h2>
+        <p class="reveal">Early backers get exclusive launch-day pricing and limited edition content. Don't miss your chance to be part of matchday one.</p>
+        <a href="#signup" class="btn-primary reveal">Notify Me at Launch</a>
+    </section>
+
+    <!-- SIGNUP -->
+    <section class="signup" id="signup">
+        <div class="signup-inner">
+            <img class="signup-icon reveal" src="assets/icon.png" alt="Totally Football">
+            <h2 class="reveal">Join the <em>Squad</em></h2>
+            <div class="ml-embedded reveal" data-form="uS3lEH"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <img class="footer-logo" src="assets/logo.png" alt="Totally Football">
+        <p>© 2026 Totally Football. All rights reserved.</p>
     </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
