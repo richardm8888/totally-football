@@ -33,6 +33,13 @@
         html { scroll-behavior: smooth; }
         body { background-color: var(--navy-dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
 
+        ul {
+            text-align: left;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .lime { color: var(--lime); }
         /* ── HERO ── */
         .hero {
             position: relative;
@@ -97,7 +104,6 @@
             margin-bottom: 20px;
             animation: fadeUp 0.7s 0.25s ease both;
         }
-        .hero-tagline .lime { color: var(--lime); }
         .hero-sub {
             position: relative; z-index: 2;
             font-size: clamp(1rem, 2.5vw, 1.15rem); color: var(--text-muted);
@@ -245,7 +251,7 @@
 
         /* ── SIGNUP ── */
         .signup {
-            padding: 100px 24px 120px; text-align: center;
+            padding: 50px 24px 120px; text-align: center;
             background: linear-gradient(170deg, var(--navy-dark) 0%, #0a1420 100%);
             position: relative; overflow: hidden;
         }
@@ -265,7 +271,25 @@
             letter-spacing: 0.05em; line-height: 1; margin-bottom: 14px;
         }
         .signup h2 em { font-style: normal; color: var(--lime); }
-        .signup p { color: var(--text-muted); font-size: 1rem; margin-bottom: 38px; line-height: 1.65; max-width: 420px; margin-left: auto; margin-right: auto; }
+        .signup p { color: var(--text-muted); font-size: 1rem; margin-bottom: 18px; line-height: 1.65; max-width: 420px; margin-left: auto; margin-right: auto; }
+        .signup ul {
+            max-width: 420px;
+            margin-left: auto; 
+            margin-right: auto;
+            text-align: center;
+        }
+        .signup ul li {
+            list-style-type: none;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            color: var(--off-white);
+        }
+        .signup img.perks-icon {
+            width: 20px; 
+            filter: drop-shadow(0 2px 8px rgba(184,224,74,0.25));
+            margin-right: 12px;
+        }
         .ml-embedded { max-width: 480px; margin: 0 auto; }
 
         /* ── FOOTER ── */
@@ -309,100 +333,19 @@
 </head>
 <body>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-glow"></div>
-        <div class="hero-badge">Coming to Kickstarter</div>
-        <img class="hero-logo" src="assets/logo.png" alt="Totally Football">
-        <!-- <div class="hero-phases">
-            <span class="phase">Build-Up</span>
-            <span class="phase-arrow">&#8594;</span>
-            <span class="phase">Progression</span>
-            <span class="phase-arrow">&#8594;</span>
-            <span class="phase">Final Third</span>
-        </div> -->
-        <h1 class="hero-tagline">Your <span class="lime">Squad.</span> Your <span class="lime">Duels.</span> Your <span class="lime">Glory.</span></h1>
-        <p class="hero-sub">The football board game where every ball is contested. Pick your player, win the duel, and drive your squad to glory.</p>
-        <div class="hero-cta-group">
-            <a href="#signup" class="btn-primary">Get Early Access</a>
-            <span class="hero-cta-note">🔔 Be first to know when we launch &nbsp;·&nbsp; No spam, ever</span>
-        </div>
-        <div class="scroll-hint">
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-            Discover more
-        </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="how">
-        <p class="section-eyebrow reveal">How it works</p>
-        <h2 class="section-title reveal">Three Phases. One Winner.</h2>
-
-        <div class="phases-track">
-            <div class="phase-card reveal">
-                <div class="phase-num">1</div>
-                <div class="phase-label">Build-Up</div>
-                <p class="phase-desc">Establish possession and set the platform. Choose your players wisely — every stat matters when the duel begins.</p>
-            </div>
-            <div class="phase-card reveal reveal-delay-1">
-                <div class="phase-num">2</div>
-                <div class="phase-label">Progression</div>
-                <p class="phase-desc">Drive the ball forward through 1v1 duels. Out-stat your opponent to advance the play into dangerous territory.</p>
-            </div>
-            <div class="phase-card reveal reveal-delay-2">
-                <div class="phase-num">3</div>
-                <div class="phase-label">Final Third</div>
-                <p class="phase-desc">The pressure is on. Win the decisive duel in front of goal and put the ball in the net to take the bragging rights.</p>
-            </div>
-        </div>
-
-        <div class="wildcard-strip reveal">
-            <span class="wc-icon"><img src="assets/wildcards.png" alt="Wildcards"></span>
-            <p><strong>Wildcards change everything.</strong> Deploy special cards at any moment to swing a duel, disrupt your opponent's rhythm, or protect your lead. Just like the real thing — chaos is always one move away.</p>
-        </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="features">
-        <p class="section-eyebrow reveal">Why you'll love it</p>
-        <h2 class="section-title reveal">Built for <span style="color:var(--lime)">Football</span> Fans</h2>
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <span class="feature-icon">⚔️</span>
-                <h3 class="feature-title">1v1 Duels</h3>
-                <p class="feature-text">Top-trumps style stat battles mean every card play is a tactical decision. Know your squad and you'll know when to strike.</p>
-            </div>
-            <div class="feature-card reveal reveal-delay-1">
-                <span class="feature-icon">🧠</span>
-                <h3 class="feature-title">Deep Strategy</h3>
-                <p class="feature-text">Squad selection, phase management, wildcard timing — there's always a smarter move if you can find it.</p>
-            </div>
-            <div class="feature-card reveal reveal-delay-2">
-                <span class="feature-icon">⚡</span>
-                <h3 class="feature-title">Fast to Play</h3>
-                <p class="feature-text">Simple enough to pick up in minutes, deep enough to keep you coming back every match night.</p>
-            </div>
-            <div class="feature-card reveal reveal-delay-3">
-                <span class="feature-icon">👥</span>
-                <h3 class="feature-title">2-6 Players</h3>
-                <p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- KS CALLOUT -->
-    <section class="ks-callout">
-        <h2 class="reveal">Launching Soon on <span>Kickstarter</span></h2>
-        <p class="reveal">Early backers get exclusive launch-day pricing and limited edition content. Don't miss your chance to be part of matchday one.</p>
-        <a href="#signup" class="btn-primary reveal">Notify Me at Launch</a>
-    </section>
-
     <!-- SIGNUP -->
     <section class="signup" id="signup">
         <div class="signup-inner">
             <img class="signup-icon reveal" src="assets/icon.png" alt="Totally Football">
-            <h2 class="reveal">Join the <em>Squad</em></h2>
-            <div class="ml-embedded reveal" data-form="uS3lEH"></div>
+            <h2 class="reveal">Thanks for joining the <em>Squad</em></h2>
+            <p class="section-eyebrow reveal">Now become part of the <span class="lime">Starting XI</span> for just <span class="lime">£1</span></p>
+            <ul>
+                <li>Early access to our Kickstarter</li>
+                <li>Special Starting XI-only rewards and discounts</li>
+                <li>Exclusive updates and behind-the-scenes content</li>
+            </ul>
+
+            <a class="btn-primary reveal" href="https://totally-football-board-game.myshopify.com/products/vip-access">Join the starting XI</a>
         </div>
     </section>
 
