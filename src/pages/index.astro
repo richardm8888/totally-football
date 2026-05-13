@@ -2,11 +2,24 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, FAQS } from '../consts';
 import { Image } from 'astro:assets';
 import LogoImage from '../assets/logo.png';
 import IconImage from '../assets/icon.png';
 import WildcardImage from '../assets/wildcards.png';
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": FAQS.map((faq) => ({
+		"@type": "Question",
+		"name": faq.question,
+		"acceptedAnswer": {
+			"@type": "Answer",
+			"text": faq.answer
+		}
+	}))
+};
 ---
 
 <!DOCTYPE html>
@@ -123,6 +136,37 @@ import WildcardImage from '../assets/wildcards.png';
 			}
 
 			.what-sub {
+				position: relative; 
+				z-index: 2;
+				font-size: clamp(1rem, 2.5vw, 1.15rem); 
+				color: var(--text-muted);
+				line-height: 1.65; 
+				margin-bottom: 20px;
+				animation: fadeUp 0.7s 0.3s ease both;
+				text-align: center;
+			}
+
+			/* FAQ */
+
+			.faq {
+				background: var(--navy-dark);
+				padding: 100px 24px; position: relative;
+			}
+			.faq::before {
+				content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+				background: linear-gradient(90deg, transparent 0%, var(--lime) 50%, transparent 100%);
+			}
+
+			.faq-inner {
+				max-width: 900px;
+				margin: 0 auto;
+			}
+
+			.faq-question {
+				color: var(--lime); text-align: center; margin-bottom: 10px;
+			}
+
+			.faq-answer {
 				position: relative; 
 				z-index: 2;
 				font-size: clamp(1rem, 2.5vw, 1.15rem); 
@@ -318,13 +362,11 @@ import WildcardImage from '../assets/wildcards.png';
 				<h2 class="section-title reveal">What Is Totally Football Game?</h2>
 
 				<p class="what-sub">
-					Totally Football Game combines tactical decision-making, squad building, player duels and strategic card play into a competitive tabletop football experience designed for football fans, board gamers and competitive friends.
+					Totally Football Game is a fast-paced tactical football board game where players build squads, compete in head-to-head duels and outthink opponents using strategic card play inspired by real football tactics.
 				</p>
+
 				<p class="what-sub">
-					Totally Football Game is a fast-paced football board game where players build squads, compete in head-to-head duels and outthink opponents using tactical decisions, player abilities and strategic card play.
-				</p>
-				<p class="what-sub">
-					Inspired by real football tactics and classic tabletop competition, the game blends the tension of football management with the accessibility and excitement of modern strategy board games.
+					Designed for football fans, tabletop gamers and competitive friends, the game blends accessible mechanics with meaningful tactical decisions that reward clever play and smart timing.
 				</p>
 			</div>
 		</section>
@@ -385,11 +427,34 @@ import WildcardImage from '../assets/wildcards.png';
 				</div>
 				<div class="feature-card reveal reveal-delay-3">
 					<span class="feature-icon">👥</span>
-					<h3 class="feature-title">2-6 Players</h3>
+					<h3 class="feature-title">2-4 Players</h3>
 					<p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
 				</div>
 			</div>
 		</section>
+
+		<!-- FAQ -->
+		<section class="faq">
+			<div class="faq-inner">
+				<p class="section-eyebrow reveal">FAQ</p>
+				<h2 class="section-title reveal">Frequently asked questions</h2>
+
+				{
+					FAQS.map((faq) => {
+						return (
+							<h3 class="faq-question reveal">{faq.question}</h3>
+							<p class="faq-answer reveal">{faq.answer}</p>
+						)
+					})
+				}
+
+				</div>
+		</section>
+
+		<script
+			type="application/ld+json"
+			set:html={JSON.stringify(faqSchema)}
+		/>
 
 		<!-- KS CALLOUT -->
 		<section class="ks-callout">
