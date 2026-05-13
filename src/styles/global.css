@@ -13,6 +13,21 @@
 html { scroll-behavior: smooth; }
 body { background-color: var(--navy-dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
 
+article p {
+	font-size: 1.15rem; line-height: 1.6; color: var(--white); margin-bottom: 20px;
+}
+
+article ul {
+	margin: 20px 0px 20px 20px;
+}
+article li {
+	font-size: 1.15rem; line-height: 1.6; color: var(--white); margin-bottom: 10px;
+}
+
+article h2, article h3 {
+	color: var(--lime);
+	margin-bottom: 10px;
+}
 
 .section-eyebrow {
 	font-family: 'Barlow Condensed', sans-serif; font-weight: 700;

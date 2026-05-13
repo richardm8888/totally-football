@@ -1,20 +1,50 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import LogoImage from '../assets/logo.png';
 const today = new Date();
----
 
+const latestPost = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+)?.[0];
+---
 
 
 <!-- DISCOVER MORE -->
 <section class="more">
 	<div class="more-inner">
 		<p class="section-eyebrow reveal">Discover more</p>
-		<h2 class="section-title reveal">Explore Football Board Game Strategy & Guides</h2>
+		<h2 class="section-title reveal">
+			Football Strategy & Tabletop Guides
+		</h2>
 
-		<p class="more-sub">
-			Discover football strategy guides, tabletop gaming articles, gameplay insights and behind-the-scenes design content from Totally Football Game.
+		<p class="more-sub reveal">
+			Explore tactical football game guides, tabletop strategy articles and behind-the-scenes design insights from Totally Football Game.
 		</p>
+		
+		{latestPost && (
+			<div class="featured-article reveal">
+
+				<a href={`/blog/${latestPost.id}/`} class="featured-link">
+
+					{latestPost.data.heroImage && (
+						<Image src={latestPost.data.heroImage} alt={latestPost.data.title} fit="constrain" />
+					)}
+					<div class="featured-item">
+						<p class="tag">Featured Article</p>
+						<h3>{latestPost.data.title}</h3>
+						<p>{latestPost.data.description}</p>
+					</div>
+				</a>
+
+			</div>
+		)}		
+
+		<div class="more-actions reveal">
+			<a href="/blog/" class="btn-primary">
+				View All Articles
+			</a>
+		</div>
 	</div>
 </section>
 
@@ -57,4 +87,37 @@ const today = new Date();
 	}
 	.footer-logo { width: 180px; height: auto; margin: 0 auto 12px; display: block; filter: drop-shadow(0 2px 12px rgba(184,224,74,0.15)); }
 	footer p { font-size: 0.78rem; color: var(--text-muted); }
+
+	.featured-link {
+		display: flex;
+		justify-content: space-between;
+		gap: 30px;
+		width: 100%;
+		text-decoration: none;
+		color: var(--white);
+	}
+
+	.featured-link:hover {
+		text-decoration: underline;
+	}
+
+	.tag {
+		color: var(--lime);
+	}
+
+	.featured-item {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.featured-article img {
+		height: 200px;
+		width: auto;
+	}
+
+	.more-actions {
+		text-align: center;
+		margin-top: 40px;
+	}
 </style>
