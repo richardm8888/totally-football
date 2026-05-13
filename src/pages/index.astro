@@ -1,0 +1,419 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { Image } from 'astro:assets';
+import LogoImage from '../assets/logo.png';
+import IconImage from '../assets/icon.png';
+import WildcardImage from '../assets/wildcards.png';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			/* ── HERO ── */
+			.hero {
+				position: relative;
+				min-height: 100vh;
+				display: flex; flex-direction: column; align-items: center; justify-content: center;
+				text-align: center; padding: 20px 24px 100px; overflow: hidden;
+			}
+			/* Pitch lines */
+			.hero::before {
+				content: '';
+				position: absolute; inset: 0;
+				background:
+					repeating-linear-gradient(-52deg, transparent, transparent 80px,
+						rgba(184,224,74,0.03) 80px, rgba(184,224,74,0.03) 82px);
+				pointer-events: none;
+			}
+			/* Glow */
+			.hero-glow {
+				position: absolute; top: 40%; left: 50%;
+				transform: translate(-50%, -50%);
+				width: 800px; height: 800px;
+				background: radial-gradient(circle, rgba(184,224,74,0.09) 0%, transparent 65%);
+				pointer-events: none;
+			}
+			.hero-badge {
+				position: relative; z-index: 2;
+				display: inline-flex; align-items: center; gap: 8px;
+				background: rgba(184,224,74,0.12);
+				border: 1px solid rgba(184,224,74,0.35);
+				color: var(--lime);
+				font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+				font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+				padding: 7px 20px; border-radius: 100px; margin-bottom: 36px;
+				animation: fadeUp 0.6s ease both;
+			}
+			.hero-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); animation: pulse 2s infinite; }
+			.hero-logo {
+				position: relative; z-index: 2;
+				margin-bottom: 36px;
+				animation: fadeUp 0.7s 0.1s ease both;
+				filter: drop-shadow(0 12px 48px rgba(184,224,74,0.18));
+				width: 100%;
+				max-width: 560px;
+				height: auto;
+			}
+			/* Phase pills */
+			.hero-phases {
+				position: relative; z-index: 2;
+				display: flex; align-items: center; gap: 8px;
+				margin-bottom: 20px;
+				animation: fadeUp 0.7s 0.2s ease both;
+			}
+			.phase {
+				font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+				font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase;
+				color: var(--white); padding: 5px 16px;
+				background: rgba(255,255,255,0.07); border-radius: 4px;
+			}
+			.phase-arrow { color: var(--lime); font-size: 1rem; }
+			.hero-title {
+				margin-bottom: 20px;
+				color: var(--off-white);
+			}
+			.hero-tagline {
+				position: relative; z-index: 2;
+				font-family: 'Bebas Neue', sans-serif;
+				font-size: clamp(2.8rem, 8vw, 5.5rem);
+				letter-spacing: 0.06em; line-height: 0.95;
+				margin-bottom: 20px;
+				animation: fadeUp 0.7s 0.25s ease both;
+			}
+			.hero-tagline .lime { color: var(--lime); }
+			.hero-sub {
+				position: relative; z-index: 2;
+				font-size: clamp(1rem, 2.5vw, 1.15rem); color: var(--text-muted);
+				max-width: 600px; line-height: 1.65; margin-bottom: 48px;
+				animation: fadeUp 0.7s 0.3s ease both;
+			}
+			.hero-cta-group {
+				position: relative; z-index: 2;
+				display: flex; flex-direction: column; align-items: center; gap: 12px;
+				animation: fadeUp 0.7s 0.35s ease both;
+			}
+			.hero-cta-note { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; }
+			.scroll-hint {
+				position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+				display: flex; flex-direction: column; align-items: center; gap: 6px;
+				color: var(--text-muted); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+				animation: bounce 2.2s infinite;
+			}
+			.scroll-hint svg { width: 16px; height: 16px; stroke: var(--lime); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+			/* WHAT IS IT */
+
+			.what {
+				background: var(--navy-dark);
+				padding: 100px 24px; position: relative;
+			}
+			.what::before {
+				content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+				background: linear-gradient(90deg, transparent 0%, var(--lime) 50%, transparent 100%);
+			}
+
+			.what-inner {
+				max-width: 900px;
+				margin: 0 auto;
+			}
+
+			.what-sub {
+				position: relative; 
+				z-index: 2;
+				font-size: clamp(1rem, 2.5vw, 1.15rem); 
+				color: var(--text-muted);
+				line-height: 1.65; 
+				margin-bottom: 20px;
+				animation: fadeUp 0.7s 0.3s ease both;
+				text-align: center;
+			}
+
+			/* ── HOW IT WORKS ── */
+			.how {
+				background: var(--navy);
+				padding: 100px 24px; position: relative;
+			}
+			.how::before {
+				content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+				background: linear-gradient(90deg, transparent 0%, var(--lime) 50%, transparent 100%);
+			}
+			.how-subtitle {
+				max-width: 900px;
+				margin: 0 auto 20px;
+				text-align: center;
+				color: var(--off-white);
+			}
+
+			/* Phase cards */
+			.phases-track {
+				display: flex; align-items: stretch;
+				max-width: 900px; margin: 0 auto 0;
+				gap: 0;
+			}
+			.phase-card {
+				flex: 1; position: relative;
+				background: var(--navy-dark);
+				border: 1px solid rgba(184,224,74,0.1);
+				padding: 36px 28px; text-align: center;
+				transition: border-color 0.25s, transform 0.25s;
+			}
+			.phase-card:first-child { border-radius: 8px 0 0 8px; }
+			.phase-card:last-child  { border-radius: 0 8px 8px 0; }
+			.phase-card:not(:last-child) { border-right: none; }
+			.phase-card:hover { border-color: rgba(184,224,74,0.4); transform: translateY(-4px); z-index: 1; }
+			.phase-num {
+				width: 44px; height: 44px; border-radius: 50%;
+				background: var(--lime); color: var(--navy-dark);
+				font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+				display: flex; align-items: center; justify-content: center;
+				margin: 0 auto 18px;
+			}
+			.phase-label {
+				font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
+				letter-spacing: 0.06em; color: var(--lime); margin-bottom: 10px;
+			}
+			.phase-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+			/* Arrow connectors */
+			.phase-connector {
+				display: flex; align-items: center; justify-content: center;
+				padding: 0 4px; color: var(--lime); font-size: 1.4rem;
+				position: relative; top: 0; flex-shrink: 0; margin-top: -4px;
+				background: var(--navy);
+			}
+
+			/* Wildcards callout */
+			.wildcard-strip {
+				max-width: 900px; margin: 28px auto 0;
+				background: rgba(184,224,74,0.06);
+				border: 1px solid rgba(184,224,74,0.2);
+				border-radius: 8px; padding: 22px 32px;
+				display: flex; align-items: center; gap: 18px;
+			}
+			.wildcard-strip .wc-icon img { filter: drop-shadow(0 4px 16px rgba(184,224,74,0.25)); }
+			.wildcard-strip p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; }
+			.wildcard-strip strong { color: var(--white); }
+
+			/* ── FEATURES ── */
+			.features { position: relative; padding: 100px 24px; background: var(--navy-dark); }
+			.features::before {
+				content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+				background: linear-gradient(90deg, transparent 0%, var(--lime) 50%, transparent 100%);
+			}
+			.features-grid {
+				display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+				gap: 24px; max-width: 960px; margin: 0 auto;
+			}
+			.feature-card {
+				background: var(--navy);
+				border: 1px solid rgba(255,255,255,0.06);
+				border-radius: 8px; padding: 30px 26px;
+				position: relative; overflow: hidden;
+				transition: transform 0.2s, border-color 0.2s;
+			}
+			.feature-card::after {
+				content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+				background: var(--lime); transform: scaleX(0); transform-origin: left;
+				transition: transform 0.3s ease;
+			}
+			.feature-card:hover { transform: translateY(-4px); border-color: rgba(184,224,74,0.25); }
+			.feature-card:hover::after { transform: scaleX(1); }
+			.feature-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+			.feature-title {
+				font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+				font-size: 1.15rem; letter-spacing: 0.04em; margin-bottom: 8px;
+			}
+			.feature-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
+
+			/* ── KS CALLOUT ── */
+			.ks-callout {
+				background: var(--navy); padding: 80px 24px; text-align: center;
+				position: relative; overflow: hidden;
+				border-top: 1px solid rgba(184,224,74,0.12);
+				border-bottom: 1px solid rgba(184,224,74,0.12);
+			}
+			.ks-callout::before {
+				content: 'KICKSTARTER'; position: absolute; top: 50%; left: 50%;
+				transform: translate(-50%, -50%);
+				font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 18vw, 160px);
+				color: rgba(184,224,74,0.04); white-space: nowrap; pointer-events: none; letter-spacing: 0.04em;
+			}
+			.ks-callout h2 {
+				font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 6vw, 3.5rem);
+				letter-spacing: 0.05em; margin-bottom: 14px; position: relative;
+			}
+			.ks-callout h2 span { color: var(--lime); }
+			.ks-callout p { color: var(--text-muted); max-width: 440px; margin: 0 auto 32px; line-height: 1.65; position: relative; }
+
+			/* ── SIGNUP ── */
+			.signup {
+				padding: 100px 24px 120px; text-align: center;
+				background: linear-gradient(170deg, var(--navy-dark) 0%, #0a1420 100%);
+				position: relative; overflow: hidden;
+			}
+			.signup::before {
+				content: ''; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
+				width: 700px; height: 550px;
+				background: radial-gradient(circle, rgba(184,224,74,0.07) 0%, transparent 60%);
+				pointer-events: none;
+			}
+			.signup-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+			.signup-icon {
+				width: 96px; 
+				height: auto; 
+				margin: 0 auto 30px; 
+				display: block;
+				filter: drop-shadow(0 4px 32px rgba(184,224,74,0.35));
+			}
+			.signup h2 {
+				font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.4rem, 7vw, 3.6rem);
+				letter-spacing: 0.05em; line-height: 1; margin-bottom: 14px;
+			}
+			.signup h2 em { font-style: normal; color: var(--lime); }
+			.signup p { color: var(--text-muted); font-size: 1rem; margin-bottom: 38px; line-height: 1.65; max-width: 420px; margin-left: auto; margin-right: auto; }
+			.ml-embedded { max-width: 480px; margin: 0 auto; }
+		</style>
+	</head>
+	<body>
+
+		<!-- HERO -->
+		<section class="hero">
+			<div class="hero-glow"></div>
+			<div class="hero-badge">Coming to Kickstarter</div>
+			<Image 
+				class="hero-logo" 
+				src={LogoImage} 
+				alt="Totally Football"
+				width={560}
+			/>
+			<!-- <div class="hero-phases">
+				<span class="phase">Build-Up</span>
+				<span class="phase-arrow">&#8594;</span>
+				<span class="phase">Progression</span>
+				<span class="phase-arrow">&#8594;</span>
+				<span class="phase">Final Third</span>
+			</div> -->
+			<h2 class="hero-tagline">Your <span class="lime">Squad.</span> Your <span class="lime">Duels.</span> Your <span class="lime">Glory.</span></h2>
+			<h1 class="hero-title">A tactical football board game built around player duels</h1>
+			<p class="hero-sub">The football board game where every ball is contested. Pick your player, win the duel, and drive your squad to glory.</p>
+			<div class="hero-cta-group">
+				<a href="#signup" class="btn-primary">Get Early Access</a>
+				<span class="hero-cta-note">🔔 Be first to know when we launch &nbsp;·&nbsp; No spam, ever</span>
+			</div>
+			<div class="scroll-hint">
+				<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+				Discover more
+			</div>
+		</section>
+
+		<!-- WHAT IS IT -->
+		<section class="what">
+			<div class="what-inner">
+				<p class="section-eyebrow reveal">Tactical board game</p>
+				<h2 class="section-title reveal">What Is Totally Football Game?</h2>
+
+				<p class="what-sub">
+					Totally Football Game combines tactical decision-making, squad building, player duels and strategic card play into a competitive tabletop football experience designed for football fans, board gamers and competitive friends.
+				</p>
+				<p class="what-sub">
+					Totally Football Game is a fast-paced football board game where players build squads, compete in head-to-head duels and outthink opponents using tactical decisions, player abilities and strategic card play.
+				</p>
+				<p class="what-sub">
+					Inspired by real football tactics and classic tabletop competition, the game blends the tension of football management with the accessibility and excitement of modern strategy board games.
+				</p>
+			</div>
+		</section>
+
+		<!-- HOW IT WORKS -->
+		<section class="how">
+			<p class="section-eyebrow reveal">How it works</p>
+			<h2 class="section-title reveal">Three Phases. One Winner.</h2>
+			<p class="how-subtitle">
+				
+			</p>
+
+			<div class="phases-track">
+				<div class="phase-card reveal">
+					<div class="phase-num">1</div>
+					<div class="phase-label">Build-Up</div>
+					<p class="phase-desc">Establish possession and set the platform. Choose your players wisely — every stat matters when the duel begins.</p>
+				</div>
+				<div class="phase-card reveal reveal-delay-1">
+					<div class="phase-num">2</div>
+					<div class="phase-label">Progression</div>
+					<p class="phase-desc">Drive the ball forward through 1v1 duels. Out-stat your opponent to advance the play into dangerous territory.</p>
+				</div>
+				<div class="phase-card reveal reveal-delay-2">
+					<div class="phase-num">3</div>
+					<div class="phase-label">Final Third</div>
+					<p class="phase-desc">The pressure is on. Win the decisive duel in front of goal and put the ball in the net to take the bragging rights.</p>
+				</div>
+			</div>
+
+			<div class="wildcard-strip reveal">
+				<span class="wc-icon">
+					<Image height="48" src={WildcardImage} alt="Totally Football Game tactical chaos cards" />
+				</span>
+				<p><strong>Chaos cards change everything.</strong> Deploy special cards at any moment to swing a duel, disrupt your opponent's rhythm, or protect your lead. Just like the real thing — chaos is always one move away.</p>
+			</div>
+		</section>
+
+		<!-- FEATURES -->
+		<section class="features">
+			<p class="section-eyebrow reveal">Why you'll love it</p>
+			<h2 class="section-title reveal">Built for <span style="color:var(--lime)">Football</span> Fans</h2>
+			<div class="features-grid">
+				<div class="feature-card reveal">
+					<span class="feature-icon">⚔️</span>
+					<h3 class="feature-title">1v1 Duels</h3>
+					<p class="feature-text">Top-trumps style stat battles mean every card play is a tactical decision. Know your squad and you'll know when to strike.</p>
+				</div>
+				<div class="feature-card reveal reveal-delay-1">
+					<span class="feature-icon">🧠</span>
+					<h3 class="feature-title">Deep Strategy</h3>
+					<p class="feature-text">Squad selection, phase management, wildcard timing — there's always a smarter move if you can find it.</p>
+				</div>
+				<div class="feature-card reveal reveal-delay-2">
+					<span class="feature-icon">⚡</span>
+					<h3 class="feature-title">Fast to Play</h3>
+					<p class="feature-text">Simple enough to pick up in minutes, deep enough to keep you coming back every match night.</p>
+				</div>
+				<div class="feature-card reveal reveal-delay-3">
+					<span class="feature-icon">👥</span>
+					<h3 class="feature-title">2-6 Players</h3>
+					<p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- KS CALLOUT -->
+		<section class="ks-callout">
+			<h2 class="reveal">Launching Soon on <span>Kickstarter</span></h2>
+			<p class="reveal">Early backers get exclusive launch-day pricing and limited edition content. Don't miss your chance to be part of matchday one.</p>
+			<a href="#signup" class="btn-primary reveal">Notify Me at Launch</a>
+		</section>
+
+		<!-- SIGNUP -->
+		<section class="signup" id="signup">
+			<div class="signup-inner">
+				<Image class="signup-icon reveal" src={IconImage} alt="Totally Football" />
+				<h2 class="reveal">Join the <em>Squad</em></h2>
+				<div class="ml-embedded reveal" data-form="uS3lEH"></div>
+			</div>
+		</section>
+
+		<Footer />
+
+		<script>
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+			}, { threshold: 0.1 });
+			document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+		</script>
+	</body>
+</html>

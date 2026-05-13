@@ -1,0 +1,56 @@
+:root {
+	--navy: #1c2637;
+	--navy-dark: #111923;
+	--navy-mid: #243045;
+	--lime: #b8e04a;
+	--lime-bright: #cdf05a;
+	--slate: #3a4d5c;
+	--white: #ffffff;
+	--off-white: #e8edf2;
+	--text-muted: #7a8fa8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background-color: var(--navy-dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+
+.section-eyebrow {
+	font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+	font-size: 1.2rem; letter-spacing: 0.24em; text-transform: uppercase;
+	color: var(--lime); text-align: center; margin-bottom: 10px;
+}
+.section-title {
+	font-family: 'Bebas Neue', sans-serif;
+	font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.05em;
+	text-align: center; margin-bottom: 70px; line-height: 1;
+}
+
+
+.btn-primary {
+	display: inline-block; background: var(--lime); color: var(--navy-dark);
+	font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: 0.12em;
+	padding: 17px 52px; border-radius: 4px; text-decoration: none; border: none; cursor: pointer;
+	transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+	box-shadow: 0 4px 28px rgba(184,224,74,0.4);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(184,224,74,0.55); background: var(--lime-bright); }
+
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+	from { opacity: 0; transform: translateY(24px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+	0%, 100% { transform: translateX(-50%) translateY(0); }
+	50%       { transform: translateX(-50%) translateY(9px); }
+}
+@keyframes pulse {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50%       { opacity: 0.5; transform: scale(0.7); }
+}
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }

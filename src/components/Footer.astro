@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import LogoImage from '../assets/logo.png';
+const today = new Date();
+---
+
+
+
+<!-- DISCOVER MORE -->
+<section class="more">
+	<div class="more-inner">
+		<p class="section-eyebrow reveal">Discover more</p>
+		<h2 class="section-title reveal">Explore Football Board Game Strategy & Guides</h2>
+
+		<p class="more-sub">
+			Discover football strategy guides, tabletop gaming articles, gameplay insights and behind-the-scenes design content from Totally Football Game.
+		</p>
+	</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+	<Image class="footer-logo" src={LogoImage} alt="Totally Football" />
+	<p>&copy; {today.getFullYear()} Totally Football. All rights reserved.</p>
+</footer>
+
+<style>
+	.more {
+		background: var(--navy);
+		padding: 100px 24px; position: relative;
+	}
+	.more::before {
+		content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+		background: linear-gradient(90deg, transparent 0%, var(--lime) 50%, transparent 100%);
+	}
+
+	.more-inner {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+	.more-sub {
+		position: relative; 
+		z-index: 2;
+		font-size: clamp(1rem, 2.5vw, 1.15rem); 
+		color: var(--text-muted);
+		line-height: 1.65; 
+		margin-bottom: 20px;
+		animation: fadeUp 0.7s 0.3s ease both;
+		text-align: center;
+	}
+	
+	footer {
+		background: #0a0f18;
+		border-top: 1px solid rgba(255,255,255,0.05);
+		padding: 36px 24px; text-align: center;
+	}
+	.footer-logo { width: 180px; height: auto; margin: 0 auto 12px; display: block; filter: drop-shadow(0 2px 12px rgba(184,224,74,0.15)); }
+	footer p { font-size: 0.78rem; color: var(--text-muted); }
+</style>
