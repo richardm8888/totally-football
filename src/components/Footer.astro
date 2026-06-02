@@ -90,11 +90,18 @@ const latestPost = (await getCollection('blog')).sort(
 
 	.featured-link {
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
 		gap: 30px;
 		width: 100%;
 		text-decoration: none;
 		color: var(--white);
+	}
+
+	@media (min-width: 700px) {
+		.featured-link {
+			flex-direction: row;
+		}
 	}
 
 	.featured-link:hover {

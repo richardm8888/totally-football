@@ -65,6 +65,10 @@ const posts = (await getCollection('blog')).sort(
 
 			section.content ul {
 				list-style-type: none;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				gap: 40px;
 			}
 			section.content ul li {
 				width: 100%;

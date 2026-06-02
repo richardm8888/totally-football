@@ -7,6 +7,9 @@ import { Image } from 'astro:assets';
 import LogoImage from '../assets/logo.png';
 import IconImage from '../assets/icon.png';
 import WildcardImage from '../assets/wildcards.png';
+import PlayersImage from '../assets/players.png';
+import ChaosImage from '../assets/chaos.png';
+import ActionImage from '../assets/actions2.png';
 
 const faqSchema = {
 	"@context": "https://schema.org",
@@ -89,6 +92,7 @@ const faqSchema = {
 			.hero-title {
 				margin-bottom: 20px;
 				color: var(--off-white);
+				font-size: 1.5rem;
 			}
 			.hero-tagline {
 				position: relative; z-index: 2;
@@ -146,6 +150,12 @@ const faqSchema = {
 				text-align: center;
 			}
 
+			.players-image, .chaos-image, .action-image {
+				width: 100%; 
+				height: auto; 
+				margin: 0 auto;
+			}
+
 			/* FAQ */
 
 			.faq {
@@ -195,10 +205,18 @@ const faqSchema = {
 
 			/* Phase cards */
 			.phases-track {
-				display: flex; align-items: stretch;
-				max-width: 900px; margin: 0 auto 0;
+				display: flex; 
+				flex-direction: column;
+				width: 100%;
+				max-width: 900px; 
+				margin: 0 auto 0;
 				gap: 0;
 			}
+
+			@media (min-width: 700px) {
+				.how .phases-track { flex-direction: row; }
+			}
+
 			.phase-card {
 				flex: 1; position: relative;
 				background: var(--navy-dark);
@@ -237,7 +255,13 @@ const faqSchema = {
 				background: rgba(184,224,74,0.06);
 				border: 1px solid rgba(184,224,74,0.2);
 				border-radius: 8px; padding: 22px 32px;
-				display: flex; align-items: center; gap: 18px;
+				display: flex; 
+				flex-direction: column;
+				align-items: center; 
+				gap: 18px;
+			}
+			@media (min-width: 700px) {
+				.wildcard-strip { flex-direction: row; text-align: left; }
 			}
 			.wildcard-strip .wc-icon img { filter: drop-shadow(0 4px 16px rgba(184,224,74,0.25)); }
 			.wildcard-strip p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; }
@@ -342,11 +366,13 @@ const faqSchema = {
 				<span class="phase-arrow">&#8594;</span>
 				<span class="phase">Final Third</span>
 			</div> -->
-			<h2 class="hero-tagline">Your <span class="lime">Squad.</span> Your <span class="lime">Duels.</span> Your <span class="lime">Glory.</span></h2>
-			<h1 class="hero-title">A tactical football board game built around player duels</h1>
+			<!-- <h2 class="hero-tagline">Your <span class="lime">Squad.</span> Your <span class="lime">Duels.</span> Your <span class="lime">Glory.</span></h2> -->
+			<h2 class="hero-tagline">Win the <span class="lime">duels.</span> Survive the <span class="lime">chaos.</span></h2>
+
+			<h1 class="hero-title">This is football drama you can inflict on your friends</h1>
 			<p class="hero-sub">The football board game where every ball is contested. Pick your player, win the duel, and drive your squad to glory.</p>
 			<div class="hero-cta-group">
-				<a href="#signup" class="btn-primary">Get Early Access</a>
+				<a href="#signup" class="btn-primary">Make the matchday squad</a>
 				<span class="hero-cta-note">🔔 Be first to know when we launch &nbsp;·&nbsp; No spam, ever</span>
 			</div>
 			<div class="scroll-hint">
@@ -358,37 +384,86 @@ const faqSchema = {
 		<!-- WHAT IS IT -->
 		<section class="what">
 			<div class="what-inner">
-				<p class="section-eyebrow reveal">Tactical board game</p>
-				<h2 class="section-title reveal">What Is Totally Football Game?</h2>
+				<h2 class="section-title reveal">What is Totally Football Game?</h2>
 
 				<p class="what-sub">
-					Totally Football Game is a fast-paced tactical football board game where players build squads, compete in head-to-head duels and outthink opponents using strategic card play inspired by real football tactics.
+					Totally Football is a fast-paced football board game built on drama, where your tactics, players, and random events collide in matches where the momentum swings and football chaos ensues.
 				</p>
 
 				<p class="what-sub">
 					Designed for football fans, tabletop gamers and competitive friends, the game blends accessible mechanics with meaningful tactical decisions that reward clever play and smart timing.
 				</p>
+
+				<p class="section-eyebrow reveal">Unpredictable Drama</p>
+
+				<p class="what-sub">
+					However good your strategy, football happens.
+				</p>
+
+				<p class="what-sub">
+					VAR rules out your 90th minute winner
+					Your star player wants out
+					A dubious penalty changes everything
+
+				</p>
+
+				<p class="section-eyebrow reveal">Fast matches. Instant rivalries</p>
+
+				<p class="what-sub">
+					Totally Football is easy to learn, impossible to predict, and no two matches play out the same way.
+				</p>
+				<p class="what-sub">
+					You'll be up and playing in minutes — and regretting a chaos card decision almost immediately.
+				</p>
+				<p class="what-sub">
+					Absolutely no board game experience needed. (Make this big on the page, highlighted somehow)
+				</p>
+
+
+				<p class="section-eyebrow reveal">Built for football fans</p>
+
+				<div class="phases-track">
+					<div class="phase-card reveal">
+						<div class="phase-label">Draft your squad</div>
+						<p class="phase-desc">Build your dream team with stars like Cruz Barre, Lars Mann and Juan Tu.</p>
+						<br />
+						<Image class="players-image" src={PlayersImage} alt="Totally Football Game player cards" />
+					</div>
+					<div class="phase-card reveal reveal-delay-1">
+						<div class="phase-label">Win the duels</div>
+						<p class="phase-desc">Dribble past defenders, battle in midfield, and create match-winning chances.</p>
+						<br />
+						<Image class="action-image" src={ActionImage} alt="Totally Football Game action cards" />
+					</div>
+					<div class="phase-card reveal reveal-delay-2">
+						<div class="phase-label">Bring the chaos</div>
+						<p class="phase-desc">Chaos cards can destroy your gameplan or rescue your season in an instant.</p>
+						<br />
+						<Image class="chaos-image" src={ChaosImage} alt="Totally Football Game chaos cards" />
+					</div>
+				</div>
 			</div>
 		</section>
 
 		<!-- HOW IT WORKS -->
 		<section class="how">
 			<p class="section-eyebrow reveal">How it works</p>
-			<h2 class="section-title reveal">Three Phases. One Winner.</h2>
-			<p class="how-subtitle">
-				
+			<p class="what-sub">
+				Deploy your players across three zones in the pitch to take on your opponent in a stat battle.
 			</p>
+
+			<p class="what-sub"></p>
 
 			<div class="phases-track">
 				<div class="phase-card reveal">
 					<div class="phase-num">1</div>
 					<div class="phase-label">Build-Up</div>
-					<p class="phase-desc">Establish possession and set the platform. Choose your players wisely — every stat matters when the duel begins.</p>
+					<p class="phase-desc">Dribble and pass your way up the pitch into a good shooting position.<br />Use action cards to swing key duels in your favour.</p>
 				</div>
 				<div class="phase-card reveal reveal-delay-1">
 					<div class="phase-num">2</div>
 					<div class="phase-label">Progression</div>
-					<p class="phase-desc">Drive the ball forward through 1v1 duels. Out-stat your opponent to advance the play into dangerous territory.</p>
+					<p class="phase-desc">Continue moving up the pitch or take a shot at goal?<br />Watch-out for chaos cards that can change everything.</p>
 				</div>
 				<div class="phase-card reveal reveal-delay-2">
 					<div class="phase-num">3</div>
@@ -398,10 +473,11 @@ const faqSchema = {
 			</div>
 
 			<div class="wildcard-strip reveal">
-				<span class="wc-icon">
-					<Image height="48" src={WildcardImage} alt="Totally Football Game tactical chaos cards" />
-				</span>
-				<p><strong>Chaos cards change everything.</strong> Deploy special cards at any moment to swing a duel, disrupt your opponent's rhythm, or protect your lead. Just like the real thing — chaos is always one move away.</p>
+				<p>
+					<strong>Chaos cards change everything.</strong>
+					<br />
+					Deploy special cards at any moment to swing a duel, disrupt your opponent's rhythm, or protect your lead. Just like the real thing — chaos is always one move away.
+				</p>
 			</div>
 		</section>
 
@@ -411,22 +487,18 @@ const faqSchema = {
 			<h2 class="section-title reveal">Built for <span style="color:var(--lime)">Football</span> Fans</h2>
 			<div class="features-grid">
 				<div class="feature-card reveal">
-					<span class="feature-icon">⚔️</span>
 					<h3 class="feature-title">1v1 Duels</h3>
 					<p class="feature-text">Top-trumps style stat battles mean every card play is a tactical decision. Know your squad and you'll know when to strike.</p>
 				</div>
 				<div class="feature-card reveal reveal-delay-1">
-					<span class="feature-icon">🧠</span>
-					<h3 class="feature-title">Deep Strategy</h3>
-					<p class="feature-text">Squad selection, phase management, wildcard timing — there's always a smarter move if you can find it.</p>
+					<h3 class="feature-title">Strategic</h3>
+					<p class="feature-text">Squad selection, phase management, chaos card timing — there's always a smarter move if you can find it.</p>
 				</div>
 				<div class="feature-card reveal reveal-delay-2">
-					<span class="feature-icon">⚡</span>
 					<h3 class="feature-title">Fast to Play</h3>
 					<p class="feature-text">Simple enough to pick up in minutes, deep enough to keep you coming back every match night.</p>
 				</div>
 				<div class="feature-card reveal reveal-delay-3">
-					<span class="feature-icon">👥</span>
 					<h3 class="feature-title">2-4 Players</h3>
 					<p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
 				</div>

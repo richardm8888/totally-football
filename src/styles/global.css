@@ -10,9 +10,9 @@
 	--text-muted: #7a8fa8;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background-color: var(--navy-dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
-
+html { scroll-behavior: smooth; width: 100%; }
+body { width: 100%; background-color: var(--navy-dark); color: var(--white); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+section { width: 100%; }
 article p {
 	font-size: 1.15rem; line-height: 1.6; color: var(--white); margin-bottom: 20px;
 }
@@ -37,7 +37,7 @@ article h2, article h3 {
 .section-title {
 	font-family: 'Bebas Neue', sans-serif;
 	font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.05em;
-	text-align: center; margin-bottom: 70px; line-height: 1;
+	text-align: center; margin-bottom: 30px; line-height: 1;
 }
 
 
