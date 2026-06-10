@@ -1,0 +1,76 @@
+---
+import { Image, getImage } from 'astro:assets';
+import DraftYourSquad from '../../assets/draft-your-squad.png';
+import WinYourDuels from '../../assets/win-your-duels.png';
+import SurviveTheChaos from '../../assets/survive-the-chaos.png';
+
+---
+
+<!-- MECHANICS -->
+<section class="mechanics">
+    <div class="mechanic" style={{ backgroundImage: `url(${DraftYourSquad.src})` }}>
+        <h3>Draft your <span class="lime">Squad</h3>
+        <p>Build your dream team with stars like Cruz Barré, Lars Mann and Smät Séve.</p>
+    </div>
+    <div class="mechanic" style={{ backgroundImage: `url(${WinYourDuels.src})` }}>
+        <h3>Win your <span class="lime">Duels</h3>
+        <p>Dribble past defenders, battle in midfield, and create match-winning chances.</p>
+    </div>
+    <div class="mechanic" style={{ backgroundImage: `url(${SurviveTheChaos.src})` }}>
+        <h3>Survive the <span class="lime">Chaos</h3>
+        <p>Chaos cards can destroy your gameplan or rescue your season in an instant.</p>
+    </div>
+</section>
+
+<style>
+    .mechanics {
+        position: relative;
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: space-between;
+        overflow: hidden;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .mechanics div.mechanic {
+        aspect-ratio: 0.74;
+        width: 100%;
+        background-size: cover; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0 0 0;
+        gap: 50px;
+    }
+
+    .mechanics div.mechanic h3 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 40px;
+        text-align: center;
+        background-color: var(--navy-mid);
+        padding: 10px;
+        display: inline-block;
+        filter: drop-shadow(5px 5px 0px var(--lime));
+    }
+
+    .mechanics div.mechanic p {
+        font-size: 21px;
+        text-align: center;
+        width: 70%;
+        background-color: var(--navy-mid-transparent);
+        padding: 10px;
+    }
+
+    @media (min-width: 800px) {
+        .mechanics {
+            flex-direction: row;
+            justify-content: space-evenly;
+        } 
+
+        .mechanics div.mechanic {
+            width: 33.33%;
+        }
+    }
+</style>

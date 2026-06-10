@@ -212,9 +212,9 @@ Different football board games appeal to different types of players.
 | ------------------------------- | ------------------------ |
 | Fast tactical matches           | Totally Football Game    |
 | Physical football simulation    | Subbuteo                 |
-| Football management depth       | Time of Soccer           |
-| Family-friendly gameplay        | Soccer City              |
-| Strategy-heavy sports mechanics | Football Highlights 2052 |
+| Football management depth       | Superclub                |
+| Family-friendly gameplay        | Totally Football Game    |
+| Strategy-heavy sports mechanics | Sunday Manager.          |
 
 
 ## Why Football Works So Well as a Tabletop Game

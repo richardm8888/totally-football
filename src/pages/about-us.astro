@@ -1,0 +1,114 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE, FAQS } from '../consts';
+import { Image } from 'astro:assets';
+import Main from '../layouts/Main.astro';
+import Hero from '../components/About/Hero.astro';
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": FAQS.map((faq) => ({
+		"@type": "Question",
+		"name": faq.question,
+		"acceptedAnswer": {
+			"@type": "Answer",
+			"text": faq.answer
+		}
+	}))
+};
+---
+<style>
+    section.content {
+		width: 100%;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+
+    section.content p {
+        padding: 10px 0;
+    }
+
+    section.content a {
+        color: var(--lime);
+        text-decoration: none;
+    }
+
+    section.content a:hover {
+        text-decoration: underline;
+    }
+
+    section.content h2, section.content h3, section.content h4 {
+        margin: 10px 0;
+        color: var(--lime);
+    }
+</style>
+<Main title={SITE_TITLE} description={SITE_DESCRIPTION} includeDiscoverMore={true}>
+
+	<Hero />
+    <section class="content">
+        <h2>Our Story</h2>
+        <h3>Origins</h3>
+        <p>Years of supporting, following and playing every football board game we could find, we were never fully satisfied.</p>
+        <p>We started a bit back to front, in that we began by listing the things we didn’t want Totally Football to do based on our past experiences.</p>
+
+        <h4>It doesn't take forever to understand and start playing.</h4>
+        <p>Too many rules and components make it easy to lose half an evening to understanding how to play - we wanted to make sure you could unbox and be playing within 5 minutes.</p>
+
+        <h4>Not rely on luck heavily to win.</h4>
+
+        <p>Yes, football has an element of luck in it, but we wanted the game to feel like you were in control of your strategy through your own choices. Randomness and luck should be a small contributory factor to success.</p>
+
+        <h4>Not take itself too seriously</h4>
+
+        <p>We didn’t want to create something so realistic and serious that nobody wants to play it. We needed to bridge the gap between reality and fantasy with the right balance.</p>
+
+        <h4>It cannot have matches which don’t feel like football.</h4>
+
+        <p>We made it clear from the start that any matchplay must feel like a football match with tactics and actions like passing and shooting. </p>
+
+        <h4>It must not use AI or even feel like it has</h4>
+
+        <p>This is our game, made by us. This isn’t the output of a computer, it needs to exude that passion and emotion that only humans can provide.</p>
+
+
+        <h3>Getting started</h3>
+
+        <p>The first iteration of Totally Football is ironically more than likely going to become a sequel or sister game in the future and resembled more of an all-round club management game where you could control all aspects of your club. </p>
+        <p>The problem was that for all the fun and engaging ideas we had, it grew into something which went against those principles above.</p>
+
+
+        <p>It took a long time to understand, matches had to start reverting to dice/luck based mechanisms to avoid them going on too long, and then they became less football-like.</p>
+
+        <p>So, we decided to extract the matchplay mechanism we had and make that the core game.</p>
+        <p>Totally Football: Club Management can wait, for now, this is all about Totally Football.</p>
+
+        [Images of early card designs]
+
+        <p>Then came the really hard work. Testing, refining, play-testing, refining, on a loop for months on end until we felt we’d struck the right balance and we could bring it to groups for wider testing.</p>
+        
+        <h3>Reactions</h3>
+        
+        <p>The reactions were more than we’d hoped for:</p>
+
+        “As close to football in a board game without being football”.
+
+        “Football chaos in a box”
+
+        “Can’t stop thinking about how to adjust my strategy for next time”
+
+        <p>This level of feedback gave us the boost we needed to take the game into production-mode, but that meant learning new skills. With next to zero design skills or illustrative skills making Totally Football look great was going to be a challenge.</p>
+        
+        <h3>Refining</h3>
+        
+        <p>Richard set upon learning how to draw people in a vectorised/low-poly style and quickly found his groove, adding personality and uniqueness to the players.</p>
+
+        [Images of early figma wireframes, etc]
+
+        <p>Sean has always loved puns and set to work creating fun and engaging names which still make us laugh every time we read them. If you see any awful puns or jokes, blame Sean!</p>
+
+        [Fun players]
+    </section>
+</Main>

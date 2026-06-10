@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import LogoImage from '../assets/logo.png';
+import Navigation from './Navigation.astro';
+---
+
+<header>
+    <div class="header-inner">
+        <a href="/">
+            <Image 
+                class="header-logo" 
+                src={LogoImage} 
+                alt="Totally Football"
+                height={"60"}
+            />
+        </a>
+        <Navigation />
+    </div>
+</header>
+
+<style>
+    header {
+        width: 100%;
+        position: fixed; 
+        background-color: var(--navy-mid);
+        height: 100px;
+        z-index: 100;
+        border-bottom: 2px solid var(--lime);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+	header div.header-inner {
+        width: 100%;
+        max-width: 1300px;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>

@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+import PlayersFanImage from '../../assets/players-fan-small.png';
+---
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <h2 class="hero-tagline">
+            Draft your <span class="lime">squad.</span> <br />
+            Win the <span class="lime">duels.</span> <br />
+            Survive the <span class="lime">chaos.</span> 
+        </h2>
+
+        <p class="hero-title">This is football drama you can inflict on your friends</p>
+        <div class="hero-cta-group">
+            <a href="#signup" class="btn-primary">Make the matchday squad</a>
+            <span class="hero-cta-note">🔔 Be first to know when we launch &nbsp;·&nbsp; No spam, ever</span>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <Image src={PlayersFanImage} alt="Totally Football Game player cards" />
+
+        
+    </div>
+    <!-- <p class="hero-sub">The football board game where every ball is contested. Pick your player, win the duel, and drive your squad to glory.</p>
+    <div class="scroll-hint">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        Discover more
+    </div> -->
+</section>
+
+<style>
+    /* ── HERO ── */
+    .hero {
+        position: relative;
+        display: flex; 
+        flex-direction: column-reverse; 
+        align-items: center; 
+        justify-content: space-between;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .hero-left, .hero-right {
+        width: 100%;
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center;
+        padding: 20px; 
+        overflow: hidden;
+    }
+
+    .hero-right img {
+        width: 100%;
+        height: auto;
+    } 
+
+    .hero-tagline {
+        position: relative; 
+        z-index: 2;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 40px;
+        text-align: center;
+        letter-spacing: 0.06em; line-height: 0.95;
+        margin-bottom: 20px;
+        animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    @media (min-width: 800px) {
+        .hero {
+            flex-direction: row; 
+            padding-top: 40px;
+        } 
+        .hero-left, .hero-right {
+            width: 50%;
+            align-items: flex-start; 
+        }
+
+        .hero-tagline {
+            font-size: 70px;
+            text-align: left;
+        }
+    }
+
+    .hero-title {
+        margin-bottom: 20px;
+        color: var(--off-white);
+        font-size: 1.5rem;
+    }
+    .hero-sub {
+        position: relative; z-index: 2;
+        font-size: clamp(1rem, 2.5vw, 1.15rem); color: var(--text-muted);
+        max-width: 600px; line-height: 1.65; margin-bottom: 48px;
+        animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .hero-cta-group {
+        position: relative; z-index: 2;
+        display: flex; flex-direction: column; align-items: center; gap: 12px;
+        animation: fadeUp 0.7s 0.35s ease both;
+    }
+    .hero-cta-note { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; }
+    .scroll-hint {
+        position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+        display: flex; flex-direction: column; align-items: center; gap: 6px;
+        color: var(--text-muted); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+        animation: bounce 2.2s infinite;
+    }
+    .scroll-hint svg { width: 16px; height: 16px; stroke: var(--lime); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+</style>

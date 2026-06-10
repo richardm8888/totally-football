@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import LogoImage from '../assets/logo.png';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import Main from './Main.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -12,105 +12,57 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
+<Main title={title} description={description}>
 
-		<style>
+<style>
 
-			.date {
-				margin-bottom: 20px;
-			}
+	.date {
+		margin-bottom: 20px;
+	}
+	
+	section.hero {
+		position: relative;
+		display: flex; flex-direction: column; align-items: center; justify-content: center;
+		text-align: center; padding: 20px; overflow: hidden;
+	}
 
-			.hero-logo {
-				position: relative; z-index: 2;
-				margin-bottom: 36px;
-				animation: fadeUp 0.7s 0.1s ease both;
-				filter: drop-shadow(0 12px 48px rgba(184,224,74,0.18));
-				width: 100%;
-				max-width: 560px;
-				height: auto;
-			}
+	section.hero img.article-image {
+		width: 100%;
+		max-width: 600px;
+		height: auto;
+		margin-bottom: 20px;
+	}
 
-			/* Pitch lines */
-			article::before {
-				content: '';
-				position: fixed; inset: 0;
-				background:
-					repeating-linear-gradient(-52deg, transparent, transparent 80px,
-						rgba(184,224,74,0.03) 80px, rgba(184,224,74,0.03) 82px);
-				pointer-events: none;
-			}
-			
-			section.hero {
-				position: relative;
-				display: flex; flex-direction: column; align-items: center; justify-content: center;
-				text-align: center; padding: 20px; overflow: hidden;
-			}
-			
+	.hero-title {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.05em;
+		text-align: center; margin-bottom: 20px; line-height: 1;
+	}
 
-			section.hero img.article-image {
-				width: 100%;
-				max-width: 600px;
-				height: auto;
-				margin-bottom: 20px;
-			}
+	section.content {
+		width: 100%;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
 
-			.hero-title {
-				font-family: 'Bebas Neue', sans-serif;
-				font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.05em;
-				text-align: center; margin-bottom: 20px; line-height: 1;
-			}
-
-
-			section.content {
-				width: 100%;
-				max-width: 800px;
-				margin: 0 auto;
-			}
-
-		</style>
-	</head>
-	<body>		
-		<main>
-			<article>
-				<section class="hero">
-					<a href="/">
-						<Image 
-							class="hero-logo" 
-							src={LogoImage} 
-							alt="Totally Football"
-							width={560}
-						/>
-					</a>
-					{heroImage && <Image class="article-image" src={heroImage} alt={title} fit="constrain" />}
-					<h1 class="hero-title">{title}</h1>
-				</section>
-				<section class="content">
-					<div class="date">
-						<FormattedDate date={pubDate} />
-						{
-							updatedDate && (
-								<div class="last-updated-on">
-									Last updated on <FormattedDate date={updatedDate} />
-								</div>
-							)
-						}
+</style>
+	
+<article>
+	<section class="hero">
+		{heroImage && <Image class="article-image" src={heroImage} alt={title} fit="constrain" />}
+		<h1 class="hero-title">{title}</h1>
+	</section>
+	<section class="content">
+		<div class="date">
+			<FormattedDate date={pubDate} />
+			{
+				updatedDate && (
+					<div class="last-updated-on">
+						Last updated on <FormattedDate date={updatedDate} />
 					</div>
-					<slot />
-				</section>
-			</article>
-		</main>
-
-		<Footer />
-
-		<script>
-			const observer = new IntersectionObserver((entries) => {
-				entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-			}, { threshold: 0.1 });
-			document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-		</script>
-		
-	</body>
-</html>
+				)
+			}
+		</div>
+		<slot />
+	</section>
+</article>
