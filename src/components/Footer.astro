@@ -39,7 +39,7 @@ const { includeDiscoverMore, includeJoinTheSquad = true } = Astro.props;
 			</h2>
 
 			<p class="more-sub reveal">
-				Explore tactical football game guides, tabletop strategy articles and behind-the-scenes design insights from Totally Football Game.
+				Explore tactical football game guides, tabletop strategy articles and behind-the-scenes design insights from Totally Football.
 			</p>
 			
 			{latestPost && (
@@ -48,7 +48,7 @@ const { includeDiscoverMore, includeJoinTheSquad = true } = Astro.props;
 					<a href={`/blog/${latestPost.id}/`} class="featured-link">
 
 						{latestPost.data.heroImage && (
-							<Image src={latestPost.data.heroImage} alt={latestPost.data.title} fit="constrain" />
+							<Image src={latestPost.data.heroImage} alt={latestPost.data.title} />
 						)}
 						<div class="featured-item">
 							<p class="tag">Featured Article</p>
@@ -164,11 +164,17 @@ const { includeDiscoverMore, includeJoinTheSquad = true } = Astro.props;
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+		width: 100%;
+	}
+
+	.featured-article a {
+		width: 100%;
 	}
 
 	.featured-article img {
-		height: 200px;
-		width: auto;
+		max-width: 600px;
+		width: 100%;
+		height: auto;
 	}
 
 	.more-actions {

@@ -1,7 +1,7 @@
 ---
 
 title: "How We Designed the Duel System"
-description: "The duel system sits at the heart of Totally Football Game. Here's how we designed tactical player battles inspired by real football momentum and decision-making."
+description: "The duel system sits at the heart of Totally Football. Here's how we designed tactical player battles inspired by real football momentum and decision-making."
 pubDate: 2026-06-02
 heroImage: "../../assets/blog/how-we-designed-the-duel-system.png"
 tags:
@@ -12,7 +12,7 @@ tags:
 
 ---
 
-At the heart of Totally Football Game is the duel system.
+At the heart of Totally Football is the duel system.
 
 From the very beginning, we wanted every challenge, matchup and decision to feel meaningful.
 
@@ -125,7 +125,7 @@ Chaos cards help with this, but subtle tweaks to the distribution of action card
 
 ## Final Thoughts
 
-The duel system defines the identity of Totally Football Game.
+The duel system defines the identity of Totally Football.
 
 It creates:
 

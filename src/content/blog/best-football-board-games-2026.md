@@ -52,11 +52,11 @@ The best tabletop football games create that same variety through team-building,
 
 ## The Best Football Board Games in 2026
 
-### 1. Totally Football Game
+### 1. Totally Football
 
 #### Best For: Tactical head-to-head football rivalries
 
-Totally Football Game focuses on one of the most exciting parts of football: individual player duels.
+Totally Football focuses on one of the most exciting parts of football: individual player duels.
 
 Instead of simulating entire matches in microscopic detail, the game distils football down into tactical decisions, stat battles, squad management and momentum swings that feel fast, competitive and replayable.
 
@@ -210,10 +210,10 @@ Different football board games appeal to different types of players.
 
 | If You Want...                  | Recommended Game         |
 | ------------------------------- | ------------------------ |
-| Fast tactical matches           | Totally Football Game    |
+| Fast tactical matches           | Totally Football         |
 | Physical football simulation    | Subbuteo                 |
 | Football management depth       | Superclub                |
-| Family-friendly gameplay        | Totally Football Game    |
+| Family-friendly gameplay        | Totally Football         |
 | Strategy-heavy sports mechanics | Sunday Manager.          |
 
 
