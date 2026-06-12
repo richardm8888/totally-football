@@ -15,17 +15,19 @@ const latestPost = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )?.[0];
 
-const { includeDiscoverMore } = Astro.props;
+const { includeDiscoverMore, includeJoinTheSquad = true } = Astro.props;
 ---
 
-<!-- SIGNUP -->
-<section class="signup" id="signup">
-	<div class="signup-inner">
-		<Image class="signup-icon reveal" src={IconImage} alt="Totally Football" />
-		<h2 class="reveal">Join the <em>Squad</em></h2>
-		<div class="ml-embedded reveal" data-form="uS3lEH"></div>
-	</div>
-</section>
+{includeJoinTheSquad ?  (
+	<!-- SIGNUP -->
+	<section class="signup" id="signup">
+		<div class="signup-inner">
+			<Image class="signup-icon reveal" src={IconImage} alt="Totally Football" />
+			<h2 class="reveal">Join the <em>Squad</em></h2>
+			<div class="ml-embedded reveal" data-form="uS3lEH"></div>
+		</div>
+	</section>
+) : null }
 
 {includeDiscoverMore ? (
 	<!-- DISCOVER MORE -->

@@ -9,7 +9,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, includeDiscoverMore } = Astro.props;
+const { title, description, includeDiscoverMore, includeJoinTheSquad } = Astro.props;
 ---
 
 
@@ -22,7 +22,7 @@ const { title, description, includeDiscoverMore } = Astro.props;
         <Header />
 		<main>
             <slot />
-		    <Footer includeDiscoverMore={includeDiscoverMore} />
+		    <Footer includeDiscoverMore={includeDiscoverMore} includeJoinTheSquad={includeJoinTheSquad} />
 		</main>
 
 		<script>
