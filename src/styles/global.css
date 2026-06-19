@@ -78,7 +78,7 @@ article h2, article h3 {
 .reveal-delay-3 { transition-delay: 0.3s; }
 
 table {
-	margin-bottom: 20px;
+	margin: 20px 0;
 	border-collapse: collapse;
 	width: 100%;
 	border: 1px solid var(--lime);

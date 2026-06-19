@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import GameBoardImage from '../../assets/populated-game-board.png';
+---
+
+<!-- HERO -->
+<section class="hero">
+    <h1 class="hero-title">
+        How to <span class="lime">play</span>
+    </h1>
+    <Image src={GameBoardImage} alt="Totally Football Board" />
+</section>
+
+<style>
+    /* ── HERO ── */
+    .hero {
+        position: relative;
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: space-between;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .hero img {
+        width: 100%;
+        height: auto;
+    }
+
+    .hero-title {
+        position: relative; 
+        z-index: 2;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 40px;
+        text-align: center;
+        letter-spacing: 0.06em; 
+        line-height: 0.95;
+        margin-bottom: 20px;
+        animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    @media (min-width: 800px) {
+        .hero img {
+            width: 70%;
+            height: auto;
+        }
+
+        .hero-title {
+            font-size: 70px;
+            text-align: left;
+        }
+    }
+</style>

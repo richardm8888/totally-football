@@ -4,15 +4,17 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, FAQS } from '../consts';
 import { Image } from 'astro:assets';
-import LogoImage from '../assets/logo.png';
-import IconImage from '../assets/icon.png';
-import WildcardImage from '../assets/wildcards.png';
-import PlayersImage from '../assets/players.png';
-import ChaosImage from '../assets/chaos.png';
-import ActionImage from '../assets/actions2.png';
 import Main from '../layouts/Main.astro';
-import Hero from '../components/Home/Hero.astro';
-import Mechanisms from '../components/Home/Mechanisms.astro';
+import Hero from '../components/HowToPlay/Hero.astro';
+import StartingSquadImage from '../assets/starting-squad.png';
+import DraftBoard from '../assets/draft-board.png';
+import AaronePastim from '../assets/aarone-pastim.png';
+import HughFitt from '../assets/hugh-fitt.png';
+import PassPlusOne from '../assets/pass+1.png';
+import PassMinusTwo from '../assets/pass-2.png';
+import GoalsArea from '../assets/goals-area.png';
+import CardHappy from '../assets/card-happy.png';
+import Varcical from '../assets/varcical.png';
 
 const faqSchema = {
 	"@context": "https://schema.org",
@@ -27,310 +29,385 @@ const faqSchema = {
 	}))
 };
 ---
+<style>
+    section.content {
+		width: 100%;
+		margin: 0 auto;
+		padding: 20px;
+		position: relative;
+		display: none;
+	}
 
+	section#game-modes {
+		display: block;
+	}
+
+    .section-heading {
+        position: relative; 
+        z-index: 2;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 30px;
+        text-align: left;
+        letter-spacing: 0.06em; 
+        line-height: 0.95;
+        margin: 20px 0;
+        animation: fadeUp 0.7s 0.25s ease both;
+		color: var(--lime);
+    }
+
+	section.content h3, section.content p strong {
+		color: var(--lime);
+    }
+
+    section.content p {
+        padding: 10px 0;
+    }
+
+    section.content a {
+        color: var(--lime);
+        text-decoration: none;
+    }
+
+    section.content a:hover {
+        text-decoration: underline;
+    }
+
+	img.draft-board {
+		width: 100%;
+		height: auto;
+	}
+
+	.mini-nav {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 20px;
+		margin: 20px 0;
+		padding: 0 20px;
+		width: 100%;
+		overflow-x: scroll;
+	}
+
+	.mini-nav div[role=button] {
+		cursor: pointer;
+		padding: 10px 20px;
+		background-color: var(--navy-mid);
+		border-radius: 4px;
+		transition: background-color 0.3s;
+		text-align: center;
+		text-wrap: nowrap;
+	}
+	.mini-nav div[role=button]:hover {
+		background-color: var(--navy-dark);
+	}
+
+	.mini-nav div[role=button].active {
+		background-color: var(--lime);
+		color: var(--navy-dark);
+	}
+
+	.example {
+		background-color: var(--slate);
+		padding: 20px;
+		margin: 10px 0;
+	}
+
+	.example .example-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 30px;
+        text-align: left;
+        letter-spacing: 0.06em; 
+        line-height: 0.95;
+        margin-bottom: 10px;
+		color: var(--lime);
+	}
+
+	.example-images {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 10px;
+		margin-top: 20px;
+		max-width: 100%;
+	}
+
+	.example-images.duel img {
+		height: 100px;
+		width: auto;
+	}
+
+	.example-images.chaos img {
+		height: 200px;
+		width: auto;
+	}
+
+	img.goals-area, img.starting-squad {
+		width: 100%;
+		height: auto;
+	}
+
+	@media (min-width: 800px) {
+		.example-images {
+			gap: 20px;
+		}
+		.example-images.duel img {
+			height: 200px;
+			width: auto;
+		}
+		img.goals-area {
+			height: 100px;
+			width: auto;
+		}
+		img.starting-squad {
+			height: 200px;
+			width: auto;
+		}
+	}
+	@media (min-width: 1080px) {
+		.mini-nav {
+			overflow-x: hidden;
+		}
+	}
+</style>
+<script type="text/javascript">
+	function onMiniNavClick(id) {
+		window.scrollTo({
+			top: document.getElementById("mini-nav").offsetTop - 120,
+			behavior: 'smooth'
+		});
+
+		setTimeout(() => {
+			document.querySelectorAll('.mini-nav div[role=button]').forEach(button => {
+				button.classList.remove('active');
+			});
+			document.getElementById(id + '-button').classList.add('active');
+
+			document.querySelectorAll('section.content').forEach(section => {
+				section.style.display = 'none';
+			});
+			document.getElementById(id).style.display = 'block';
+		}, 200);
+	}
+
+</script>
 <Main title={SITE_TITLE} description={SITE_DESCRIPTION} includeDiscoverMore={true} includeJoinTheSquad={true}>
-	<style>
-		
-		/* Phase pills */
-		.hero-phases {
-			position: relative; z-index: 2;
-			display: flex; align-items: center; gap: 8px;
-			margin-bottom: 20px;
-			animation: fadeUp 0.7s 0.2s ease both;
-		}
-		.phase {
-			font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-			font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase;
-			color: var(--white); padding: 5px 16px;
-			background: rgba(255,255,255,0.07); border-radius: 4px;
-		}
-		.phase-arrow { color: var(--lime); font-size: 1rem; }
-		
-
-		/* WHAT IS IT */
-
-		.what {
-			background: var(--navy-dark);
-			padding: 40px 20px; position: relative;
-		}
-
-		.what-inner {
-			max-width: 900px;
-			margin: 0 auto;
-		}
-
-		.what-sub {
-			position: relative; 
-			z-index: 2;
-			font-size: clamp(1rem, 2.5vw, 1.15rem); 
-			color: var(--off-white);
-			line-height: 1.65; 
-			margin-bottom: 20px;
-			animation: fadeUp 0.7s 0.3s ease both;
-			text-align: center;
-		}
-
-		.players-image, .chaos-image, .action-image {
-			width: 100%; 
-			height: auto; 
-			margin: 0 auto;
-		}
-
-		/* FAQ */
-
-		.faq {
-			background: var(--navy-dark);
-			padding: 20px; position: relative;
-		}
-
-		.faq-inner {
-			max-width: 900px;
-			margin: 0 auto;
-		}
-
-		.faq-question {
-			color: var(--lime); text-align: center; margin-bottom: 10px;
-		}
-
-		.faq-answer {
-			position: relative; 
-			z-index: 2;
-			font-size: clamp(1rem, 2.5vw, 1.15rem); 
-			color: var(--off-white);
-			line-height: 1.65; 
-			margin-bottom: 20px;
-			animation: fadeUp 0.7s 0.3s ease both;
-			text-align: center;
-		}
-
-		/* ── HOW IT WORKS ── */
-		.how {
-			background: var(--navy);
-			padding: 20px; position: relative;
-		} 
-
-		.how-subtitle {
-			max-width: 900px;
-			margin: 0 auto 20px;
-			text-align: center;
-			color: var(--off-white);
-		}
-
-		/* Phase cards */
-		.phases-track {
-			display: flex; 
-			flex-direction: column;
-			width: 100%;
-			max-width: 900px; 
-			margin: 0 auto 0;
-			gap: 0;
-		}
-
-		@media (min-width: 700px) {
-			.how .phases-track { flex-direction: row; }
-		}
-
-		.phase-card {
-			flex: 1; position: relative;
-			background: var(--navy-dark);
-			border: 1px solid rgba(184,224,74,0.1);
-			padding: 36px 28px; text-align: center;
-			transition: border-color 0.25s, transform 0.25s;
-		}
-		.phase-card:first-child { border-radius: 8px 0 0 8px; }
-		.phase-card:last-child  { border-radius: 0 8px 8px 0; }
-		.phase-card:not(:last-child) { border-right: none; }
-		.phase-card:hover { border-color: rgba(184,224,74,0.4); transform: translateY(-4px); z-index: 1; }
-		.phase-num {
-			width: 44px; height: 44px; border-radius: 50%;
-			background: var(--lime); color: var(--navy-dark);
-			font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
-			display: flex; align-items: center; justify-content: center;
-			margin: 0 auto 18px;
-		}
-		.phase-label {
-			font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
-			letter-spacing: 0.06em; color: var(--lime); margin-bottom: 10px;
-		}
-		.phase-desc { font-size: 0.88rem; color: var(--off-white); line-height: 1.6; }
-
-		/* Arrow connectors */
-		.phase-connector {
-			display: flex; align-items: center; justify-content: center;
-			padding: 0 4px; color: var(--lime); font-size: 1.4rem;
-			position: relative; top: 0; flex-shrink: 0; margin-top: -4px;
-			background: var(--navy);
-		}
-
-		/* Wildcards callout */
-		.wildcard-strip {
-			max-width: 900px; margin: 28px auto 0;
-			background: rgba(184,224,74,0.06);
-			border: 1px solid rgba(184,224,74,0.2);
-			border-radius: 8px; padding: 22px 32px;
-			display: flex; 
-			flex-direction: column;
-			align-items: center; 
-			gap: 18px;
-		}
-		@media (min-width: 700px) {
-			.wildcard-strip { flex-direction: row; text-align: left; }
-		}
-		.wildcard-strip .wc-icon img { filter: drop-shadow(0 4px 16px rgba(184,224,74,0.25)); }
-		.wildcard-strip p { font-size: 0.92rem; color: var(--off-white); line-height: 1.55; }
-		.wildcard-strip strong { color: var(--white); }
-
-		/* ── FEATURES ── */
-		.features { position: relative; padding: 100px 24px; background: var(--navy-dark); }
-		.features-grid {
-			display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-			gap: 24px; max-width: 960px; margin: 0 auto;
-		}
-		.feature-card {
-			background: var(--navy);
-			border: 1px solid rgba(255,255,255,0.06);
-			border-radius: 8px; padding: 30px 26px;
-			position: relative; overflow: hidden;
-			transition: transform 0.2s, border-color 0.2s;
-		}
-		.feature-card::after {
-			content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-			background: var(--lime); transform: scaleX(0); transform-origin: left;
-			transition: transform 0.3s ease;
-		}
-		.feature-card:hover { transform: translateY(-4px); border-color: rgba(184,224,74,0.25); }
-		.feature-card:hover::after { transform: scaleX(1); }
-		.feature-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
-		.feature-title {
-			font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-			font-size: 1.15rem; letter-spacing: 0.04em; margin-bottom: 8px;
-		}
-		.feature-text { font-size: 0.88rem; color: var(--off-white); line-height: 1.65; }
-	</style>
 
 	<Hero />
-	<Mechanisms />
 
-	<!-- WHAT IS IT -->
-	<section class="what">
-		<div class="what-inner">
-			<h2 class="section-title reveal">What is <span class="lime">Totally Football</span> Game?</h2>
+	<div id="mini-nav" class="mini-nav">
+		<div id="game-modes-button" class="active" role="button" onClick="onMiniNavClick('game-modes');">Game modes</div>
+		<div id="setup-button" role="button" onClick="onMiniNavClick('setup');">Setup</div>
+		<div id="playing-a-match-button" role="button" onClick="onMiniNavClick('playing-a-match');">Playing a match</div>
+		<div id="added-time-button" role="button" onClick="onMiniNavClick('added-time');">Added time</div>
+		<div id="chaos-cards-button" role="button" onClick="onMiniNavClick('chaos-cards');">Chaos cards</div>
+		<div id="player-traits-button" role="button" onClick="onMiniNavClick('player-traits');">Player traits</div>
+		<div id="penalty-shootout-button" role="button" onClick="onMiniNavClick('penalty-shootout');">Penalty shootout</div>
+	</div>
 
-			<p class="what-sub">
-				Totally Football is a fast-paced football board game built on drama, where your tactics, players, and random events collide in matches where the momentum swings and football chaos ensues.
-			</p>
+    <section id="game-modes" class="content">
+        <h3>Head to Head (2 player)</h3>
+        <p>Choose an odd number of matches to play and the winner is the player with the most wins.</p>
 
-			<p class="what-sub">
-				Designed for football fans, tabletop gamers and competitive friends, the game blends accessible mechanics with meaningful tactical decisions that reward clever play and smart timing.
-			</p>
+		<h3>Round robin (3-4 players)</h3>
+		<p>Play each other player once or twice (home and away), award 3pts for a win and 1pt for a draw. Winner is the player with the most points.</p>
+		
+		<h3>Knockout Tournament (4 players)</h3>
+		<p>Randomly draw all players into a knockout bracket, with match winners progressing until there is a single winner.</p>
+		<p><strong>NOTE:</strong> If you own multiple copies of Totally Football (or expansion packs), your tournament can have more than 4 players.</p>
 
-			<p class="section-eyebrow reveal">Unpredictable Drama</p>
+		<p>
+    		<div class="btn-primary" onClick="onMiniNavClick('setup');">Setup ></div>
+		</p>
+    </section>
+    <section id="setup" class="content">
+        <h3>Your starter squad</h3>
+        <p>Start by dealing all players a hand of 6 <strong>squad players</strong>, 1 <strong>goalkeeper</strong> and 4 <strong>chaos cards</strong></p>
 
-			<p class="what-sub">
-				However good your strategy, football happens.
-			</p>
+		<Image className="starting-squad" src={StartingSquadImage} alt="Starting squad" />
 
-			<p class="what-sub">
-				VAR rules out your 90th minute winner
-				Your star player wants out
-				A dubious penalty changes everything
+        <h3>Draft your stars</h3>
+		<p>Place the correct number (based on the below table) of <strong>star players</strong> onto the game board, face-up.</p>
 
-			</p>
+		<table>
+			<thead>
+				<tr><th>Players</th><th>Cards</th></tr>
+			</thead>
 
-			<p class="section-eyebrow reveal">Fast matches. Instant rivalries</p>
+			<tbody>
+				<tr><td>2</td><td>8</td></tr>
+				<tr><td>3</td><td>6</td></tr>
+				<tr><td>4</td><td>8</td></tr>
+			</tbody>
+		</table>
 
-			<p class="what-sub">
-				Totally Football is easy to learn, impossible to predict, and no two matches play out the same way.
-			</p>
-			<p class="what-sub">
-				You'll be up and playing in minutes — and regretting a chaos card decision almost immediately.
-			</p>
-			<p class="what-sub">
-				Absolutely no board game experience needed. (Make this big on the page, highlighted somehow)
-			</p>
-		</div>
-	</section>
+		<Image className="draft-board" src={DraftBoard} alt="Draft board" />
 
-	<!-- HOW IT WORKS -->
-	<section class="how">
-		<p class="section-eyebrow reveal">How it works</p>
-		<p class="what-sub">
-			Deploy your players across three zones in the pitch to take on your opponent in a stat battle.
+		<p>Players take it in turns to draft a player from the board until the board is empty.</p>
+
+		<p><i>(For 3 and 4 player games, refill the board and draft a second time)</i></p>
+
+		<p>At the end of the draft, each player should have added <strong>4</strong> star players to their squad, bringing their total squad size to <strong>11</strong>.</p>
+
+		<p>
+    		<div class="btn-primary" onClick="onMiniNavClick('playing-a-match');">Playing a match ></div>
+		</p>
+    </section>
+
+	<section id="playing-a-match" class="content">
+        <p>Both players involved in the match are dealt 10 <strong>chaos cards</strong>.</p>
+        <p>Each player should have a squad of 11, laid out next to the board, and 4 chaos cards and 10 action cards held in their playing hand.</p>
+        <p>Both chosen goalkeepers must be placed in goal, to the left of the board.</p>
+		<p>Decide who will get to attack first. This could be a “home” team if you are in a round-robin playing home and away matches, the result of a coin-flip, or maybe by age - you decide.</p>
+		<p>Players then begin a “phase of play” with that person as the attacking team, starting in the build-up zone.</p>
+
+		<h3>During a phase of play</h3>
+
+		<p>The attacking team will place one of their players in the current zone (dictated by the previous duel - or the build-up zone if it is the first phase) and declares an action that player is performing - pass, dribble or shoot.</p>
+
+		<p>The opposition player replies by placing one of their own cards opposite.</p>
+
+		<p>Both players then secretly choose an action card from their hand to play and reveal them simultaneously. The action cards will boost each players stats. An action card must be played, even if you don't have one that can affect the outcome of the duel.</p>
+
+		<h3>Winning a phase of play</h3>
+
+		<p>Action card scores are added to player stat scores to get a total score for each player.</p>
+
+		<p>The stat used by the defending team is always based on what action the attacking team is making:</p>
+
+		<p>
+			Passing <strong>vs</strong> Intercepting<br />
+			Dribbling <strong>vs</strong> Tackling<br />
+			Shooting <strong>vs</strong> Saving
 		</p>
 
-		<p class="what-sub"></p>
-
-		<div class="phases-track">
-			<div class="phase-card reveal">
-				<div class="phase-num">1</div>
-				<div class="phase-label">Build-Up</div>
-				<p class="phase-desc">Dribble and pass your way up the pitch into a good shooting position.<br />Use action cards to swing key duels in your favour.</p>
-			</div>
-			<div class="phase-card reveal reveal-delay-1">
-				<div class="phase-num">2</div>
-				<div class="phase-label">Progression</div>
-				<p class="phase-desc">Continue moving up the pitch or take a shot at goal?<br />Watch-out for chaos cards that can change everything.</p>
-			</div>
-			<div class="phase-card reveal reveal-delay-2">
-				<div class="phase-num">3</div>
-				<div class="phase-label">Final Third</div>
-				<p class="phase-desc">The pressure is on. Win the decisive duel in front of goal and put the ball in the net to take the bragging rights.</p>
+		<div class="example">
+			<div class="example-title">Example</div>
+			<p>The attacking team is passing with a passing stat of 5. The defending team's chosen player has an intercepting stat of 5.</p>
+			<p>The attacker places a +1 passing action card down. The defender places a -2 passing card down.</p>
+			<p>The attacking teams total is 4. (5+1-2).</p>
+			<p>The defending teams total is 5 (no action card affected their intercepting stat).</p>
+			<p>So, the defender wins.</p>
+			<div class="example-images duel">
+				<Image src={PassPlusOne} alt="Passing + 1 action card" />
+				<Image src={AaronePastim} alt="AaronePastim - passing = 5" />
+				<p><strong>vs</strong></p>
+				<Image src={HughFitt} alt="HughFitt - intercepting = 5" />
+				<Image src={PassMinusTwo} alt="Passing - 2 action card" />
 			</div>
 		</div>
 
-		<div class="wildcard-strip reveal">
-			<p>
-				<strong>Chaos cards change everything.</strong>
-				<br />
-				Deploy special cards at any moment to swing a duel, disrupt your opponent's rhythm, or protect your lead. Just like the real thing — chaos is always one move away.
-			</p>
+		<p>If the attacking team wins, they get to progress to the next zone, (or score a goal if they are shooting).</p> 
+
+		<p>If passing, the attacking player is discarded, if dribbling the player is moved to the next zone.</p>
+
+		<p>If the defending team wins, their player gains possession where they are, and the attacking teams player is discarded.</p>
+
+		<p>If the action was a shot, a new phase begins in the build-up zone.</p>
+
+		<h3>Tied phase of play</h3>
+		<p>In the event of a tied phase of play, the defending team wins the phase.</p>
+
+		<p>The only exception is if the <strong>Home Advantage</strong> chaos card has been played, in which case all tied duels are won by the player that laid the card.</p>
+
+		<h3>Long shots & passes</h3>
+		<p>Most passes will only move a player up one spot on the field. But if you feel lucky, you could attempt a long pass and move straight into the Final third.</p>
+
+		<p>Doing so will automatically result in a -1 modifier on your passing stat. (Unless your player has a Playmaker trait, and you decide to play with the traits, but more on these later)</p>
+
+		<p>Similarly, you can choose to shoot from outside the box, or even from your own half, but these result in a -1 and -2 modifier respectively.</p>
+
+		<h3>Scoring a goal</h3>
+		<p>If a player scores a goal, their player is discarded and a new phase of play starts in the opposition's build up zone.</p>
+
+		<p>The scoring team places a goal indicator token in their goals area.</p>
+
+		<Image className="goals-area" src={GoalsArea} alt="Goals area"  />
+
+		<h3>Full-time</h3>
+		<p>A match ends once all 10 action cards have been played.</p>
+
+		<p>At this point, the match enters “Added Time”</p>
+
+		<p>
+    		<div class="btn-primary" onClick="onMiniNavClick('added-time');">Added time ></div>
+		</p>
+    </section>
+
+	<section id="added-time" class="content">
+		<p>Whoever currently has possession has one final chance to score from wherever they currently are on the pitch.</p>
+
+		<p>(If the previous phase of play resulted in a goal then the team that conceded will have possession in their build up zone for added time and must choose a player to shoot with, placing them in the build up zone.)</p>
+
+		<p>Both players roll the dice and the dice values are added to the corresponding “shoot” or “save” player statistic to determine the winner of the duel.</p>
+
+		<p>Chaos cards can continue to be played throughout added time. Speaking of which…</p>
+
+		<p>
+    		<div class="btn-primary" onClick="onMiniNavClick('chaos-cards');">Chaos cards ></div>
+		</p>
+	</section>
+
+	<section id="chaos-cards" class="content">
+		<p>Players receive 4 chaos cards at the setup stage, and can play a maximum of 3 per match. Cards are topped up to 4 at the start of each match.</p>
+
+		<p>To use a card, place it face-up on the table at any point (unless the card specifies when it must be used) and read out the instructions.</p>
+
+		<p>Multiple players can place wildcards during any duel and wildcards can also be used in reaction to another wildcard. Players not involved in the match can also play wildcards to affect the match. But only 2 wildcards can be used on a single duel.</p>
+
+		<div class="example">
+			<div class="example-title">Example</div>
+
+			<p>The attacking team plays a “Red Card” wildcard to instantly win that duel.</p>
+
+			<p>The defending team reacts by playing a “VARcical” wildcard to revert the decision.</p>
+
+			<div class="example-images chaos">
+				<Image src={CardHappy} alt="Card happy" />
+				<p><strong>vs</strong></p>
+				<Image src={Varcical} alt="VARcical" />
+			</div>
 		</div>
+		<p>
+    		<div class="btn-primary" onClick="onMiniNavClick('player-traits');">Player traits ></div>
+		</p>
 	</section>
 
-	<!-- FEATURES -->
-	<section class="features">
-		<p class="section-eyebrow reveal">Why you'll love it</p>
-		<h2 class="section-title reveal">Built for <span style="color:var(--lime)">Football</span> Fans</h2>
-		<div class="features-grid">
-			<div class="feature-card reveal">
-				<h3 class="feature-title">1v1 Duels</h3>
-				<p class="feature-text">Top-trumps style stat battles mean every card play is a tactical decision. Know your squad and you'll know when to strike.</p>
-			</div>
-			<div class="feature-card reveal reveal-delay-1">
-				<h3 class="feature-title">Strategic</h3>
-				<p class="feature-text">Squad selection, phase management, chaos card timing — there's always a smarter move if you can find it.</p>
-			</div>
-			<div class="feature-card reveal reveal-delay-2">
-				<h3 class="feature-title">Fast to Play</h3>
-				<p class="feature-text">Simple enough to pick up in minutes, deep enough to keep you coming back every match night.</p>
-			</div>
-			<div class="feature-card reveal reveal-delay-3">
-				<h3 class="feature-title">2-4 Players</h3>
-				<p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
-			</div>
-		</div>
+	<section id="player-traits" class="content">
+		<p>Some players have an additional trait on their card. You can decide whether you want the traits to be in effect or not.</p>
+
+		<table>
+			<thead>
+				<tr><th>Trait</th><th>Explanation</th></tr>
+			</thead>
+
+			<tbody>
+				<tr><td>Marksman</td><td>Negative modifiers for long shots take no effect</td></tr>
+				<tr><td>Playmaker</td><td>Negative modifiers for long passes take no effect.</td></tr>
+				<tr><td>Interceptor</td><td>Applies a +1 boost to interceptions when facing a long pass.</td></tr>
+				<tr><td>Acrobat</td><td>Applies a +1 boost to saving stats when facing a long shot</td></tr>
+				<tr><td>Distributor</td><td>After saving a shot, the next phase begins in the progression zone.</td></tr>
+			</tbody>
+		</table>
+
+
+		<p>
+    		<div class="btn-primary" onClick="onMiniNavClick('penalty-shootout');">Penalty shootout ></div>
+		</p>
 	</section>
 
-	<!-- FAQ -->
-	<section class="faq">
-		<div class="faq-inner">
-			<p class="section-eyebrow reveal">FAQ</p>
-			<h2 class="section-title reveal">Frequently asked questions</h2>
+	<section id="penalty-shootout" class="content">
+		<p>Depending on how you're playing, you may wish to decide a tied match with a penalty shootout.</p>
 
-			{
-				FAQS.map((faq) => {
-					return (
-						<h3 class="faq-question reveal">{faq.question}</h3>
-						<p class="faq-answer reveal">{faq.answer}</p>
-					)
-				})
-			}
+		<p>Players place their players face-up on the table in the order they will take penalty kicks.</p>
 
-			</div>
+		<p>In turns, players place their penalty taker on the board.</p>
+
+		<p>Both players roll the dice and their dice value is added to the corresponding “shoot” or “save” player statistic to determine the outcome of the penalty.</p>
+
+		<p>Normal phase of play tied rules apply to each penalty kick.</p>
+
+		<p>A goal token is placed in the players “goal” area, with the “X” side up if the penalty was missed.</p>
 	</section>
-
-	<script
-		type="application/ld+json"
-		set:html={JSON.stringify(faqSchema)}
-	></script>
 </Main>
