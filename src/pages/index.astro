@@ -1,15 +1,5 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, FAQS } from '../consts';
-import { Image } from 'astro:assets';
-import LogoImage from '../assets/logo.png';
-import IconImage from '../assets/icon.png';
-import WildcardImage from '../assets/wildcards.png';
-import PlayersImage from '../assets/players.png';
-import ChaosImage from '../assets/chaos.png';
-import ActionImage from '../assets/actions2.png';
 import Main from '../layouts/Main.astro';
 import Hero from '../components/Home/Hero.astro';
 import Mechanisms from '../components/Home/Mechanisms.astro';
@@ -28,7 +18,7 @@ const faqSchema = {
 };
 ---
 
-<Main title={SITE_TITLE} description={SITE_DESCRIPTION} includeDiscoverMore={true} includeJoinTheSquad={true}>
+<Main title={SITE_TITLE} description={SITE_DESCRIPTION} includeDiscoverMore={true} includeJoinTheSquad={true} swapHeaderCTA={true}>
 	<style>
 		
 		/* Phase pills */

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import PlayersFanImage from '../../assets/players-fan-small.png';
+import PopulatedGameBoard from '../../assets/populated-game-board.png';
 ---
 
 <!-- HERO -->
@@ -11,24 +12,18 @@ import PlayersFanImage from '../../assets/players-fan-small.png';
             Win the <span class="lime">duels.</span> <br />
             Survive the <span class="lime">chaos.</span> 
         </h2>
-
-        <p class="hero-title">This is football drama you can inflict on your friends</p>
         <div class="hero-cta-group">
-            <a href="#signup" class="btn-primary">Make the matchday squad</a>
-            <span class="hero-cta-note">🔔 Be first to know when we launch &nbsp;·&nbsp; No spam, ever</span>
+            <a href="#signup" class="btn-primary">Join the squad</a>
         </div>
+        <p class="hero-title">Get early access + exclusive Kickstarter rewards</p>
+        <span class="hero-cta-note">Free to join · No spam ever</span>
     </div>
 
     <div class="hero-right">
-        <Image src={PlayersFanImage} alt="Totally Football player cards" />
+        <Image src={PopulatedGameBoard} alt="Totally Football populated game board" />
 
         
     </div>
-    <!-- <p class="hero-sub">The football board game where every ball is contested. Pick your player, win the duel, and drive your squad to glory.</p>
-    <div class="scroll-hint">
-        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-        Discover more
-    </div> -->
 </section>
 
 <style>
@@ -43,6 +38,10 @@ import PlayersFanImage from '../../assets/players-fan-small.png';
         width: 100%;
     }
 
+    .hero-left {
+        overflow: hidden;
+    }
+
     .hero-left, .hero-right {
         width: 100%;
         display: flex; 
@@ -50,15 +49,22 @@ import PlayersFanImage from '../../assets/players-fan-small.png';
         align-items: center; 
         justify-content: center;
         padding: 20px; 
-        overflow: hidden;
+    }
+
+    .hero-right {
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding-bottom: 40px;
     }
 
     .hero-right img {
-        width: 100%;
+        width: 120%;
         height: auto;
+        transform: rotate(-10deg) translateX(-10px);
     } 
 
     .hero-tagline {
+        display: none;
         position: relative; 
         z-index: 2;
         font-family: 'Bebas Neue', sans-serif;
@@ -70,6 +76,12 @@ import PlayersFanImage from '../../assets/players-fan-small.png';
     }
 
     @media (min-width: 800px) {
+        .hero-tagline {
+            display: block;
+            font-size: 70px;
+            text-align: left;
+        }
+
         .hero {
             flex-direction: row; 
             padding-top: 40px;
@@ -77,18 +89,20 @@ import PlayersFanImage from '../../assets/players-fan-small.png';
         .hero-left, .hero-right {
             width: 50%;
             align-items: flex-start; 
+            overflow: visible;
         }
 
-        .hero-tagline {
-            font-size: 70px;
-            text-align: left;
+        .hero-right img {
+            width: 100%;
+            transform: rotate(0deg) translateX(0px);
         }
     }
 
     .hero-title {
-        margin-bottom: 20px;
+        margin: 10px 0;
         color: var(--off-white);
         font-size: 1.5rem;
+        text-align: center;
     }
     .hero-sub {
         position: relative; z-index: 2;
@@ -101,7 +115,7 @@ import PlayersFanImage from '../../assets/players-fan-small.png';
         display: flex; flex-direction: column; align-items: center; gap: 12px;
         animation: fadeUp 0.7s 0.35s ease both;
     }
-    .hero-cta-note { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; }
+    .hero-cta-note { font-size: 1rem; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 20px; }
     .scroll-hint {
         position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
         display: flex; flex-direction: column; align-items: center; gap: 6px;

@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import LogoImage from '../assets/logo.png';
+import IconImage from '../assets/icon.png';
 import Navigation from './Navigation.astro';
 ---
 
@@ -12,6 +13,12 @@ import Navigation from './Navigation.astro';
                 src={LogoImage} 
                 alt="Totally Football"
                 height={"60"}
+            />
+            <Image 
+                class="header-icon" 
+                src={IconImage} 
+                alt="Totally Football Icon"
+                height={"40"}
             />
         </a>
         <Navigation />
@@ -40,10 +47,25 @@ import Navigation from './Navigation.astro';
         align-items: center;
     }
 
+    .header-logo {
+        display: block;
+    }
+
+    .header-icon {
+        display: none;
+    }
+
     @media (max-width: 799px) {
+        header {
+            height: 60px; 
+        }
+        
         .header-logo {
-            height: 40px;
-            width: auto; 
+            display: none;
+        }
+
+        .header-icon {
+            display: block;
         }
     }
 </style>

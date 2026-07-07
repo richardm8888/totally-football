@@ -7,7 +7,7 @@ import MenuImage from '../assets/menu.png';
 <div id="burger-menu">
     <div class="burger-menu-inner">
         <div class="burger-menu-inner-header">
-            <a href="#" class="nav-link" onClick="document.getElementById('burger-menu').classList.remove('open');">
+            <a href="#" class="nav-link" onclick="document.getElementById('burger-menu').classList.remove('open');">
                 <Image
                     src={CloseImage} 
                     alt="Close Menu"
@@ -20,7 +20,8 @@ import MenuImage from '../assets/menu.png';
         <!--<a href="/the-cards" class="nav-link">The cards</a>-->
         <a href="/about-us" class="nav-link">About us</a>
         <a href="/blog" class="nav-link">Blog</a>
-        <a href="#signup" class="btn-primary" onClick="document.getElementById('burger-menu').classList.remove('open');">Join the squad</a>
+        <a href="/demo" class="btn-secondary">Play Demo</a>
+        <a href="#signup" class="btn-primary" onclick="document.getElementById('burger-menu').classList.remove('open');">Join the squad</a>
     </div>
 </div>
 
@@ -32,9 +33,11 @@ import MenuImage from '../assets/menu.png';
 
     <a href="/about-us" class="nav-link">About us</a>
     <a href="/blog" class="nav-link">Blog</a>
-    <a href="#signup" class="btn-primary">Join the squad</a>
+    <a href="/demo" class="btn-secondary small">Play Demo</a>
+    <a href="#signup" class="btn-primary small">Join the squad</a>
+    
 
-    <a class="burger-menu-btn" onClick="document.getElementById('burger-menu').classList.toggle('open');">
+    <a class="burger-menu-btn" onclick="document.getElementById('burger-menu').classList.toggle('open');">
         <Image 
             src={MenuImage} 
             alt="Open Menu"
@@ -46,10 +49,11 @@ import MenuImage from '../assets/menu.png';
 <style>
     nav {
         height: 100px;
-        padding: 20px 0;
+        padding: 0;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-end;
+        gap: 20px;
         align-items: center;
         flex-grow: 1;
         max-width: 70%;
@@ -120,6 +124,9 @@ import MenuImage from '../assets/menu.png';
     @media (max-width: 799px) {
         nav {
             justify-content: flex-end;
+            gap: 10px;
+            height: 60px;
+            max-width: 100%;
         }
 
         nav > a.nav-link {
