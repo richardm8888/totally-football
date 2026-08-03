@@ -54,7 +54,18 @@ import Main from '../layouts/Main.astro';
 				<li>Exclusive updates and behind-the-scenes content</li>
 			</ul>
 
-			<a class="btn-primary reveal" href="https://totally-football-board-game.myshopify.com/products/vip-access">Join the starting XI</a>
+			<script async
+				src="https://js.stripe.com/v3/buy-button.js">
+			</script>
+
+			<stripe-buy-button
+				buy-button-id="buy_btn_1U0O0iD2r036pePVrWhrReXP"
+				publishable-key="pk_live_51U0NdwD2r036pePVH3iogLRSdQX0BNEHfJX4JNEafNz8W3XApLkjxUTiWVR0UuLcND4FKOujo65OiAuKZSts1Q3l00BwUTtiFo"
+			>
+			</stripe-buy-button>
 		</div>
 	</section>
 </Main>
+<script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
