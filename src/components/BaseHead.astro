@@ -118,8 +118,16 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 			if (typeof window.fbq === 'function') {
 				window.fbq('track', 'Lead');
-				leadTracked = true;
 			}
+
+			if (typeof window.gtag === 'function') {
+				window.gtag('event', 'generate_lead', {
+					form: 'mailerlite',
+					form_id: 'q1gvNS'
+				});
+			}
+				
+			leadTracked = true;
 		}
 
 		function observeMailerLiteForm(form) {

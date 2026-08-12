@@ -68,6 +68,10 @@ import Main from '../layouts/Main.astro';
 </Main>
 <script>
 	fbq('track', 'Lead');
+	gtag('event', 'generate_lead', {
+		form: 'mailerlite',
+		form_id: 'uS3lEH'
+	});
 </script>
 <script async
   src="https://js.stripe.com/v3/buy-button.js">
