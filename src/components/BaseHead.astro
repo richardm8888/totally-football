@@ -67,7 +67,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 </script>
 <!-- End MailerLite Universal -->
 
-{!import.meta.env.DEV ? (
+{import.meta.env.DEV ? (
 	<>
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -99,6 +99,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 		'https://connect.facebook.net/en_US/fbevents.js');
 		fbq('init', '1159116853958516');
 		fbq('track', 'PageView');
+		fbq('track', 'ViewContent');
 		</script>
 		<noscript><img height="1" width="1" style="display:none"
 		src="https://www.facebook.com/tr?id=1159116853958516&ev=PageView&noscript=1"
@@ -106,3 +107,67 @@ const { title, description, image = FallbackImage } = Astro.props;
 		<!-- End Meta Pixel Code -->
 	</>
 ) : null}
+
+
+<script>
+	(function () {
+		let leadTracked = false;
+
+		function trackLead() {
+			if (leadTracked) return;
+
+			if (typeof window.fbq === 'function') {
+				window.fbq('track', 'Lead');
+				leadTracked = true;
+			}
+		}
+
+		function observeMailerLiteForm(form) {
+			if (form.dataset.metaLeadObserver) return;
+			form.dataset.metaLeadObserver = 'true';
+
+			const observer = new MutationObserver(function () {
+				/*
+				* MailerLite changes the form DOM when a submission succeeds.
+				* Look for the success message/state rather than the submit click.
+				*/
+
+				const text = form.innerText.toLowerCase();
+
+				if (
+					text.includes('THANKS FOR JOINING THE SQUAD')
+				) {
+					trackLead();
+					observer.disconnect();
+				}
+			});
+
+			observer.observe(form, {
+				childList: true,
+				subtree: true,
+				characterData: true
+			});
+		}
+
+		function findForms() {
+			document.querySelectorAll('.ml-embedded').forEach(function (container) {
+				const form = container.querySelector('form');
+
+				if (form) {
+					observeMailerLiteForm(form);
+				}
+			});
+		}
+
+		// MailerLite loads asynchronously, so watch for it appearing.
+		const pageObserver = new MutationObserver(findForms);
+
+		pageObserver.observe(document.body, {
+			childList: true,
+			subtree: true
+		});
+
+		// Also check immediately in case MailerLite has already loaded.
+		findForms();
+	})();
+</script>

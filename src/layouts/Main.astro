@@ -2,6 +2,8 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+import KickstarterWords from '../assets/ks-word.png';
 
 const { title, description, includeDiscoverMore, includeJoinTheSquad, hideHeader = false, hideFooter = false } = Astro.props;
 ---
@@ -23,6 +25,12 @@ const { title, description, includeDiscoverMore, includeJoinTheSquad, hideHeader
             <slot />
             {!hideFooter && <Footer includeDiscoverMore={includeDiscoverMore} includeJoinTheSquad={includeJoinTheSquad} />}
 		</main>
+
+		<div id="ks-banner">
+			<a target="_blank" href="https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments">
+				Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
+			</a>
+		</div>
 
 		<script>
 			const observer = new IntersectionObserver((entries) => {

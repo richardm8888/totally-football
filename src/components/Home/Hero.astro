@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import PlayersFanImage from '../../assets/players-fan-small.png';
+import KickstarterWords from '../../assets/ks-word.png';
 import PopulatedGameBoard from '../../assets/populated-game-board.png';
 ---
 
@@ -14,6 +14,9 @@ import PopulatedGameBoard from '../../assets/populated-game-board.png';
         </h2>
         <div class="hero-cta-group">
             <a href="#signup" class="btn-primary">Join the squad</a>
+            <a target="_blank" href="https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments" class="btn-kickstarter">
+                Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
+            </a>
         </div>
         <p class="hero-title">Get early access + exclusive Kickstarter rewards</p>
         <span class="hero-cta-note">Free to join · No spam ever</span>
@@ -111,9 +114,22 @@ import PopulatedGameBoard from '../../assets/populated-game-board.png';
         animation: fadeUp 0.7s 0.3s ease both;
     }
     .hero-cta-group {
-        position: relative; z-index: 2;
-        display: flex; flex-direction: column; align-items: center; gap: 12px;
+        position: relative; 
+        z-index: 2;
+        display: flex; 
+        flex-direction: row; 
+        align-items: center; 
+        gap: 12px;
         animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    .hero-cta-group a.btn-kickstarter, .hero-cta-group .btn-primary {
+        width: 100%;
+    }
+
+    .hero-cta-group a.btn-kickstarter img {
+        height: 24px;
+        width: 212px;
     }
     .hero-cta-note { font-size: 1rem; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 20px; }
     .scroll-hint {
@@ -123,4 +139,10 @@ import PopulatedGameBoard from '../../assets/populated-game-board.png';
         animation: bounce 2.2s infinite;
     }
     .scroll-hint svg { width: 16px; height: 16px; stroke: var(--lime); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    @media (max-width: 1100px) {
+        .hero-cta-group {
+            flex-direction: column-reverse;
+        }
+    }
 </style>
