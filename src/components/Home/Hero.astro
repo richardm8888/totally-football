@@ -15,10 +15,10 @@ import { kickstarterLink } from '../../consts';
             Survive the <span class="lime">chaos.</span> 
         </h2>
         <div class="hero-cta-group">
-            <a href="#signup" class="btn-primary">Join the squad</a>
             <a target="_blank" href={kickstarterLink('website_hero')} data-ks-location="hero" class="btn-kickstarter">
                 Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
             </a>
+            <a href="#signup" class="btn-primary">Join the squad</a>
         </div>
         <p class="hero-title">Get early access + exclusive Kickstarter rewards</p>
         <span class="hero-cta-note">Free to join · No spam ever</span>
@@ -162,7 +162,7 @@ import { kickstarterLink } from '../../consts';
 
     @media (max-width: 1100px) {
         .hero-cta-group {
-            flex-direction: column-reverse;
+            flex-direction: column;
         }
     }
 </style>
