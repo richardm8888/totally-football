@@ -3,7 +3,7 @@
 title: "Football Gifts for Black Friday & Christmas 2026"
 description: "Football gift ideas for Black Friday and Christmas 2026: board games, stocking fillers and presents for every kind of football fan, from tacticians to matchday regulars."
 pubDate: 2026-10-24
-heroImage: "../../assets/players-fan.png"
+heroImage: "../../assets/blog/football-gifts-black-friday-christmas-2026.jpg"
 tags:
   - football gifts
   - christmas gifts
