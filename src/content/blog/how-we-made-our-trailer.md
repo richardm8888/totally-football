@@ -2,8 +2,8 @@
 
 title: "How We Made the Totally Football Trailer"
 description: "Behind the scenes of the Totally Football trailer: how we planned, filmed and edited a video that makes a football board game feel like the real thing."
-pubDate: 2026-11-01
-heroImage: "../../assets/populated-game-board.png"
+pubDate: 2026-10-24
+heroImage: "../../assets/blog/trailer/pitch-low-angle.jpg"
 tags:
   - behind the scenes
   - kickstarter
@@ -11,11 +11,6 @@ tags:
   - game design
 
 ---
-
-<!--
-DRAFT: not published while it lives in pending/.
-To publish: add the behind-the-scenes photos, set pubDate, and move this file to src/content/blog/.
--->
 
 Board games are hard to show on camera.
 
@@ -52,6 +47,10 @@ The first was **an astro turf pitch**, where we spent about three hours capturin
 
 The second was **a family house**, where we spent another three to four hours filming the game being played around the table.
 
+![A dining room turned into a film set, with umbrella lights and a light panel around a game of Totally Football](../../assets/blog/trailer/dining-room-set.jpg)
+
+*The dining room, turned into a film set for the day.*
+
 Our cast were friends and playtesters, people who already knew the game and how competitive it gets, which made a big difference to the reactions on camera.
 
 
@@ -60,6 +59,10 @@ Our cast were friends and playtesters, people who already knew the game and how 
 This was the part that stretched Sean the most.
 
 Much of his usual work involves reasonably static subjects. A football match is the opposite. On the pitch, the action is fast and unpredictable, and you only get one chance to catch the moment. Keeping up with that, and then matching its energy back at the table, was the biggest challenge of the shoot.
+
+![Filming a close-up across the table as players make their moves in Totally Football](../../assets/blog/trailer/filming-the-table.jpg)
+
+*Getting the camera down to table level to catch every duel.*
 
 
 ## The edit: choosing one story
