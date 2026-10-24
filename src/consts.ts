@@ -23,11 +23,11 @@ export const FAQS = [
     },
     {
         question: 'How long does a match take?',
-        answer: 'A game takes around 30 minutes, so it fits easily into an evening. Matches are fast-paced and replayable, ideal for a quick rivalry or a longer football game night with friends.'
+        answer: 'Each match takes 20–30 minutes, depending on your experience and playing style. Play a best-of-three for a quick rivalry, or a league or knockout competition for a longer football game night with friends.'
     },
     {
         question: 'What\'s in the box?',
-        answer: '1 Manager\'s Guide, 1 game board, 90 Player Cards, 50 Action Cards, 40 Chaos Cards, 24 goal tokens, 4 ball tokens and 4 dice.'
+        answer: '1 Manager\'s Guide, 1 game board, 90 Player Cards (45 Squad Players, 35 Star Players and 10 Goalkeepers), 50 Action Cards, 40 Chaos Cards, 24 goal tokens, 4 ball tokens and 4 dice.'
     },
     {
         question: 'Do I need to be a hardcore football fan to enjoy it?',

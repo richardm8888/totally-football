@@ -6,8 +6,8 @@ import { SITE_DESCRIPTION, SITE_TITLE, FAQS } from '../consts';
 import { Image } from 'astro:assets';
 import Main from '../layouts/Main.astro';
 import Hero from '../components/HowToPlay/Hero.astro';
-import StartingSquadImage from '../assets/starting-squad.png';
-import DraftBoard from '../assets/draft-board.png';
+import StartingHandImage from '../assets/starting-hand.png';
+import DraftBoard from '../assets/draft-board.jpg';
 import AaronePastim from '../assets/aarone-pastim.png';
 import HughFitt from '../assets/hugh-fitt.png';
 import PassPlusOne from '../assets/pass+1.png';
@@ -62,6 +62,47 @@ const faqSchema = {
     section.content p {
         padding: 10px 0;
     }
+
+	section.content ul, section.content ol {
+		margin: 10px 0 10px 24px;
+	}
+
+	section.content li {
+		padding: 4px 0;
+		line-height: 1.6;
+	}
+
+	section.content li strong {
+		color: var(--lime);
+	}
+
+	.outcomes {
+		display: grid;
+		gap: 16px;
+		margin: 10px 0 20px;
+	}
+
+	@media (min-width: 800px) {
+		.outcomes { grid-template-columns: 1fr 1fr; }
+	}
+
+	.outcome {
+		background-color: var(--navy-mid);
+		border-left: 3px solid var(--lime);
+		border-radius: 4px;
+		padding: 16px 20px;
+	}
+
+	.outcome h4 {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: 1.6rem;
+		letter-spacing: 0.04em;
+		color: var(--white);
+	}
+
+	.outcome ul {
+		margin-left: 18px;
+	}
 
     section.content a {
         color: var(--lime);
@@ -199,215 +240,270 @@ const faqSchema = {
 	<div id="mini-nav" class="mini-nav">
 		<div id="game-modes-button" class="active" role="button" onClick="onMiniNavClick('game-modes');">Game modes</div>
 		<div id="setup-button" role="button" onClick="onMiniNavClick('setup');">Setup</div>
-		<div id="playing-a-match-button" role="button" onClick="onMiniNavClick('playing-a-match');">Playing a match</div>
-		<div id="added-time-button" role="button" onClick="onMiniNavClick('added-time');">Added time</div>
+		<div id="the-draft-button" role="button" onClick="onMiniNavClick('the-draft');">The draft</div>
+		<div id="match-day-button" role="button" onClick="onMiniNavClick('match-day');">Match day</div>
+		<div id="match-duels-button" role="button" onClick="onMiniNavClick('match-duels');">Match duels</div>
 		<div id="chaos-cards-button" role="button" onClick="onMiniNavClick('chaos-cards');">Chaos cards</div>
-		<div id="player-traits-button" role="button" onClick="onMiniNavClick('player-traits');">Player traits</div>
-		<div id="penalty-shootout-button" role="button" onClick="onMiniNavClick('penalty-shootout');">Penalty shootout</div>
+		<div id="added-time-button" role="button" onClick="onMiniNavClick('added-time');">Added time &amp; penalties</div>
 	</div>
 
-    <section id="game-modes" class="content">
-        <h3>Head to Head (2 player)</h3>
-        <p>Choose an odd number of matches to play and the winner is the player with the most wins.</p>
+	<section id="game-modes" class="content">
+		<p>First, decide on a competition format. Choose your game mode, agree on a playing order, then move on to setup and pre-season. As a guide, each match takes <strong>20–30 minutes</strong>, depending on your experience and playing style.</p>
 
-		<h3>Round robin (3-4 players)</h3>
-		<p>Play each other player once or twice (home and away), award 3pts for a win and 1pt for a draw. Winner is the player with the most points.</p>
-		
-		<h3>Knockout Tournament (4 players)</h3>
-		<p>Randomly draw all players into a knockout bracket, with match winners progressing until there is a single winner.</p>
-		<p><strong>NOTE:</strong> If you own multiple copies of Totally Football (or expansion packs), your tournament can have more than 4 players.</p>
+		<h3>Head-to-Head (2 players)</h3>
+		<p>Play a set number of matches against your opponent. Always use an odd number to allow an outright winner. Our recommended starting format is a <strong>best-of-three</strong>.</p>
+
+		<h3>League (3–4 players)</h3>
+		<p>Everyone plays each other once, or twice for a longer season. You might choose to play a League over multiple sessions.</p>
+		<p><strong>3 points</strong> for a win, <strong>1 point</strong> for a draw. The person with the most points wins.</p>
+
+		<h3>Knockout (3–4 players)</h3>
+		<p>Everyone rolls a dice to complete the draw:</p>
+		<ul>
+			<li><strong>3 players:</strong> the lowest two rolls play each other. The highest roll gets a bye and then plays the winner.</li>
+			<li><strong>4 players:</strong> the highest roll plays the lowest, and the second-highest plays the third.</li>
+		</ul>
+		<p>Win and advance. Lose and you're out. Can you be the last team standing?</p>
+
+		<div class="example">
+			<div class="example-title">Good to know</div>
+			<p>In 3–4 player games, anyone not involved in a match can try to influence events on the pitch from the sidelines by using their Chaos Cards.</p>
+			<p>Matches can be played simultaneously if you have <strong>two</strong> game boards.</p>
+		</div>
 
 		<p>
-    		<div class="btn-primary" onClick="onMiniNavClick('setup');">Setup ></div>
+			<div class="btn-primary" onClick="onMiniNavClick('setup');">Setup ></div>
 		</p>
-    </section>
-    <section id="setup" class="content">
-        <h3>Your starter squad</h3>
-        <p>Start by dealing all players a hand of 6 <strong>squad players</strong>, 1 <strong>goalkeeper</strong> and 4 <strong>chaos cards</strong></p>
+	</section>
 
-		<Image className="starting-squad" src={StartingSquadImage} alt="Starting squad" />
+	<section id="setup" class="content">
+		<h3>Game setup</h3>
+		<p>Place the game board in the middle of the table. Shuffle each deck of cards (<strong>Goalkeepers</strong>, <strong>Squad Players</strong>, <strong>Star Players</strong>, <strong>Action Cards</strong> and <strong>Chaos Cards</strong>) and place them in their spaces on the board.</p>
+		<p>The two people playing a match sit on opposite sides of the board (top and bottom). The view of the pitch is the same from each side.</p>
 
-        <h3>Draft your stars</h3>
-		<p>Place the correct number (based on the below table) of <strong>star players</strong> onto the game board, face-up.</p>
+		<h3>Pre-season: deal your squad</h3>
+		<p>Each of you draws <strong>eight</strong> Player Cards. You can draw from the <strong>Squad Player</strong> and <strong>Goalkeeper</strong> decks, with a maximum of <strong>two</strong> Goalkeepers. Keep all eight and lay them face-up in front of you, next to the board.</p>
 
-		<table>
-			<thead>
-				<tr><th>Players</th><th>Cards</th></tr>
-			</thead>
+		<p>Each of you also draws <strong>four</strong> Chaos Cards. Keep these secret in your hand. After each match, they're topped back up to four.</p>
 
-			<tbody>
-				<tr><td>2</td><td>8</td></tr>
-				<tr><td>3</td><td>6</td></tr>
-				<tr><td>4</td><td>8</td></tr>
-			</tbody>
-		</table>
+		<Image class="starting-squad" src={StartingHandImage} alt="A starting hand: six Squad Player cards, two Goalkeeper cards and four Chaos Cards" />
 
-		<Image className="draft-board" src={DraftBoard} alt="Draft board" />
+		<div class="example">
+			<div class="example-title">Quicker games</div>
+			<p>For quicker games, or for younger players (12 and under), you can skip the Chaos Cards.</p>
+		</div>
 
-		<p>Players take it in turns to draft a player from the board until the board is empty.</p>
-
-		<p><i>(For 3 and 4 player games, refill the board and draft a second time)</i></p>
-
-		<p>At the end of the draft, each player should have added <strong>4</strong> star players to their squad, bringing their total squad size to <strong>11</strong>.</p>
+		<p>Then it's time to strengthen your squad with some stars.</p>
 
 		<p>
-    		<div class="btn-primary" onClick="onMiniNavClick('playing-a-match');">Playing a match ></div>
+			<div class="btn-primary" onClick="onMiniNavClick('the-draft');">The draft ></div>
 		</p>
-    </section>
+	</section>
 
-	<section id="playing-a-match" class="content">
-        <p>Both players involved in the match are dealt 10 <strong>action cards</strong>.</p>
-        <p>Each player should have a squad of 11, laid out next to the board, and 4 chaos cards and 10 action cards held in their playing hand.</p>
-        <p>Both chosen goalkeepers must be placed in goal, to the left of the board.</p>
-		<p>Decide who will get to attack first. This could be a “home” team if you are in a round-robin playing home and away matches, the result of a coin-flip, or maybe by age - you decide.</p>
-		<p>Players then begin a “phase of play” with that person as the attacking team, starting in the build-up zone.</p>
+	<section id="the-draft" class="content">
+		<h3>Draft your Star Players</h3>
+		<p>Shuffle the Star Player deck and deal <strong>eight</strong> cards face-up into the spaces on the game board.</p>
+		<p>Roll the dice to decide the draft order: the highest roll picks first. Take turns choosing a Star Player to add to your squad until every card on the board has been drafted.</p>
 
-		<h3>During a phase of play</h3>
+		<Image class="draft-board" src={DraftBoard} alt="Eight Star Player cards dealt face-up onto the Totally Football game board for the draft" />
 
-		<p>The attacking team will place one of their players in the current zone (dictated by the previous duel - or the build-up zone if it is the first phase) and declares an action that player is performing - pass, dribble or shoot.</p>
+		<p>Star Players have better stats and will boost your squad. Lay them face-up in front of you, next to your other Player Cards.</p>
 
-		<p>The opposition player replies by placing one of their own cards opposite.</p>
+		<h3>3 and 4 player games</h3>
+		<p>Reload the board for a <strong>second draft</strong>, so that everyone adds <strong>four</strong> Star Players to their squad. <strong>Reverse</strong> the draft order for the second draft.</p>
+		<p>In a 3 player game, only place <strong>six</strong> Star Players on the board for each draft, so everyone drafts four cards.</p>
 
-		<p>Both players then secretly choose an action card from their hand to play and reveal them simultaneously. The action cards will boost each players stats. An action card must be played, even if you don't have one that can affect the outcome of the duel.</p>
+		<p>Once the draft is done, you'll each have a squad of <strong>twelve</strong> Player Cards.</p>
 
-		<h3>Winning a phase of play</h3>
+		<div class="example">
+			<div class="example-title">Fantasy Football draft</div>
+			<p>If you really enjoy squad building, why not try a fantasy football style draft?</p>
+			<ol>
+				<li>Set a budget for each person's squad. <strong>£400m</strong> is a good starting budget. Adjust it to make the draft easier or harder.</li>
+				<li>Load the board with <strong>3 Star Players</strong>, <strong>4 Squad Players</strong> and <strong>1 Goalkeeper</strong>.</li>
+				<li>Draft in rounds until everyone has a squad of <strong>twelve</strong> or more Player Cards. Pick any Player Card you can afford and keep track of your budget. If you've overspent, reload the board and swap Player Cards until you've balanced the books.</li>
+			</ol>
+			<p>A player's value is only needed for the Fantasy Football draft, but it's also a useful guide to how good they are.</p>
+		</div>
 
-		<p>Action card scores are added to player stat scores to get a total score for each player.</p>
-
-		<p>The stat used by the defending team is always based on what action the attacking team is making:</p>
+		<p>Before you start the draft, read your Chaos Cards: some of them can be used in pre-season.</p>
 
 		<p>
+			<div class="btn-primary" onClick="onMiniNavClick('match-day');">Match day ></div>
+		</p>
+	</section>
+
+	<section id="match-day" class="content">
+		<p>Time for kick-off! Each match is played over <strong>two halves</strong>. A half lasts as long as it takes for both of you to use <strong>five</strong> Action Cards.</p>
+
+		<h3>Warm-up</h3>
+		<ul>
+			<li>Place all your Player Cards face-up next to the board.</li>
+			<li>Each person playing the match is dealt <strong>ten</strong> Action Cards. Choose <strong>five</strong> to use in the first half and set the other five aside, face-down, for the second half. Keep your Action and Chaos Cards in your hand, away from your opponent.</li>
+			<li>Choose a Goalkeeper for the match and place them in goal, on the left side of the pitch on <strong>your</strong> side of the board. You can choose any of your Player Cards to play in goal, even if they aren't a Goalkeeper. That might be necessary after a Goalkeeper injury.</li>
+			<li>Each of you rolls the dice. The highest number starts the first half with possession of the ball. The opponent starts the second half with the ball. Re-roll ties.</li>
+		</ul>
+
+		<h3>First half</h3>
+		<p>Play <a href="#mini-nav" onClick="onMiniNavClick('match-duels');">duels</a> until both of you have used all <strong>five</strong> of your first-half Action Cards. Then play one <a href="#mini-nav" onClick="onMiniNavClick('added-time');">Added Time</a> duel.</p>
+
+		<h3>Second half</h3>
+		<p>The other team starts the second half with the ball. Play duels until both of you have used all <strong>five</strong> second-half Action Cards, then play one more Added Time duel.</p>
+
+		<h3>Full-time</h3>
+		<p>Whoever has scored the most goals after two halves wins the match.</p>
+		<p>Tied matches in a Knockout or Head-to-Head competition go to a <a href="#mini-nav" onClick="onMiniNavClick('added-time');">penalty shootout</a>.</p>
+
+		<h3>The three zones</h3>
+		<p>Each match is a series of duels across the pitch. As you win and lose duels, the ball token moves between Player Cards around three zones. You can only score when you have the ball token.</p>
+		<ul>
+			<li><strong>Build-up:</strong> new attacks begin here at the start of each half, straight after a goal, or when your Player Card wins possession in this zone.</li>
+			<li><strong>Progression:</strong> you attack from here after a successful pass or dribble out of the build-up zone, or when you win possession with a Player Card in this zone.</li>
+			<li><strong>Final third:</strong> once you reach the final third, your only option is to shoot. Duels here are always against your opponent's Goalkeeper.</li>
+		</ul>
+
+		<h3>Scoring</h3>
+		<p>Place a goal token in your goals area after every goal, and during a penalty shootout.</p>
+		<Image class="goals-area" src={GoalsArea} alt="The goals area on the game board, with goal tokens"  />
+
+		<p>Player Cards that have been used in a duel go to your <strong>Used Players</strong> space on the board. They return to your squad when the match ends.</p>
+
+		<p>
+			<div class="btn-primary" onClick="onMiniNavClick('match-duels');">Match duels ></div>
+		</p>
+	</section>
+
+	<section id="match-duels" class="content">
+		<p>A duel is a battle between a Player Card from each team, to move the ball up the pitch, score a goal or win possession. Action Cards boost your players' stats or harm your opponent's.</p>
+
+		<h3>1. Choose your attacker</h3>
+		<p>The attacking team places a Player Card face-up in the active zone and puts the ball token on it.</p>
+
+		<h3>2. Declare your action</h3>
+		<p>The attacking team chooses an action:</p>
+		<ul>
+			<li><strong>Pass:</strong> moves the ball to a <em>new</em> Player Card further up the pitch.</li>
+			<li><strong>Dribble:</strong> moves <em>this</em> Player Card, with the ball, further up the pitch.</li>
+			<li><strong>Shoot:</strong> an attempt to score a goal.</li>
+		</ul>
+		<p>Long passes and long shots (see below) must be declared at this stage.</p>
+
+		<h3>3. Defending team chooses a player</h3>
+		<p>The defending team chooses a Player Card and places it face-up across from the attacker, in the same vertical zone on the opposite side of the board. If the attacker <strong>shoots</strong>, the defending team's Goalkeeper takes the duel instead.</p>
+
+		<h3>4. Choose Action Cards</h3>
+		<p>You each choose an Action Card in secret and reveal them at the same time. You <strong>must</strong> play an Action Card, even if it won't affect the duel. Used Action Cards are discarded once the duel is over.</p>
+
+		<h3>5. Compare stats</h3>
+		<p>The defending stat is never chosen. It's always the opposite of the attacking action:</p>
+		<p>
+			Shooting <strong>vs</strong> Saving<br />
 			Passing <strong>vs</strong> Intercepting<br />
-			Dribbling <strong>vs</strong> Tackling<br />
-			Shooting <strong>vs</strong> Saving
+			Dribbling <strong>vs</strong> Tackling
 		</p>
+		<p>Add the Action Card modifiers to the Player Card stats to get a total for each player. Positive Action Cards boost stats and negative ones reduce them. Action Cards only affect the actions involved in the duel, so a card might help or hurt your own player, help or hurt your opponent's, or do nothing at all.</p>
+		<p>If the totals are tied, the <strong>defending</strong> Player Card wins the duel.</p>
 
 		<div class="example">
 			<div class="example-title">Example</div>
 			<p>The attacking team is passing with a passing stat of 5. The defending team's chosen player has an intercepting stat of 5.</p>
-			<p>The attacker places a +1 passing action card down. The defender places a -2 passing card down.</p>
-			<p>The attacking teams total is 4. (5+1-2).</p>
-			<p>The defending teams total is 5 (no action card affected their intercepting stat).</p>
+			<p>The attacker plays a +1 Pass Action Card. The defender plays a -2 Pass Action Card against them.</p>
+			<p>The attacking total is 4 (5 + 1 - 2).</p>
+			<p>The defending total is 5, because neither Action Card affected intercepting.</p>
 			<p>So, the defender wins.</p>
 			<div class="example-images duel">
-				<Image src={PassPlusOne} alt="Passing + 1 action card" />
-				<Image src={AaronePastim} alt="AaronePastim - passing = 5" />
+				<Image src={PassPlusOne} alt="+1 Pass Action Card" />
+				<Image src={AaronePastim} alt="Aarone Pastim, passing 5" />
 				<p><strong>vs</strong></p>
-				<Image src={HughFitt} alt="HughFitt - intercepting = 5" />
-				<Image src={PassMinusTwo} alt="Passing - 2 action card" />
+				<Image src={HughFitt} alt="Hugh Fitt, intercepting 5" />
+				<Image src={PassMinusTwo} alt="-2 Pass Action Card" />
 			</div>
 		</div>
 
-		<p>If the attacking team wins, they get to progress to the next zone, (or score a goal if they are shooting).</p> 
+		<h3>What happens next</h3>
+		<div class="outcomes">
+			<div class="outcome">
+				<h4>If the attacker wins</h4>
+				<ul>
+					<li><strong>Pass:</strong> both Player Cards are discarded. The attacking team places a new Player Card in the next zone up the pitch and begins a new attack. Long passes from the build-up zone go straight to the final third.</li>
+					<li><strong>Dribble:</strong> the defending Player Card is discarded. The attacking Player Card moves into the next zone with the ball and begins a new attack.</li>
+					<li><strong>Shoot:</strong> GOAL! The attacking team adds a goal token and their Player Card is discarded. The defending team takes the ball and attacks from their build-up zone with a new Player Card. The Goalkeeper stays in goal.</li>
+				</ul>
+			</div>
+			<div class="outcome">
+				<h4>If the defender wins</h4>
+				<ul>
+					<li><strong>Pass or dribble:</strong> the attacking Player Card is discarded. The defending team takes the ball and attacks from their current zone with the Player Card that won the duel.</li>
+					<li><strong>Shoot:</strong> saved! The attacking Player Card is discarded. The defending team takes the ball and attacks from their build-up zone with a new Player Card. The Goalkeeper stays in goal.</li>
+				</ul>
+			</div>
+		</div>
 
-		<p>If passing, the attacking player is discarded, if dribbling the player is moved to the next zone.</p>
-
-		<p>If the defending team wins, their player gains possession where they are, and the attacking teams player is discarded.</p>
-
-		<p>If the action was a shot, a new phase begins in the build-up zone.</p>
-
-		<h3>Tied phase of play</h3>
-		<p>In the event of a tied phase of play, the defending team wins the phase.</p>
-
-		<p>The only exception is if the <strong>Home Advantage</strong> chaos card has been played, in which case all tied duels are won by the player that laid the card.</p>
-
-		<h3>Long shots & passes</h3>
-		<p>Most passes will only move a player up one spot on the field. But if you feel lucky, you could attempt a long pass and move straight into the Final third.</p>
-
-		<p>Doing so will automatically result in a -1 modifier on your passing stat. (Unless your player has a Playmaker trait, and you decide to play with the traits, but more on these later)</p>
-
-		<p>Similarly, you can choose to shoot from outside the box, or even from your own half, but these result in a -1 and -2 modifier respectively.</p>
-
-		<h3>Scoring a goal</h3>
-		<p>If a player scores a goal, their player is discarded and a new phase of play starts in the opposition's build up zone.</p>
-
-		<p>The scoring team places a goal indicator token in their goals area.</p>
-
-		<Image className="goals-area" src={GoalsArea} alt="Goals area"  />
-
-		<h3>Full-time</h3>
-		<p>A match ends once all 10 action cards have been played.</p>
-
-		<p>At this point, the match enters “Added Time”</p>
+		<h3>Long passes and long shots</h3>
+		<p>You can attempt a long pass or a long shot, but you must declare it at stage 2.</p>
+		<ul>
+			<li><strong>Long pass:</strong> moves the ball from the build-up zone straight to the final third, with <strong>-1</strong> to your passing stat.</li>
+			<li><strong>Long shot:</strong> your shooting stat gets <strong>-2</strong> from the build-up zone, or <strong>-1</strong> from the progression zone.</li>
+		</ul>
 
 		<p>
-    		<div class="btn-primary" onClick="onMiniNavClick('added-time');">Added time ></div>
-		</p>
-    </section>
-
-	<section id="added-time" class="content">
-		<p>Whoever currently has possession has one final chance to score from wherever they currently are on the pitch.</p>
-
-		<p>(If the previous phase of play resulted in a goal then the team that conceded will have possession in their build up zone for added time and must choose a player to shoot with, placing them in the build up zone.)</p>
-
-		<p>Both players roll the dice and the dice values are added to the corresponding “shoot” or “save” player statistic to determine the winner of the duel.</p>
-
-		<p>Chaos cards can continue to be played throughout added time. Speaking of which…</p>
-
-		<p>
-    		<div class="btn-primary" onClick="onMiniNavClick('chaos-cards');">Chaos cards ></div>
+			<div class="btn-primary" onClick="onMiniNavClick('chaos-cards');">Chaos cards ></div>
 		</p>
 	</section>
 
 	<section id="chaos-cards" class="content">
-		<p>Players receive 4 chaos cards at the setup stage, and can play a maximum of 3 per match. Cards are topped up to 4 at the start of each match.</p>
+		<p>You'll receive <strong>four</strong> Chaos Cards at the start of the game. Chaos Cards can be played at different moments, but each of you can only play <strong>three</strong> during a single match. Cards used before a match count towards this, and you <em>can</em> use all three before a match begins.</p>
+		<p>At the start of each match, new Chaos Cards are dealt so everyone has <strong>four</strong> in their hand. Any unused cards from the previous match stay in your hand.</p>
 
-		<p>To use a card, place it face-up on the table at any point (unless the card specifies when it must be used) and read out the instructions.</p>
+		<h3>Three things to remember</h3>
+		<ol>
+			<li>Each person can only use <strong>one</strong> Chaos Card during a duel, with a maximum of <strong>two</strong> cards allowed in a duel.</li>
+			<li>Chaos Cards can be played at different moments: <strong>pre-season</strong>, <strong>before or after a match</strong>, and <strong>before, during or after a duel</strong>. Each card explains when it can be used.</li>
+			<li>In 3 and 4 player games, those not involved in a match can use up to <strong>two</strong> Chaos Cards per match to interfere with play. Their cards are topped back up to four before they play their own match.</li>
+		</ol>
 
-		<p>Multiple players can place wildcards during any duel and wildcards can also be used in reaction to another wildcard. Players not involved in the match can also play wildcards to affect the match. But only 2 wildcards can be used on a single duel.</p>
+		<p>To use a card, place it face-up on the table and <strong>call out the chaos</strong>. The first person to lay down a card has priority, but each Chaos Card must be completed before a second one can be played.</p>
+		<p>Chaos Cards don't just affect events on the pitch. They let you steal Player Cards from other teams, change your Action Cards and injure Player Cards before matches. So be sure to read your Chaos Cards before you begin the draft.</p>
 
 		<div class="example">
 			<div class="example-title">Example</div>
-
-			<p>The attacking team plays a “Red Card” wildcard to instantly win that duel.</p>
-
-			<p>The defending team reacts by playing a “VARcical” wildcard to revert the decision.</p>
-
+			<p>The attacking team plays a “Card Happy” Chaos Card: the defending player is sent off, so the attacking team wins the duel.</p>
+			<p>The defending team reacts by playing a “VARcical” Chaos Card to cancel the red card. The initial duel result stands.</p>
 			<div class="example-images chaos">
-				<Image src={CardHappy} alt="Card happy" />
+				<Image src={CardHappy} alt="Card Happy Chaos Card" />
 				<p><strong>vs</strong></p>
-				<Image src={Varcical} alt="VARcical" />
+				<Image src={Varcical} alt="VARcical Chaos Card" />
 			</div>
 		</div>
+
 		<p>
-    		<div class="btn-primary" onClick="onMiniNavClick('player-traits');">Player traits ></div>
+			<div class="btn-primary" onClick="onMiniNavClick('added-time');">Added time &amp; penalties ></div>
 		</p>
 	</section>
 
-	<section id="player-traits" class="content">
-		<p>Some players have an additional trait on their card. You can decide whether you want the traits to be in effect or not.</p>
+	<section id="added-time" class="content">
+		<h3>Added time</h3>
+		<p>After five duels with Action Cards in each half, whoever has the ball has a final chance to score from whichever zone they're in. If the previous duel ended in a goal or a save, the team now in possession shoots from their build-up zone with a new Player Card.</p>
+		<p>The defending player in an Added Time duel is always the Goalkeeper.</p>
+		<p>Instead of using Action Cards, each of you rolls the dice and adds the value to the matching “shoot” or “save” stat to decide the duel. Chaos Cards can still be used during added time.</p>
 
-		<table>
-			<thead>
-				<tr><th>Trait</th><th>Explanation</th></tr>
-			</thead>
+		<div class="example">
+			<div class="example-title">Ties</div>
+			<p>Tied duels are won by the <strong>defending</strong> Player Card. During added time and penalties, <strong>Goalkeepers</strong> win tied duels.</p>
+		</div>
 
-			<tbody>
-				<tr><td>Marksman</td><td>Negative modifiers for long shots take no effect</td></tr>
-				<tr><td>Playmaker</td><td>Negative modifiers for long passes take no effect.</td></tr>
-				<tr><td>Interceptor</td><td>Applies a +1 boost to interceptions when facing a long pass.</td></tr>
-				<tr><td>Acrobat</td><td>Applies a +1 boost to saving stats when facing a long shot</td></tr>
-				<tr><td>Distributor</td><td>After saving a shot, the next phase begins in the progression zone.</td></tr>
-			</tbody>
-		</table>
+		<h3>Penalty kicks</h3>
+		<p>Chaos Cards can award you a penalty kick during normal time. If so, choose a Player Card and place it in the final third for a duel against your opponent's Goalkeeper. Each of you rolls the dice and adds the value to the matching “shoot” or “save” stat.</p>
+		<p>If it's a goal, add a goal token to your goals area. Goal or save, the defending team then restarts with a new Player Card in their build-up zone.</p>
 
-
-		<p>
-    		<div class="btn-primary" onClick="onMiniNavClick('penalty-shootout');">Penalty shootout ></div>
-		</p>
-	</section>
-
-	<section id="penalty-shootout" class="content">
-		<p>Depending on how you're playing, you may wish to decide a tied match with a penalty shootout.</p>
-
-		<p>Players place their players face-up on the table in the order they will take penalty kicks.</p>
-
-		<p>In turns, players place their penalty taker on the board.</p>
-
-		<p>Both players roll the dice and their dice value is added to the corresponding “shoot” or “save” player statistic to determine the outcome of the penalty.</p>
-
-		<p>Normal phase of play tied rules apply to each penalty kick.</p>
-
-		<p>A goal token is placed in the players “goal” area, with the “X” side up if the penalty was missed.</p>
+		<h3>Penalty shootout</h3>
+		<p>In Head-to-Head and Knockout competitions, tied matches are decided by the thing every football fan dreads: a <strong>penalty shootout</strong>. Time to bite your nails and hide behind the sofa.</p>
+		<ul>
+			<li>Arrange your squad of Player Cards into a single face-up deck, in the order you want them to take penalties.</li>
+			<li>Both Goalkeepers stay in goal and face every penalty in the shootout.</li>
+			<li>Take turns to place a Player Card in your final third and play a penalty duel with the dice.</li>
+			<li>Place a goal token in your goals area: ball side up for a goal, “X” side up for a miss.</li>
+			<li>Take <strong>five</strong> penalties each. If it's still tied, move on to <strong>sudden death</strong> until one of you scores and the other misses.</li>
+		</ul>
 	</section>
 </Main>
