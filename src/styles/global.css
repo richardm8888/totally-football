@@ -170,6 +170,11 @@ th {
 	transition: transform 0.3s ease;
 }
 
+/* Room at the bottom of every page so the fixed banner never covers the footer. */
+body {
+	padding-bottom: 60px;
+}
+
 /* Tucked away while the page's own Kickstarter button is on screen. */
 #ks-banner.tucked {
 	transform: translateY(100%);
@@ -195,6 +200,9 @@ th {
 }
 
 @media (max-width: 768px) {
+	body {
+		padding-bottom: 52px;
+	}
 	#ks-banner {
 		height: 52px;
 	}
