@@ -641,7 +641,7 @@ section#demo-container {
   });
 </script>
 
-<Main title="Demo | Totally Football" description={SITE_DESCRIPTION} includeDiscoverMore={false} includeJoinTheSquad={false} hideHeader={false} hideFooter={true}>
+<Main title="Free Football Board Game Demo | Play Totally Football" description="Play a free interactive demo of Totally Football in your browser. Pick your players, win duels from the build-up to the final third, and score." includeDiscoverMore={false} includeJoinTheSquad={false} hideHeader={false} hideFooter={true}>
 
   <!-- Zone pip bar -->
   <div id="zone-bar">
@@ -653,7 +653,7 @@ section#demo-container {
 
   <!-- Start screen -->
   <div id="start-screen" style={{ backgroundImage: `url(${PitchVertical.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-    <div class="ss-tag">Interactive Demo</div>
+    <h1 class="ss-tag">Interactive Football Board Game Demo</h1>
     <Image 
         src={LogoImage} 
         alt="Totally Football"
@@ -695,13 +695,13 @@ section#demo-container {
       <div class="dr-cards">
         <div class="dr-slot">
           <div class="dr-slot-label">You</div>
-          <img id="dr-human-card" src="" alt="">
+          <img id="dr-human-card" src="" alt="Your duel card">
           <div class="dr-slot-score" id="dr-att-score"></div>
         </div>
         <div class="dr-vs">VS</div>
         <div class="dr-slot">
           <div class="dr-slot-label">CPU</div>
-          <img id="dr-cpu-card" src="" alt="">
+          <img id="dr-cpu-card" src="" alt="CPU duel card">
           <div class="dr-slot-score" id="dr-def-score"></div>
         </div>
       </div>
@@ -732,7 +732,7 @@ section#demo-container {
     <div id="step-card" class="step-view">
       <div id="chaos-effect-bar"></div>
       <div id="selected-card-preview" data-action="open-action-modal">
-        <img id="selected-card-img" src="" alt="">
+        <img id="selected-card-img" src="" alt="Selected action card">
         <span id="selected-card-name"></span>
       </div>
       <button id="btn-action-card" class="bottom-btn btn-primary" data-action="open-action-modal">Play action card</button>

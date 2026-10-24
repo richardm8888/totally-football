@@ -12,7 +12,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 
-<Main title={title} description={description} includeDiscoverMore={true} includeJoinTheSquad={true}>
+<Main title={`${title} | Totally Football`} description={description} image={heroImage} type="article" includeDiscoverMore={true} includeJoinTheSquad={true}>
 
 <style>
 
@@ -49,7 +49,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	
 <article>
 	<section class="hero">
-		{heroImage && <Image class="article-image" src={heroImage} alt={title} fit="constrain" />}
+		{heroImage && <Image class="article-image" src={heroImage} alt={title} fit="constrain" widths={[600, 1200]} sizes="(max-width: 640px) 100vw, 600px" loading="eager" fetchpriority="high" />}
 		<h1 class="hero-title">{title}</h1>
 	</section>
 	<section class="content">

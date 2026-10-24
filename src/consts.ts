@@ -1,8 +1,12 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
-export const SITE_TITLE = 'Totally Football | Tactical Football Board Game';
-export const SITE_DESCRIPTION = 'Totally Football is a tactical football board game combining player duels, squad building and strategic gameplay into a fast-paced tabletop football experience for football fans.';
+export const SITE_TITLE = 'Totally Football: Tactical Football Board Game | Kickstarter';
+export const SITE_DESCRIPTION = 'A fast tactical football board game for 2–4 players. Draft your squad, win 1v1 duels and survive the chaos. Play the free demo and follow us on Kickstarter.';
+
+// Kickstarter reports visits by `ref`, so each link on the site carries its own.
+export const KICKSTARTER_URL = 'https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments';
+export const kickstarterLink = (ref: string) => `${KICKSTARTER_URL}?ref=${ref}`;
 
 export const FAQS = [
     {

@@ -42,7 +42,7 @@ import Main from '../layouts/Main.astro';
 		margin-right: 12px;
 	}
 </style>
-<Main title={SITE_TITLE} description={SITE_DESCRIPTION} includeDiscoverMore={false} includeJoinTheSquad={false}>
+<Main title="Thanks for Joining the Squad | Totally Football" description={SITE_DESCRIPTION} noindex={true} includeDiscoverMore={false} includeJoinTheSquad={false}>
 	<section class="signup" id="signup">
 		<div class="signup-inner">
 			<Image class="signup-icon reveal" src={IconImage} alt="Totally Football" />
@@ -67,11 +67,15 @@ import Main from '../layouts/Main.astro';
 	</section>
 </Main>
 <script>
-	fbq('track', 'Lead');
-	gtag('event', 'generate_lead', {
-		form: 'mailerlite',
-		form_id: 'uS3lEH'
-	});
+	if (typeof window.fbq === 'function') {
+		window.fbq('track', 'Lead');
+	}
+	if (typeof window.gtag === 'function') {
+		window.gtag('event', 'generate_lead', {
+			form: 'mailerlite',
+			form_id: 'uS3lEH'
+		});
+	}
 </script>
 <script async
   src="https://js.stripe.com/v3/buy-button.js">
