@@ -40,6 +40,8 @@ export const game = (image: string) => ({
 	image,
 	genre: 'Football board game',
 	numberOfPlayers: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 4 },
+	typicalAgeRange: '8-',
+	timeRequired: 'PT30M',
 	publisher: { '@id': ORGANIZATION_ID },
 	sameAs: [
 		KICKSTARTER_URL,

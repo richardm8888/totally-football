@@ -4,11 +4,12 @@ import Main from '../layouts/Main.astro';
 import Hero from '../components/Home/Hero.astro';
 import Mechanisms from '../components/Home/Mechanisms.astro';
 import Trailer from '../components/Home/Trailer.astro';
-import { getImage } from 'astro:assets';
-import GameBoard from '../assets/populated-game-board.png';
+import BoxFront from '../assets/box-front.jpg';
+import BoxBack from '../assets/box-back.jpg';
+import { getImage, Image } from 'astro:assets';
 import { graph, organization, website, game } from '../structured-data';
 
-const boardImage = await getImage({ src: GameBoard, width: 1200, format: 'jpg' });
+const boxImage = await getImage({ src: BoxFront, width: 1200, format: 'jpg' });
 
 const faqSchema = {
 	"@type": "FAQPage",
@@ -69,6 +70,61 @@ const faqSchema = {
 			width: 100%; 
 			height: auto; 
 			margin: 0 auto;
+		}
+
+		/* WHAT'S IN THE BOX */
+
+		.box {
+			background: var(--navy);
+			padding: 60px 20px;
+		}
+
+		.box-inner {
+			max-width: 900px;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		.box-image {
+			width: 100%;
+			height: auto;
+			border-radius: 8px;
+			margin-bottom: 30px;
+		}
+
+		.box-contents {
+			list-style: none;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 12px;
+			margin-bottom: 20px;
+		}
+
+		@media (min-width: 700px) {
+			.box-contents { grid-template-columns: repeat(4, 1fr); }
+		}
+
+		.box-contents li {
+			background: var(--navy-dark);
+			border: 1px solid rgba(184,224,74,0.15);
+			border-radius: 8px;
+			padding: 14px;
+			color: var(--off-white);
+			font-family: 'Barlow Condensed', sans-serif;
+			font-size: 1.15rem;
+			letter-spacing: 0.04em;
+		}
+
+		.box-contents strong {
+			color: var(--lime);
+			font-size: 1.4rem;
+			margin-right: 4px;
+		}
+
+		.box-meta {
+			color: var(--text-muted);
+			font-size: 1rem;
+			letter-spacing: 0.06em;
 		}
 
 		/* FAQ */
@@ -308,6 +364,32 @@ const faqSchema = {
 		</div>
 	</section>
 
+	<!-- WHAT'S IN THE BOX -->
+	<section class="box">
+		<div class="box-inner">
+			<p class="section-eyebrow reveal">What's in the box</p>
+			<h2 class="section-title reveal">Everything you need for <span class="lime">match night</span></h2>
+			<Image
+				class="box-image reveal"
+				src={BoxBack}
+				alt="Back of the Totally Football box showing the game board, player cards, chaos cards and action cards"
+				widths={[600, 900, 1200, 1800]}
+				sizes="(min-width: 960px) 900px, 100vw"
+			/>
+			<ul class="box-contents reveal">
+				<li><strong>90</strong> Player Cards</li>
+				<li><strong>50</strong> Action Cards</li>
+				<li><strong>40</strong> Chaos Cards</li>
+				<li><strong>1</strong> game board</li>
+				<li><strong>24</strong> goal tokens</li>
+				<li><strong>4</strong> ball tokens</li>
+				<li><strong>4</strong> dice</li>
+				<li><strong>1</strong> Manager's Guide</li>
+			</ul>
+			<p class="box-meta reveal">2–4 players · Ages 8+ · 30+ minutes</p>
+		</div>
+	</section>
+
 	<!-- FAQ -->
 	<section class="faq">
 		<div class="faq-inner">
@@ -328,6 +410,6 @@ const faqSchema = {
 
 	<script
 		type="application/ld+json"
-		set:html={graph(organization, website, game(new URL(boardImage.src, Astro.site).href), faqSchema)}
+		set:html={graph(organization, website, game(new URL(boxImage.src, Astro.site).href), faqSchema)}
 	></script>
 </Main>

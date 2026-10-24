@@ -15,7 +15,7 @@ export const FAQS = [
     },
     {
         question: 'How many players can play?',
-        answer: 'The game is designed for 2–4 players, making it perfect for head-to-head rivalries, casual game nights and competitive sessions with friends.'
+        answer: 'Totally Football is for 2–4 players aged 8 and up, making it perfect for head-to-head rivalries, family game nights and competitive sessions with friends.'
     },
     {
         question: 'Is Totally Football easy to learn?',
@@ -23,7 +23,11 @@ export const FAQS = [
     },
     {
         question: 'How long does a match take?',
-        answer: 'Most matches are designed to be fast-paced and replayable, making the game ideal for short competitive sessions or longer football game nights with friends.'
+        answer: 'A game takes around 30 minutes, so it fits easily into an evening. Matches are fast-paced and replayable, ideal for a quick rivalry or a longer football game night with friends.'
+    },
+    {
+        question: 'What\'s in the box?',
+        answer: '1 Manager\'s Guide, 1 game board, 90 Player Cards, 50 Action Cards, 40 Chaos Cards, 24 goal tokens, 4 ball tokens and 4 dice.'
     },
     {
         question: 'Do I need to be a hardcore football fan to enjoy it?',
