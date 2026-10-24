@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import GameBoardImage from '../../assets/populated-game-board.png';
+import GameBoardImage from '../../assets/game-board-in-play.jpg';
 ---
 
 <!-- HERO -->
@@ -8,7 +8,14 @@ import GameBoardImage from '../../assets/populated-game-board.png';
     <h1 class="hero-title">
         How to <span class="lime">play</span>
     </h1>
-    <Image src={GameBoardImage} alt="Totally Football Board" />
+    <Image
+        src={GameBoardImage}
+        alt="Totally Football game board mid-match, with player, action and chaos cards in play"
+        widths={[600, 900, 1200, 1600]}
+        sizes="(min-width: 800px) 70vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+    />
 </section>
 
 <style>
