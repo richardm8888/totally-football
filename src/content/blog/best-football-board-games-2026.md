@@ -259,4 +259,5 @@ If fast tactical matches sound like your thing, [Totally Football](/) is coming 
 
 * [How We Designed the Duel System for Our Football Board Game](/blog/how-we-designed-the-duel-system/)
 * [Football Gifts for Black Friday & Christmas 2026](/blog/football-gifts-black-friday-christmas-2026/)
+* [How We Made the Totally Football Trailer](/blog/how-we-made-our-trailer/)
 * [How to Play Totally Football](/how-to-play/)

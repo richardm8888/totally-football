@@ -58,6 +58,24 @@ const articleSchema = graph(
 		text-align: center; margin-bottom: 20px; line-height: 1;
 	}
 
+	/* Photos inside a post: capped so portrait shots don't fill the screen. */
+	section.content :global(p > img) {
+		display: block;
+		max-width: 100%;
+		max-height: 75vh;
+		width: auto;
+		height: auto;
+		margin: 0 auto;
+		border-radius: 8px;
+	}
+
+	section.content :global(p:has(> img) + p > em:only-child) {
+		display: block;
+		text-align: center;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+	}
+
 	section.content {
 		width: 100%;
 		margin: 0 auto;
