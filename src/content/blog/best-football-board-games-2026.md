@@ -3,7 +3,7 @@
 title: "Best Football Board Games in 2026"
 description: "From tactical strategy games to football management simulators, these are the best football board games to play in 2026."
 pubDate: 2026-05-13
-heroImage: "../../assets/blog/best-football-board-games-2026.png"
+heroImage: "../../assets/blog/best-football-board-games-2026.jpg"
 tags:
  - football board games
  - tabletop games
@@ -259,4 +259,5 @@ If fast tactical matches sound like your thing, [Totally Football](/) is coming 
 
 * [How We Designed the Duel System for Our Football Board Game](/blog/how-we-designed-the-duel-system/)
 * [Football Gifts for Black Friday & Christmas 2026](/blog/football-gifts-black-friday-christmas-2026/)
+* [How We Made the Totally Football Trailer](/blog/how-we-made-our-trailer/)
 * [How to Play Totally Football](/how-to-play/)
