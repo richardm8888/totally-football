@@ -72,6 +72,47 @@ const faqSchema = {
 			margin: 0 auto;
 		}
 
+		/* PLAYTESTERS */
+
+		.quotes {
+			background: var(--navy-dark);
+			padding: 60px 20px;
+		}
+
+		.quotes-grid {
+			display: grid;
+			gap: 20px;
+			max-width: 960px;
+			margin: 0 auto;
+		}
+
+		@media (min-width: 700px) {
+			.quotes-grid { grid-template-columns: 1fr 1fr; }
+		}
+
+		.quote {
+			background: var(--navy);
+			border-left: 3px solid var(--lime);
+			border-radius: 8px;
+			padding: 28px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			gap: 16px;
+		}
+
+		.quote blockquote {
+			font-family: 'Bebas Neue', sans-serif;
+			font-size: clamp(1.6rem, 4vw, 2.1rem);
+			letter-spacing: 0.03em;
+			line-height: 1.1;
+		}
+
+		.quote figcaption {
+			color: var(--off-white);
+			font-size: 1.05rem;
+		}
+
 		/* WHAT'S IN THE BOX */
 
 		.box {
@@ -361,6 +402,21 @@ const faqSchema = {
 				<h3 class="feature-title">2-4 Players</h3>
 				<p class="feature-text">Perfect for head-to-head rivalries or a full league night with friends. Scales brilliantly at any squad size.</p>
 			</div>
+		</div>
+	</section>
+
+	<!-- PLAYTESTERS -->
+	<section class="quotes">
+		<p class="section-eyebrow reveal">From our playtesters</p>
+		<div class="quotes-grid">
+			<figure class="quote reveal">
+				<blockquote>“As close to <span class="lime">football</span> as you get in a board game”</blockquote>
+				<figcaption>Zane, <span class="lime">right back</span></figcaption>
+			</figure>
+			<figure class="quote reveal reveal-delay-1">
+				<blockquote>“Finally a board game that <span class="lime">proves</span> I'm a better <span class="lime">football manager</span> than my friends”</blockquote>
+				<figcaption>Joe, <span class="lime">striker</span></figcaption>
+			</figure>
 		</div>
 	</section>
 
