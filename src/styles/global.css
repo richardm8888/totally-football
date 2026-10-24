@@ -167,6 +167,12 @@ th {
 	justify-content: center;
 	align-items: center;
 	z-index: 100;
+	transition: transform 0.3s ease;
+}
+
+/* Tucked away while the page's own Kickstarter button is on screen. */
+#ks-banner.tucked {
+	transform: translateY(100%);
 }
 
 #ks-banner a {
@@ -190,15 +196,15 @@ th {
 
 @media (max-width: 768px) {
 	#ks-banner {
-		height: 80px;
+		height: 52px;
 	}
 	#ks-banner a {
-		flex-direction: column;
-		font-size: 24px;
+		gap: 10px;
+		font-size: 20px;
 	}
 	#ks-banner a img {
-		height: 24px;
-		width: 212px;
+		height: 18px;
+		width: 159px;
 		margin-top: 0;
 	}
 }

@@ -34,6 +34,20 @@ const { title, description, image, type, noindex, includeDiscoverMore, includeJo
 			</a>
 		</div>
 
+		<!-- Inline and straight after the banner, so it is tucked before first paint and never flashes. -->
+		<script is:inline>
+			(function () {
+				var banner = document.getElementById('ks-banner');
+				var heroLink = document.querySelector('a[data-ks-location="hero"]');
+				if (!banner || !heroLink || !('IntersectionObserver' in window)) return;
+
+				banner.classList.add('tucked');
+				new IntersectionObserver(function (entries) {
+					banner.classList.toggle('tucked', entries[0].isIntersecting);
+				}).observe(heroLink);
+			})();
+		</script>
+
 		<script>
 			const observer = new IntersectionObserver((entries) => {
 				entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
