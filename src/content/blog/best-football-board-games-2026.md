@@ -56,7 +56,7 @@ The best tabletop football games create that same variety through team-building,
 
 #### Best For: Tactical head-to-head football rivalries
 
-Totally Football focuses on one of the most exciting parts of football: individual player duels.
+[Totally Football](/) focuses on one of the most exciting parts of football: individual player duels.
 
 Instead of simulating entire matches in microscopic detail, the game distils football down into tactical decisions, stat battles, squad management and momentum swings that feel fast, competitive and replayable.
 
@@ -68,7 +68,7 @@ Players move through three gameplay phases:
 
 Each phase creates different tactical pressures, while wildcard cards introduce moments of chaos that can completely change a match.
 
-What makes the game stand out is its pacing. Matches are designed to stay tense without becoming bogged down in simulation-heavy rules.
+What makes the game stand out is its pacing. Matches are designed to stay tense without becoming bogged down in simulation-heavy rules. You can [try the free demo](/demo/) in your browser to see how a match plays out.
 
 #### Why It Works
 
@@ -214,7 +214,7 @@ Different football board games appeal to different types of players.
 | Physical football simulation    | Subbuteo                 |
 | Football management depth       | Superclub                |
 | Family-friendly gameplay        | Totally Football         |
-| Strategy-heavy sports mechanics | Sunday Manager.          |
+| Strategy-heavy sports mechanics | Sunday Manager           |
 
 
 ## Why Football Works So Well as a Tabletop Game
@@ -253,10 +253,10 @@ Whether you prefer deep strategy, fast head-to-head rivalries or football-themed
 And as the genre continues to grow, expect football board games to become an increasingly important part of modern tabletop gaming culture.
 
 
+If fast tactical matches sound like your thing, [Totally Football](/) is coming to Kickstarter. [Follow the campaign](https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments?ref=blog_best_games) to be notified at launch.
+
 ### Related Articles
 
-* What Makes a Great Football Strategy Game?
-* Football Card Games vs Traditional Board Games
-* Why Football Works Perfectly as a Tabletop Game
-* Best Tabletop Games for Football Fans
-* How We Designed the Duel System
+* [How We Designed the Duel System for Our Football Board Game](/blog/how-we-designed-the-duel-system/)
+* [Football Gifts for Black Friday & Christmas 2026](/blog/football-gifts-black-friday-christmas-2026/)
+* [How to Play Totally Football](/how-to-play/)

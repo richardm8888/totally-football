@@ -4,9 +4,13 @@ import Main from '../layouts/Main.astro';
 import Hero from '../components/Home/Hero.astro';
 import Mechanisms from '../components/Home/Mechanisms.astro';
 import Trailer from '../components/Home/Trailer.astro';
+import { getImage } from 'astro:assets';
+import GameBoard from '../assets/populated-game-board.png';
+import { graph, organization, website, game } from '../structured-data';
+
+const boardImage = await getImage({ src: GameBoard, width: 1200, format: 'jpg' });
 
 const faqSchema = {
-	"@context": "https://schema.org",
 	"@type": "FAQPage",
 	"mainEntity": FAQS.map((faq) => ({
 		"@type": "Question",
@@ -324,6 +328,6 @@ const faqSchema = {
 
 	<script
 		type="application/ld+json"
-		set:html={JSON.stringify(faqSchema)}
+		set:html={graph(organization, website, game(new URL(boardImage.src, Astro.site).href), faqSchema)}
 	></script>
 </Main>

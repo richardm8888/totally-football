@@ -1,7 +1,7 @@
 ---
 
-title: "How We Designed the Duel System"
-description: "The duel system sits at the heart of Totally Football. Here's how we designed tactical player battles inspired by real football momentum and decision-making."
+title: "How We Designed the Duel System for Our Football Board Game"
+description: "The 1v1 duel system is the heart of Totally Football. Here's how we designed tactical player battles for a football board game that's fast, tense and full of goals."
 pubDate: 2026-06-02
 heroImage: "../../assets/blog/how-we-designed-the-duel-system.png"
 tags:
@@ -12,7 +12,7 @@ tags:
 
 ---
 
-At the heart of Totally Football is the duel system.
+At the heart of [Totally Football, our tactical football board game](/), is the duel system.
 
 From the very beginning, we wanted every challenge, matchup and decision to feel meaningful.
 
@@ -137,3 +137,11 @@ It creates:
 Most importantly, it keeps every ball contested.
 
 That philosophy shaped the entire design process from the very beginning.
+
+## See the duel system in action
+
+The quickest way to understand the duel system is to play it:
+
+- [Play the free Totally Football demo](/demo/) in your browser
+- Read the full rules in [how to play](/how-to-play/)
+- [Follow Totally Football on Kickstarter](https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments?ref=blog_duel_system) to hear the moment the campaign launches

@@ -5,14 +5,33 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Main from './Main.astro';
+import { getImage } from 'astro:assets';
+import FallbackImage from '../assets/populated-game-board.png';
+import { graph, organization, article } from '../structured-data';
 
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+
+// Google shows about 60 characters of a title, so only add the brand when it fits.
+const pageTitle = title.length <= 41 ? `${title} | Totally Football` : title;
+
+const articleImage = await getImage({ src: heroImage ?? FallbackImage, width: 1200, format: 'jpg' });
+const articleSchema = graph(
+	organization,
+	article({
+		title,
+		description,
+		url: new URL(Astro.url.pathname, Astro.site).href,
+		image: new URL(articleImage.src, Astro.site).href,
+		pubDate,
+		updatedDate,
+	}),
+);
 ---
 
 
-<Main title={`${title} | Totally Football`} description={description} image={heroImage} type="article" includeDiscoverMore={true} includeJoinTheSquad={true}>
+<Main title={pageTitle} description={description} image={heroImage} type="article" includeDiscoverMore={true} includeJoinTheSquad={true}>
 
 <style>
 
@@ -47,6 +66,8 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 
 </style>
 	
+<script type="application/ld+json" slot="head" set:html={articleSchema}></script>
+
 <article>
 	<section class="hero">
 		{heroImage && <Image class="article-image" src={heroImage} alt={title} fit="constrain" widths={[600, 1200]} sizes="(max-width: 640px) 100vw, 600px" loading="eager" fetchpriority="high" />}
