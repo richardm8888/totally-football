@@ -52,7 +52,7 @@ The first was **an astro turf pitch**, where we spent about three hours capturin
 
 The second was **a family house**, where we spent another three to four hours filming the game being played around the table.
 
-Our cast were friends and playtesters, people who already knew the game and genuinely get competitive when they play it. That made a big difference. The reactions on camera are real.
+Our cast were friends and playtesters, people who already knew the game and how competitive it gets, which made a big difference to the reactions on camera.
 
 
 ## Filming fast-moving action
@@ -64,13 +64,13 @@ Much of his usual work involves reasonably static subjects. A football match is 
 
 ## The edit: choosing one story
 
-We filmed three or four different match scenarios, each with its own storyline.
+We filmed three or four different match scenarios.
 
-In the end, only one made it into the trailer as the main story. It was the strongest and the clearest, and a trailer only has time to tell one story well.
+In the end, only one made it into the trailer as the main story. A trailer only has time to tell one story well.
 
 The other scenarios weren't wasted. Small snippets from them appear in a montage, adding pace and variety without pulling focus from the main story.
 
-The music is licensed, which Sean had access to through his work, so the trailer could have a soundtrack that matches the drama on screen.
+Sean had access to licensed music, so the trailer could have a soundtrack that matches the drama on screen.
 
 
 ## Our favourite moment
@@ -87,7 +87,7 @@ If you're an indie game designer making your first trailer, here's what we'd pas
 1. **Plan meticulously.** Know every shot before you start filming. It saves time on the day and makes sure you capture everything the edit needs.
 2. **Allow far more time than you think.** Filming took much longer than we expected, even with a detailed plan.
 3. **Film more than you need.** We shot three or four scenarios and used one. The extra footage gave us choices in the edit and material for the montage.
-4. **Cast people who love the game.** Real reactions from friends and playtesters beat anything you could direct.
+4. **Cast people who know the game.** Friends and playtesters who already love playing it bring the reactions you're trying to capture.
 
 
 ## What's next
