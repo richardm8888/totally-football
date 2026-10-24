@@ -10,11 +10,13 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	type?: 'website' | 'article';
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const { title, description, image = FallbackImage, type = 'website', noindex = false } = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -38,24 +40,28 @@ const { title, description, image = FallbackImage } = Astro.props;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, follow" />}
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image.src, Astro.url)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image.src, Astro.url)} />
 
 <!-- Fonts -->
+<!-- Loaded without blocking the first paint; text shows in a fallback font until these arrive. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;1,700&family=Barlow:wght@400;500&display=swap" rel="stylesheet"></noscript>
 
 <!-- MailerLite Universal -->
 <script>
@@ -67,10 +73,11 @@ const { title, description, image = FallbackImage } = Astro.props;
 </script>
 <!-- End MailerLite Universal -->
 
-{import.meta.env.DEV ? (
+{/* is:inline keeps these as written: bundling them would hide the global gtag() our events call. */}
+{import.meta.env.PROD ? (
 	<>
 		<!-- Google Tag Manager -->
-		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		<script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -79,7 +86,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-CKPVZ0SWXW"></script>
-		<script>
+		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
@@ -88,7 +95,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 		</script>
 
 		<!-- Meta Pixel Code -->
-		<script>
+		<script is:inline>
 		!function(f,b,e,v,n,t,s)
 		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 		n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -113,7 +120,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 	(function () {
 		let leadTracked = false;
 
-		function trackLead() {
+		function trackLead(formId) {
 			if (leadTracked) return;
 
 			if (typeof window.fbq === 'function') {
@@ -123,7 +130,7 @@ const { title, description, image = FallbackImage } = Astro.props;
 			if (typeof window.gtag === 'function') {
 				window.gtag('event', 'generate_lead', {
 					form: 'mailerlite',
-					form_id: 'q1gvNS'
+					form_id: formId || 'unknown'
 				});
 			}
 				
@@ -143,9 +150,9 @@ const { title, description, image = FallbackImage } = Astro.props;
 				const text = form.innerText.toLowerCase();
 
 				if (
-					text.includes('THANKS FOR JOINING THE SQUAD')
+					text.includes('thanks for joining the squad')
 				) {
-					trackLead();
+					trackLead(form.closest('.ml-embedded')?.dataset.form);
 					observer.disconnect();
 				}
 			});
@@ -177,5 +184,24 @@ const { title, description, image = FallbackImage } = Astro.props;
 
 		// Also check immediately in case MailerLite has already loaded.
 		findForms();
+
+		// Kickstarter is where backers convert, so record every click out to it.
+		document.addEventListener('click', function (event) {
+			const link = event.target.closest && event.target.closest('a[href*="kickstarter.com"]');
+			if (!link) return;
+
+			const location = link.dataset.ksLocation || 'unknown';
+
+			if (typeof window.gtag === 'function') {
+				window.gtag('event', 'click_kickstarter', {
+					link_location: location,
+					link_url: link.href
+				});
+			}
+
+			if (typeof window.fbq === 'function') {
+				window.fbq('trackCustom', 'KickstarterClick', { link_location: location });
+			}
+		});
 	})();
 </script>

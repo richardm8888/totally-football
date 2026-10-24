@@ -4,15 +4,17 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { Image } from 'astro:assets';
 import KickstarterWords from '../assets/ks-word.png';
+import { kickstarterLink } from '../consts';
 
-const { title, description, includeDiscoverMore, includeJoinTheSquad, hideHeader = false, hideFooter = false } = Astro.props;
+const { title, description, image, type, noindex, includeDiscoverMore, includeJoinTheSquad, hideHeader = false, hideFooter = false } = Astro.props;
 ---
 
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} image={image} type={type} noindex={noindex} />
+		<slot name="head" />
 	</head>
 	<body>
 		<!-- Google Tag Manager (noscript) -->
@@ -27,7 +29,7 @@ const { title, description, includeDiscoverMore, includeJoinTheSquad, hideHeader
 		</main>
 
 		<div id="ks-banner">
-			<a target="_blank" href="https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments">
+			<a target="_blank" href={kickstarterLink('website_banner')} data-ks-location="banner">
 				Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
 			</a>
 		</div>

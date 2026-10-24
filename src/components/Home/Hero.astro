@@ -2,11 +2,13 @@
 import { Image } from 'astro:assets';
 import KickstarterWords from '../../assets/ks-word.png';
 import PopulatedGameBoard from '../../assets/populated-game-board.png';
+import { kickstarterLink } from '../../consts';
 ---
 
 <!-- HERO -->
 <section class="hero">
     <div class="hero-left">
+        <h1 class="hero-eyebrow">The tactical football board game</h1>
         <h2 class="hero-tagline">
             Draft your <span class="lime">squad.</span> <br />
             Win the <span class="lime">duels.</span> <br />
@@ -14,7 +16,7 @@ import PopulatedGameBoard from '../../assets/populated-game-board.png';
         </h2>
         <div class="hero-cta-group">
             <a href="#signup" class="btn-primary">Join the squad</a>
-            <a target="_blank" href="https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments" class="btn-kickstarter">
+            <a target="_blank" href={kickstarterLink('website_hero')} data-ks-location="hero" class="btn-kickstarter">
                 Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
             </a>
         </div>
@@ -23,7 +25,14 @@ import PopulatedGameBoard from '../../assets/populated-game-board.png';
     </div>
 
     <div class="hero-right">
-        <Image src={PopulatedGameBoard} alt="Totally Football populated game board" />
+        <Image
+            src={PopulatedGameBoard}
+            alt="Totally Football football board game set up mid-match"
+            widths={[600, 900, 1200, 1600]}
+            sizes="(min-width: 800px) 650px, 120vw"
+            loading="eager"
+            fetchpriority="high"
+        />
 
         
     </div>
@@ -65,6 +74,17 @@ import PopulatedGameBoard from '../../assets/populated-game-board.png';
         height: auto;
         transform: rotate(-10deg) translateX(-10px);
     } 
+
+    .hero-eyebrow {
+        font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+        font-size: 1.2rem; letter-spacing: 0.24em; text-transform: uppercase;
+        color: var(--lime); margin-bottom: 14px;
+        text-align: center;
+    }
+
+    @media (min-width: 800px) {
+        .hero-eyebrow { text-align: left; }
+    }
 
     .hero-tagline {
         display: none;

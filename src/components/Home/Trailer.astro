@@ -1,0 +1,104 @@
+---
+// Shows the YouTube thumbnail and only loads the player on click, so the
+// trailer costs the homepage one image rather than YouTube's whole player.
+const VIDEO_ID = '_7mviL_i4nE';
+---
+
+<section class="trailer">
+    <p class="section-eyebrow reveal">Watch the trailer</p>
+    <h2 class="section-title reveal">See <span class="lime">Totally Football</span> in action</h2>
+
+    <div class="trailer-frame" data-video-id={VIDEO_ID}>
+        <button type="button" class="trailer-play" aria-label="Play the Totally Football trailer">
+            <img
+                src={`https://i.ytimg.com/vi/${VIDEO_ID}/hqdefault.jpg`}
+                alt="Totally Football football board game trailer"
+                width="480"
+                height="360"
+                loading="lazy"
+                decoding="async"
+            />
+            <span class="trailer-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll<HTMLElement>('.trailer-frame').forEach((frame) => {
+        frame.querySelector('.trailer-play')?.addEventListener('click', () => {
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube-nocookie.com/embed/${frame.dataset.videoId}?autoplay=1&rel=0`;
+            iframe.title = 'Totally Football trailer';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            frame.replaceChildren(iframe);
+
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', 'play_trailer', { video_id: frame.dataset.videoId });
+            }
+        });
+    });
+</script>
+
+<style>
+    .trailer {
+        background: var(--navy);
+        padding: 60px 20px;
+    }
+
+    .trailer-frame {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+        aspect-ratio: 16 / 9;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(184,224,74,0.2);
+        background: var(--navy-dark);
+    }
+
+    .trailer-frame :global(iframe),
+    .trailer-play {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .trailer-play {
+        cursor: pointer;
+        background: none;
+    }
+
+    .trailer-play img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .trailer-icon {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 76px; height: 76px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: var(--lime);
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        transition: transform 0.2s;
+    }
+
+    .trailer-icon::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 54%;
+        transform: translate(-50%, -50%);
+        border-style: solid;
+        border-width: 14px 0 14px 24px;
+        border-color: transparent transparent transparent var(--navy-dark);
+    }
+
+    .trailer-play:hover .trailer-icon {
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+</style>
