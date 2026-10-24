@@ -3,7 +3,8 @@
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
-import FallbackImage from '../assets/logo.png';
+import { getImage } from 'astro:assets';
+import FallbackImage from '../assets/box-front.jpg';
 import { SITE_TITLE } from '../consts';
 
 interface Props {
@@ -17,6 +18,10 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = FallbackImage, type = 'website', noindex = false } = Astro.props;
+
+// Share previews want roughly 1200px wide; the source art is far larger.
+const shareImage = await getImage({ src: image, width: 1200, format: 'jpg' });
+const shareImageURL = new URL(shareImage.src, Astro.site);
 ---
 
 <!-- Global Metadata -->
@@ -47,14 +52,14 @@ const { title, description, image = FallbackImage, type = 'website', noindex = f
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image" content={shareImageURL} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta property="twitter:image" content={shareImageURL} />
 
 <!-- Fonts -->
 <!-- Loaded without blocking the first paint; text shows in a fallback font until these arrive. -->
@@ -190,7 +195,7 @@ const { title, description, image = FallbackImage, type = 'website', noindex = f
 			const link = event.target.closest && event.target.closest('a[href*="kickstarter.com"]');
 			if (!link) return;
 
-			const location = link.dataset.ksLocation || 'unknown';
+			const location = link.dataset.ksLocation || new URL(link.href).searchParams.get('ref') || 'unknown';
 
 			if (typeof window.gtag === 'function') {
 				window.gtag('event', 'click_kickstarter', {
