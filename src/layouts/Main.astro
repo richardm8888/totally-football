@@ -6,7 +6,10 @@ import { Image } from 'astro:assets';
 import KickstarterWords from '../assets/ks-word.png';
 import { kickstarterLink } from '../consts';
 
-const { title, description, image, type, noindex, includeDiscoverMore, includeJoinTheSquad, hideHeader = false, hideFooter = false } = Astro.props;
+const {
+	title, description, image, type, noindex, includeDiscoverMore, includeJoinTheSquad, hideHeader = false, hideFooter = false,
+	kickstarterCta = false, hideKickstarterBanner = false,
+} = Astro.props;
 ---
 
 
@@ -22,17 +25,19 @@ const { title, description, image, type, noindex, includeDiscoverMore, includeJo
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		 
-        {!hideHeader && <Header />}
+        {!hideHeader && <Header kickstarterCta={kickstarterCta} />}
 		<main class={hideHeader ? 'no-header' : ''}>
             <slot />
             {!hideFooter && <Footer includeDiscoverMore={includeDiscoverMore} includeJoinTheSquad={includeJoinTheSquad} />}
 		</main>
 
-		<div id="ks-banner">
-			<a target="_blank" href={kickstarterLink('website_banner')} data-ks-location="banner">
-				Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
-			</a>
-		</div>
+		{!hideKickstarterBanner && (
+			<div id="ks-banner">
+				<a target="_blank" href={kickstarterLink('website_banner')} data-ks-location="banner">
+					Follow us on <Image src={KickstarterWords} alt="Kickstarter Banner" />
+				</a>
+			</div>
+		)}
 
 		<!-- Inline and straight after the banner, so it is tucked before first paint and never flashes. -->
 		<script is:inline>

@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import LogoImage from '../assets/logo.png';
 import IconImage from '../assets/icon.png';
 import Navigation from './Navigation.astro';
+
+const { kickstarterCta = false } = Astro.props;
 ---
 
 <header>
@@ -21,7 +23,7 @@ import Navigation from './Navigation.astro';
                 height={"40"}
             />
         </a>
-        <Navigation />
+        <Navigation kickstarterCta={kickstarterCta} />
     </div>
 </header>
 

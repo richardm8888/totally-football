@@ -2,6 +2,10 @@
 import { Image } from 'astro:assets';
 import CloseImage from '../assets/close.png';
 import MenuImage from '../assets/menu.png';
+import { kickstarterLink } from '../consts';
+
+// Pages without a sign-up section (the demo) lead with Kickstarter instead.
+const { kickstarterCta = false } = Astro.props;
 ---
 
 <div id="burger-menu">
@@ -21,7 +25,9 @@ import MenuImage from '../assets/menu.png';
         <a href="/about-us/" class="nav-link">About us</a>
         <a href="/blog/" class="nav-link">Blog</a>
         <a href="/demo/" class="btn-secondary">Play Demo</a>
-        <a href="#signup" class="btn-primary" onclick="document.getElementById('burger-menu').classList.remove('open');">Join the squad</a>
+        {kickstarterCta
+            ? <a target="_blank" href={kickstarterLink('website_header_menu')} data-ks-location="header_menu" class="btn-kickstarter">Back us on Kickstarter</a>
+            : <a href="#signup" class="btn-primary" onclick="document.getElementById('burger-menu').classList.remove('open');">Join the squad</a>}
     </div>
 </div>
 
@@ -34,7 +40,9 @@ import MenuImage from '../assets/menu.png';
     <a href="/about-us/" class="nav-link">About us</a>
     <a href="/blog/" class="nav-link">Blog</a>
     <a href="/demo/" class="btn-secondary small">Play Demo</a>
-    <a href="#signup" class="btn-primary small">Join the squad</a>
+    {kickstarterCta
+        ? <a target="_blank" href={kickstarterLink('website_header')} data-ks-location="header" class="btn-kickstarter small">Kickstarter</a>
+        : <a href="#signup" class="btn-primary small">Join the squad</a>}
     
 
     <a class="burger-menu-btn" onclick="document.getElementById('burger-menu').classList.toggle('open');">
