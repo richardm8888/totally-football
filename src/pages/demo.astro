@@ -1,798 +1,200 @@
 ---
-import { SITE_DESCRIPTION } from '../consts';
 import Main from '../layouts/Main.astro';
-import PitchVertical from '../assets/pitch_bg_ver.png';
-import { Image } from 'astro:assets';
-import LogoImage from '../assets/logo.png';
 
-const ofGlob = import.meta.glob('../assets/playing_cards/Outfield/*.png',    { eager: true, import: 'default' }) as Record<string, { src: string }>;
-const acGlob = import.meta.glob('../assets/playing_cards/Action/*.png',      { eager: true, import: 'default' }) as Record<string, { src: string }>;
-const gkGlob = import.meta.glob('../assets/playing_cards/Goalkeeper/*.png',  { eager: true, import: 'default' }) as Record<string, { src: string }>;
-const ccGlob = import.meta.glob('../assets/playing_cards/Chaos/*.png',       { eager: true, import: 'default' }) as Record<string, { src: string }>;
-
-function src(glob: Record<string, { src: string }>, filename: string) {
-  const key = Object.keys(glob).find(k => k.endsWith('/' + filename + '.png'));
-  return key ? glob[key].src : '';
-}
-
-const GAME_DATA = {
-  humanPlayers: [
-    { id:'h1', name:'Drew Ball',        pas:6, dri:5, sho:5, src: src(ofGlob,'PlayerCard5-24') },
-    { id:'h2', name:'Aarone Pastim',    pas:5, dri:6, sho:5, src: src(ofGlob,'PlayerCard5-25') },
-    { id:'h3', name:'Tommy Toyou',      pas:4, dri:5, sho:4, src: src(ofGlob,'PlayerCard5-29') },
-    { id:'h4', name:'Per Staudenmaier', pas:6, dri:5, sho:5, src: src(ofGlob,'PlayerCard5-44') },
-    { id:'h5', name:'Walter Hitson',    pas:5, dri:6, sho:6, src: src(ofGlob,'PlayerCard5-45') },
-  ],
-  cpuDefenders: [
-    { id:'c1', name:'Stan Doff',           int:6, tac:5, src: src(ofGlob,'PlayerCard5-91') },
-    { id:'c2', name:'Tal Wurring-Héder',   int:6, tac:4, src: src(ofGlob,'PlayerCard5-93') },
-    { id:'c3', name:'Will Clear',          int:4, tac:6, src: src(ofGlob,'PlayerCard5-94') },
-  ],
-  cpuGK: { id:'gk', name:'Nicolas Ibarra', sav:3, src: src(gkGlob,'PlayerCard5-62') },
-  actionCards: [
-    { id:'ac1',  stat:'pass',      value:-2, name:'Sliced Wide',            src: src(acGlob,'ActionCard-1')  },
-    { id:'ac2',  stat:'pass',      value:-1, name:'Left Short',             src: src(acGlob,'ActionCard-2')  },
-    { id:'ac3',  stat:'pass',      value: 1, name:'Cross-Field Ball',       src: src(acGlob,'ActionCard-3')  },
-    { id:'ac4',  stat:'pass',      value: 1, name:'Ticking Over',           src: src(acGlob,'ActionCard-4')  },
-    { id:'ac5',  stat:'pass',      value: 1, name:'Easy 5-Yarder',          src: src(acGlob,'ActionCard-5')  },
-    { id:'ac6',  stat:'pass',      value: 2, name:'Picks Them Out',         src: src(acGlob,'ActionCard-6')  },
-    { id:'ac7',  stat:'pass',      value: 2, name:'Slide Rule Pass',        src: src(acGlob,'ActionCard-7')  },
-    { id:'ac8',  stat:'pass',      value: 3, name:'Corridor of Uncertainty',src: src(acGlob,'ActionCard-8')  },
-    { id:'ac9',  stat:'dribble',   value:-3, name:'Reputation in Tatters',  src: src(acGlob,'ActionCard-9')  },
-    { id:'ac10', stat:'dribble',   value:-2, name:'Bundling Through',       src: src(acGlob,'ActionCard-10') },
-    { id:'ac11', stat:'dribble',   value:-1, name:'Not Enough Pace',        src: src(acGlob,'ActionCard-11') },
-    { id:'ac12', stat:'dribble',   value: 1, name:'Late for the Bus',       src: src(acGlob,'ActionCard-12') },
-    { id:'ac13', stat:'dribble',   value: 1, name:'Drop of the Shoulder',   src: src(acGlob,'ActionCard-13') },
-    { id:'ac14', stat:'dribble',   value: 2, name:'Glides Past Two',        src: src(acGlob,'ActionCard-14') },
-    { id:'ac15', stat:'dribble',   value: 2, name:'Standing in a Queue',    src: src(acGlob,'ActionCard-15') },
-    { id:'ac16', stat:'dribble',   value: 3, name:'Street Football',        src: src(acGlob,'ActionCard-16') },
-    { id:'ac17', stat:'shoot',     value:-3, name:'Car Park Bound',         src: src(acGlob,'ActionCard-17') },
-    { id:'ac18', stat:'shoot',     value:-2, name:'Snatched At It',         src: src(acGlob,'ActionCard-18') },
-    { id:'ac19', stat:'shoot',     value:-1, name:'Hopeful Poke',           src: src(acGlob,'ActionCard-19') },
-    { id:'ac20', stat:'shoot',     value: 1, name:'Scrambled Goalwards',    src: src(acGlob,'ActionCard-20') },
-    { id:'ac21', stat:'shoot',     value: 1, name:'Tidy Effort',            src: src(acGlob,'ActionCard-21') },
-    { id:'ac22', stat:'shoot',     value: 1, name:"Keeper's Warm-Up",       src: src(acGlob,'ActionCard-22') },
-    { id:'ac23', stat:'shoot',     value: 2, name:'Daisy Cutter',           src: src(acGlob,'ActionCard-23') },
-    { id:'ac24', stat:'shoot',     value: 2, name:'Wake the Neighbours',    src: src(acGlob,'ActionCard-24') },
-    { id:'ac25', stat:'shoot',     value: 3, name:'Audacious Attempt',      src: src(acGlob,'ActionCard-25') },
-    { id:'ac26', stat:'tackle',    value:-3, name:'Missed with Style',      src: src(acGlob,'ActionCard-26') },
-    { id:'ac27', stat:'tackle',    value:-2, name:'Half-Hearted',           src: src(acGlob,'ActionCard-27') },
-    { id:'ac28', stat:'tackle',    value:-1, name:'Leg in the Ballet',      src: src(acGlob,'ActionCard-28') },
-    { id:'ac29', stat:'tackle',    value:-1, name:'Backing Off',            src: src(acGlob,'ActionCard-29') },
-    { id:'ac30', stat:'tackle',    value: 1, name:'Boot in Just in Time',   src: src(acGlob,'ActionCard-30') },
-    { id:'ac31', stat:'tackle',    value: 1, name:'Firm Statement',         src: src(acGlob,'ActionCard-31') },
-    { id:'ac32', stat:'tackle',    value: 2, name:'Perfect Timing',         src: src(acGlob,'ActionCard-32') },
-    { id:'ac33', stat:'tackle',    value: 3, name:'Clatters In',            src: src(acGlob,'ActionCard-33') },
-    { id:'ac34', stat:'intercept', value:-3, name:'Ball Through the Legs',  src: src(acGlob,'ActionCard-34') },
-    { id:'ac35', stat:'intercept', value:-2, name:'Lost the Ball',          src: src(acGlob,'ActionCard-35') },
-    { id:'ac36', stat:'intercept', value:-1, name:'Wrong Position',         src: src(acGlob,'ActionCard-36') },
-    { id:'ac37', stat:'intercept', value:-1, name:'Three Seconds Late',     src: src(acGlob,'ActionCard-37') },
-    { id:'ac38', stat:'intercept', value: 1, name:'Reads It Early',         src: src(acGlob,'ActionCard-38') },
-    { id:'ac39', stat:'intercept', value: 1, name:'Calmly Picks It Off',    src: src(acGlob,'ActionCard-39') },
-    { id:'ac40', stat:'intercept', value: 2, name:'Read Like a Book',       src: src(acGlob,'ActionCard-40') },
-    { id:'ac41', stat:'intercept', value: 3, name:'Jumps the Lane',         src: src(acGlob,'ActionCard-41') },
-    { id:'ac42', stat:'save',      value:-3, name:'Horror Show',            src: src(acGlob,'ActionCard-42') },
-    { id:'ac43', stat:'save',      value:-2, name:'Positioning All Over',   src: src(acGlob,'ActionCard-43') },
-    { id:'ac44', stat:'save',      value:-1, name:'Heavy Footwork',         src: src(acGlob,'ActionCard-44') },
-    { id:'ac45', stat:'save',      value:-1, name:'Footwork Heavy',         src: src(acGlob,'ActionCard-45') },
-    { id:'ac46', stat:'save',      value: 1, name:'Calmly Catches',         src: src(acGlob,'ActionCard-46') },
-    { id:'ac47', stat:'save',      value: 1, name:'Solid Hands',            src: src(acGlob,'ActionCard-47') },
-    { id:'ac48', stat:'save',      value: 2, name:'Tips to the Post',       src: src(acGlob,'ActionCard-48') },
-    { id:'ac49', stat:'save',      value: 3, name:'Out of Nowhere',         src: src(acGlob,'ActionCard-49') },
-    { id:'ac50', stat:'pass',      value:-3, name:'Scuffs the Pass',        src: src(acGlob,'ActionCard-50') },
-  ],
-  chaosCards: [
-    { id:'cc19', name:'Caught Off Guard',   desc:'No action cards can be played this duel',                              effect:'noCards',          src: src(ccGlob,'ChaosCard-19') },
-    { id:'cc20', name:'Card Happy',         desc:"Defender gets a red card — you win this duel!",                        effect:'autoWin',          src: src(ccGlob,'ChaosCard-20') },
-    { id:'cc37', name:'Waterlogged',        desc:'Match delayed — your action cards are refreshed!',                     effect:'refresh',          src: src(ccGlob,'ChaosCard-37') },
-    { id:'cc48', name:'Home Advantage',     desc:'You now win tied duels for the rest of this attack',                   effect:'homeTied',         src: src(ccGlob,'ChaosCard-48') },
-    { id:'cc49', name:'Out The Window',     desc:'Action cards have the opposite effect this duel',                      effect:'reverseCards',     src: src(ccGlob,'ChaosCard-49') },
-    { id:'cc0',  name:'Spaghetti Fingers',  desc:'GK spills it — pick a new player for a rebound shot in the final third', effect:'spaghettiFingers', src: src(ccGlob,'ChaosCard')   },
-    { id:'cc5',  name:'Gegenpress',         desc:'Replay the duel with the same players and new action cards',            effect:'gegenpress',       src: src(ccGlob,'ChaosCard-5')  },
-  ],
-  playerBack: src(ofGlob, 'back'),
-  actionBack: src(acGlob, 'back'),
-  chaosBack:  src(ccGlob, 'back'),
-};
+// The demo is the Totally Football app's web build in demo mode, published to
+// public/play by `npm run web-demo` in the totally-football-app repo. It asks this
+// page to show the mailing-list form at half-time, before a second match and to
+// unlock Chaos Cards, and unlocks when the form succeeds.
+const SIGNUP_FORM = 'q1gvNS';
 ---
-
 <style>
-/* ── Board ───────────────────────────────────────────── */
-section#demo-container {
-  width: 340px;
-  margin: 10px auto;
-  background-color: #1a6b28;
-  height: 500px;
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-}
+  #play-frame {
+    position: fixed;
+    top: 100px;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    background: var(--navy-dark);
+  }
+  #play-frame iframe {
+    width: 100%;
+    max-width: 560px;
+    height: 100%;
+    border: 0;
+    background: var(--navy-dark);
+  }
+  @media (max-width: 799px) {
+    #play-frame { top: 60px; }
+  }
+  @media (max-width: 768px) {
+    #play-frame { bottom: 52px; }
+  }
 
-/* Wide virtual pitch — pans left as zones advance */
-#pitch-track {
-  position: absolute;
-  top: 0; left: 0;
-  width: 1020px;
-  height: 100%;
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Player card positions within the 1020px track */
-#pitch-track .build-up-def   { top: 20px; left: calc((340px - 145px) / 2);  }
-#pitch-track .build-up-att   { bottom: 20px; left: calc((340px - 145px) / 2);  }
-#pitch-track .prog-def        { top: 20px; left: calc(340px + (340px - 145px) / 2);  }
-#pitch-track .prog-att        { bottom: 20px; left: calc(340px + (340px - 145px) / 2);  }
-#pitch-track .final-third-att { top: calc(50% - 110px); left: 700px; }
-#pitch-track .final-third-def { top: calc(50% - 110px); left: 855px; }
-
-.player-space {
-  position: absolute;
-  height: 220px;
-  width: 145px;
-  border-radius: 10px;
-  border: 2px dashed rgba(255,255,255,0.4);
-  display: flex;
-  overflow: hidden;
-}
-.player-space img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
-
-/* Pitch markings (landscape, spans full 1020px) */
-.pl {
-  position: absolute;
-  pointer-events: none;
-  border: 1px solid rgba(255,255,255,.09);
-}
-.pl-v-center { left: 509px; top: 5%; height: 90%; width: 0; border-left: 1px solid rgba(255,255,255,.09); border-top:none; border-bottom:none; border-right:none; }
-.pl-circle   { left: 482px; top: calc(50% - 28px); width: 56px; height: 56px; border-radius: 50%; }
-.pl-box-l    { left: 0;     top: 20%; width: 130px; height: 60%; border-left: none; }
-.pl-box-r    { right: 0;    top: 20%; width: 130px; height: 60%; border-right: none; }
-.pl-z1       { left: 340px; top: 5%; height: 90%; width: 0; border-left: 1px dashed rgba(255,255,255,.05); border-top:none; border-bottom:none; border-right:none; }
-.pl-z2       { left: 680px; top: 5%; height: 90%; width: 0; border-left: 1px dashed rgba(255,255,255,.05); border-top:none; border-bottom:none; border-right:none; }
-
-/* Start screen */
-#start-screen {
-  position: fixed;
-  inset: 0;
-  top: 60px;
-  z-index: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 32px 24px;
-  transition: opacity 0.4s ease;
-}
-
-@media (min-width: 800px) {
-  #start-screen { top: 100px; }
-}
-
-#start-screen.fade-out { opacity: 0; pointer-events: none; }
-#start-screen .ss-tag {
-  font-size: 14px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255,255,255, 1);
-  margin-bottom: 16px;
-  font-weight: bold;
-}
-#start-screen .ss-desc {
-  font-size: 18px;
-  color: rgba(255,255,255,1);
-  line-height: 1.6;
-  max-width: 270px;
-  margin: 0 auto 36px;
-}
-#start-btn {
-}
-#start-btn:hover { 
-}
-
-/* CPU face-down action card on board */
-#cpu-onboard-card {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 58px;
-  border-radius: 7px;
-  overflow: hidden;
-  display: none;
-  border: 2px solid rgba(255,255,255,.3);
-  box-shadow: 0 3px 10px rgba(0,0,0,.4);
-  transform: rotate(4deg);
-  z-index: 5;
-}
-#cpu-onboard-card.show { display: block; }
-#cpu-onboard-card img { width: 100%; display: block; }
-
-
-/* ── Zone indicator bar ──────────────────────────────── */
-#zone-bar {
-  max-width: 340px;
-  margin: 8px auto 4px;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.zpip { flex:1; height:15px; border-radius:3px; background:#e2e8f0; transition: background .3s; }
-.zpip.done   { background: #86efac; }
-.zpip.active { background: #22c55e; }
-#zone-text {
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #ffffff;
-  margin-bottom: 8px;
-}
-
-/* ── Status bar ──────────────────────────────────────── */
-#status-bar {
-  max-width: 340px;
-  margin: 0 auto 8px;
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 13px;
-  color: #0369a1;
-  text-align: center;
-  min-height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Game UI below board ─────────────────────────────── */
-#game-ui {
-  max-width: 340px;
-  margin: 0 auto;
-  padding: 0 0 40px;
-}
-
-:global(.step-view) { display: none; }
-:global(.step-view.show) { display: block; }
-:global(.ui-label) {
-  font-size: 10px;
-  font-weight: 700;
-  color: #94a3b8;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-/* Player cards (injected into #player-modal-hand) */
-:global(.hand-player) {
-  flex-shrink: 0;
-  width: 60%;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 3px solid transparent;
-  transition: border-color .15s, transform .15s;
-}
-:global(.hand-player:hover) { border-color: #3b82f6; transform: translateY(-2px); }
-:global(.hand-player.sel)   { border-color: #3b82f6; transform: translateY(-3px); }
-:global(.hand-player img)   { width: 100%; display: block; }
-
-/* Action buttons (injected) */
-#action-btns { display: flex; gap: 8px; }
-:global(.act-btn) {
-  flex: 1;
-  padding: 10px 6px;
-  background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: inherit;
-  text-align: center;
-  transition: all .15s;
-}
-:global(.act-btn:hover) { border-color: #3b82f6; background: #eff6ff; }
-:global(.act-btn .ab-icon) { font-size: 20px; display: block; }
-:global(.act-btn .ab-name) { font-size: 12px; font-weight: 700; color: #1e293b; }
-:global(.act-btn .ab-note) { font-size: 9px; color: #ef4444; min-height: 12px; }
-:global(.act-btn .ab-stat) { font-size: 11px; font-weight: 700; color: #3b82f6; margin-top: 2px; display: block; }
-
-:global(.hand-card) {
-  flex-shrink: 0;
-  width: 110px;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 3px solid transparent;
-  transition: border-color .15s, transform .15s;
-  background: #f1f5f9;
-  position: relative;
-}
-:global(.hand-card:hover) { border-color: #f59e0b; transform: translateY(-2px); }
-:global(.hand-card.sel)   { border-color: #f59e0b; transform: translateY(-4px); }
-:global(.hand-card.dim)   { opacity: .5; }
-:global(.hand-card img)   { width: 100%; display: block; }
-
-/* Bottom action buttons — btn-primary/btn-secondary provide colours;
-   .bottom-btn handles layout overrides */
-.bottom-btn {
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  border-radius: 10px;
-  text-align: center;
-}
-/* Chaos button: orange override + hidden by default */
-#btn-chaos-card {
-  background: #f97316;
-  box-shadow: 0 4px 20px rgba(249,115,22,.35);
-  display: none;
-}
-#btn-chaos-card.show { display: block; }
-#btn-chaos-card:hover { background: #ea6c0a; }
-/* Play button: hidden until action card picked */
-#play-btn { display: none; }
-#play-btn.show { display: block; }
-#btn-action-card.hide { display: none; }
-
-/* CPU thinking */
-#cpu-row {
-  text-align: center;
-  padding: 12px;
-  color: #94a3b8;
-  font-size: 13px;
-}
-.dots span { animation: blink 1.2s infinite; }
-.dots span:nth-child(2) { animation-delay:.2s; }
-.dots span:nth-child(3) { animation-delay:.4s; }
-@keyframes blink { 0%,100%{opacity:.2} 50%{opacity:1} }
-
-/* ── Result flash ────────────────────────────────────── */
-#result-flash {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  font-weight: 900;
-  color: white;
-  text-shadow: 0 2px 8px rgba(0,0,0,.5);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .2s;
-  border-radius: 12px;
-}
-#result-flash.show { opacity: 1; }
-#result-flash.win  { background: rgba(22,163,74,.7); }
-#result-flash.lose { background: rgba(220,38,38,.7); }
-
-/* ── Duel reveal (fixed modal) ───────────────────────── */
-#duel-reveal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-  padding: 16px;
-}
-#duel-reveal.show { display: flex; }
-#dr-inner {
-  background: #1a2535;
-  border-radius: 16px;
-  padding: 20px 20px 24px;
-  max-width: 360px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-.dr-cards {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.dr-slot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-.dr-slot-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.5);
-}
-.dr-slot img { width: 110px; border-radius: 8px; border: 2px solid rgba(255,255,255,.25); }
-.dr-slot-score {
-  font-size: 24px;
-  font-weight: 900;
-  color: white;
-  line-height: 1;
-}
-.dr-slot-score.high { color: #4ade80; }
-.dr-slot-score.low  { color: #f87171; }
-.dr-vs {
-  font-size: 11px;
-  font-weight: 900;
-  color: rgba(255,255,255,.4);
-  letter-spacing: 2px;
-  padding-bottom: 24px;
-}
-.dr-verdict {
-  font-size: 15px;
-  font-weight: 900;
-  color: white;
-  text-align: center;
-  text-shadow: 0 2px 6px rgba(0,0,0,.5);
-}
-.dr-breakdown {
-  font-size: 10px;
-  color: rgba(255,255,255,.6);
-  text-align: center;
-  line-height: 1.5;
-}
-#dr-chaos-section {
-  display: none;
-  text-align: center;
-}
-#dr-chaos-section.show { display: block; }
-.dr-chaos-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.45);
-  margin-bottom: 6px;
-}
-#dr-chaos-hand {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-#dr-post-chaos-section {
-  display: none;
-  text-align: center;
-  margin-top: 4px;
-}
-#dr-post-chaos-section.show { display: block; }
-.dr-post-chaos-label { color: rgba(249,115,22,.8); }
-#dr-post-chaos-hand {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-#dr-continue-btn {
-  margin-top: 4px;
-}
-
-/* ── Chaos cards ─────────────────────────────────────── */
-:global(.chaos-card) {
-  flex-shrink: 0;
-  width: 100px;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  border: 3px solid transparent;
-  transition: border-color .15s, transform .15s;
-  background: #f1f5f9;
-}
-:global(.chaos-card:hover) { border-color: #a855f7; transform: translateY(-2px); }
-:global(.chaos-card.sel)   { border-color: #a855f7; transform: translateY(-4px); box-shadow: 0 0 0 2px #e9d5ff; }
-:global(.chaos-card img)   { width: 100%; display: block; }
-#chaos-effect-bar {
-  font-size: 11px;
-  color: #7c3aed;
-  background: #f5f3ff;
-  border: 1px solid #ddd6fe;
-  border-radius: 6px;
-  padding: 5px 8px;
-  margin-top: 4px;
-  display: none;
-}
-#chaos-effect-bar.show { display: block; }
-
-/* ── Bottom-sheet select modals (player / chaos / action) ───── */
-.card-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.82);
-  display: none;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 300;
-}
-.card-modal.show { display: flex; }
-.card-modal-inner {
-  background: #1a2535;
-  border-radius: 16px 16px 0 0;
-  padding: 16px 16px 32px;
-  width: 100%;
-  max-width: 420px;
-}
-.cm-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.45);
-  text-align: center;
-  margin-bottom: 12px;
-}
-.cm-hand {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  -webkit-overflow-scrolling: touch;
-}
-.cm-cancel {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-/* ── Selected action card preview chip ───────────────── */
-#selected-card-preview {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  padding: 6px 10px;
-  background: #f1f5f9;
-  border-radius: 8px;
-  cursor: pointer;
-}
-#selected-card-preview.show { display: flex; }
-#selected-card-preview img { width: 36px; border-radius: 4px; }
-#selected-card-preview span { font-size: 12px; font-weight: 700; color: #475569; }
-
-/* ── Email overlay ───────────────────────────────────── */
-#email-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  z-index: 200;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-#email-overlay.show { display: flex; }
-
-#email-modal {
-  background: white;
-  border-radius: 16px;
-  padding: 28px 22px;
-  width: 100%;
-  max-width: 340px;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,.35);
-}
-#email-modal h2 { font-size: 22px; font-weight: 900; margin: 0 0 6px; color: #1e293b; }
-#email-modal p  { font-size: 13px; color: #64748b; margin: 0 0 18px; line-height: 1.5; }
-
-#email-result-summary {
-  background: #f8fafc;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 16px;
-  font-size: 12px;
-  color: #475569;
-}
-#email-result-summary strong { display: block; font-size: 14px; color: #1e293b; margin-bottom: 4px; }
-
-#email-form { display: flex; flex-direction: column; gap: 10px; }
-#email-form input[type=email] {
-  padding: 12px 14px;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 15px;
-  font-family: inherit;
-  outline: none;
-  transition: border-color .15s;
-  width: 100%;
-  box-sizing: border-box;
-}
-#email-form input[type=email]:focus { border-color: #3b82f6; }
-#email-form button[type=submit] {
-  padding: 13px;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background .15s;
-}
-#email-form button[type=submit]:hover { filter: brightness(1.08); }
-
-#play-again-gate {
-  display: none;
-  margin-top: 10px;
-}
-#play-again-gate.show { display: block; }
-#play-again-gate .btn-secondary {
-  width: 100%;
-  font-size: 1rem;
-  padding: 12px;
-}
-#email-thanks {
-  display: none;
-  padding: 16px 0 4px;
-}
-#email-thanks p { color: #16a34a; font-weight: 700; margin-bottom: 12px; }
+  #signup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(8, 12, 18, 0.85);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  #signup.show { display: flex; }
+  #signup-modal {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    max-height: 100%;
+    overflow-y: auto;
+    background: var(--navy);
+    border: 2px solid var(--lime);
+    border-radius: 16px;
+    padding: 26px 20px 20px;
+    text-align: center;
+  }
+  #signup-modal .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  #signup-modal h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin: 6px 0 10px;
+  }
+  #signup-modal p { color: var(--off-white); line-height: 1.5; margin-bottom: 14px; }
+  #signup-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: 0;
+    color: var(--text-muted);
+    font-size: 28px;
+    cursor: pointer;
+  }
+  #signup-done { display: none; margin-top: 12px; }
+  #signup-done.show { display: block; }
+  #signup-done button { width: 100%; }
 </style>
 
-<script define:vars={{ GAME_DATA }} is:inline>
-  window.__DEMO_GAME_DATA__ = GAME_DATA;
-</script>
-<script>
-  import { DemoGame, type DemoGameData } from '../scripts/demo-game';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const data = (window as any).__DEMO_GAME_DATA__ as DemoGameData;
-    new DemoGame(data).init();
-  });
-</script>
-
-<Main title="Free Football Board Game Demo | Play Totally Football" description="Play a free interactive demo of Totally Football in your browser. Pick your players, win duels from the build-up to the final third, and score." includeDiscoverMore={false} includeJoinTheSquad={false} hideHeader={false} hideFooter={true}>
-
-  <!-- Zone pip bar -->
-  <div id="zone-bar">
-    <div class="zpip" id="zpip-0"></div>
-    <div class="zpip" id="zpip-1"></div>
-    <div class="zpip" id="zpip-2"></div>
-  </div>
-  <div id="zone-text">Build-Up Zone</div>
-
-  <!-- Start screen -->
-  <div id="start-screen" style={{ backgroundImage: `url(${PitchVertical.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-    <h1 class="ss-tag">Interactive Football Board Game Demo</h1>
-    <Image 
-        src={LogoImage} 
-        alt="Totally Football"
-        height={"80"}
-        style={{ marginTop: '10px', marginBottom: '10px' }}
-    />
-    <div class="ss-desc">Attack from build-up to final third — play cards, beat duels, score!</div>
-    <button id="start-btn" class="btn-white" data-action="start-demo">Kick off →</button>
+<Main
+  title="Free Football Board Game Demo | Play Totally Football"
+  description="Play a free demo of Totally Football in your browser. Take on the computer, win duels from the build-up to the final third, and score."
+  includeDiscoverMore={false}
+  includeJoinTheSquad={false}
+  hideFooter={true}
+>
+  <div id="play-frame">
+    <iframe id="play" title="Totally Football demo" allow="autoplay"></iframe>
   </div>
 
-  <!-- Board -->
-  <section id="demo-container" style={{ backgroundImage: `url(${PitchVertical.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-
-
-    <!-- Scrolling pitch (pans left as zones advance) -->
-    <div id="pitch-track">
-      <div class="player-space build-up-def"><img class="def-img" src="" alt="Defender"></div>
-      <div class="player-space build-up-att"><img class="att-img" src="" alt="Attacker"></div>
-      <div class="player-space prog-def"><img class="def-img" src="" alt="Defender"></div>
-      <div class="player-space prog-att"><img class="att-img" src="" alt="Attacker"></div>
-      <div class="player-space final-third-att"><img class="att-img" src="" alt="Attacker"></div>
-      <div class="player-space final-third-def"><img class="def-img" src="" alt="Defender"></div>
-    </div>
-
-    <!-- CPU face-down card (fixed to visible board, not pitch-track) -->
-    <div id="cpu-onboard-card">
-      <img id="cpu-onboard-img" src="" alt="CPU card">
-    </div>
-
-    <div id="result-flash" class="result-flash"></div>
-  </section>
-
-  <!-- Status -->
-  <div id="status-bar">Loading…</div>
-
-  <!-- Duel reveal modal (fixed, outside board) -->
-  <div id="duel-reveal">
-    <div id="dr-inner">
-      <div class="dr-cards">
-        <div class="dr-slot">
-          <div class="dr-slot-label">You</div>
-          <img id="dr-human-card" src="" alt="Your duel card">
-          <div class="dr-slot-score" id="dr-att-score"></div>
-        </div>
-        <div class="dr-vs">VS</div>
-        <div class="dr-slot">
-          <div class="dr-slot-label">CPU</div>
-          <img id="dr-cpu-card" src="" alt="CPU duel card">
-          <div class="dr-slot-score" id="dr-def-score"></div>
-        </div>
-      </div>
-      <div class="dr-verdict" id="dr-verdict"></div>
-      <div class="dr-breakdown" id="dr-breakdown"></div>
-      <div id="dr-post-chaos-section">
-        <div class="dr-chaos-label dr-post-chaos-label">Play a chaos card</div>
-        <div id="dr-post-chaos-hand"></div>
-      </div>
-      <button id="dr-continue-btn" class="btn-primary" data-action="duel-continue">Continue →</button>
-    </div>
-  </div>
-
-  <!-- Game UI -->
-  <div id="game-ui">
-
-    <!-- Step 1: pick player -->
-    <div id="step-player" class="step-view show">
-      <button class="bottom-btn btn-primary" data-action="open-player-modal">Pick a player</button>
-    </div>
-
-    <!-- Step 2: pick action -->
-    <div id="step-action" class="step-view">
-      <div id="action-btns"></div>
-    </div>
-
-    <!-- Step 3: pick card, optional chaos, then play -->
-    <div id="step-card" class="step-view">
-      <div id="chaos-effect-bar"></div>
-      <div id="selected-card-preview" data-action="open-action-modal">
-        <img id="selected-card-img" src="" alt="Selected action card">
-        <span id="selected-card-name"></span>
-      </div>
-      <button id="btn-action-card" class="bottom-btn btn-primary" data-action="open-action-modal">Play action card</button>
-      <button id="btn-chaos-card" class="bottom-btn btn-primary" data-action="open-chaos-modal">Play chaos card</button>
-      <button id="play-btn" class="bottom-btn btn-primary" data-action="play-duel">▶ Play duel</button>
-    </div>
-
-    <!-- CPU thinking -->
-    <div id="sec-cpu-thinking" class="step-view">
-      <div id="cpu-row">
-        Opponent choosing<span class="dots"><span>.</span><span>.</span><span>.</span></span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Player select modal -->
-  <div id="player-modal" class="card-modal">
-    <div class="card-modal-inner">
-      <div class="cm-title">Choose player</div>
-      <div id="player-modal-hand" class="cm-hand"></div>
-      <button class="cm-cancel btn-secondary" data-action="close-player-modal">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Chaos card select modal -->
-  <div id="chaos-modal" class="card-modal">
-    <div class="card-modal-inner">
-      <div class="cm-title">Choose chaos card</div>
-      <div id="chaos-modal-hand" class="cm-hand"></div>
-      <button class="cm-cancel btn-secondary" data-action="close-chaos-modal">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Action card select modal -->
-  <div id="action-modal" class="card-modal">
-    <div class="card-modal-inner">
-      <div class="cm-title">Choose action card</div>
-      <div id="action-modal-hand" class="cm-hand"></div>
-      <button class="cm-cancel btn-secondary" data-action="close-action-modal">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Email overlay -->
-  <div id="email-overlay">
-    <div id="email-modal">
-      <h2 id="email-headline"></h2>
-      <p  id="email-sub"></p>
-      <div id="email-result-summary"></div>
-      <div id="email-form">
-        <div class="ml-embedded reveal" data-form="q1gvNS"></div>
-      </div>
-      <div id="email-thanks">
-        <p>🎉 You're on the list!</p>
-        <button id="play-again-btn" class="btn-primary" data-action="play-again">Play again</button>
-      </div>
-      <div id="play-again-gate">
-        <button class="btn-secondary" data-action="play-again">↩ Play again</button>
+  <div id="signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+    <div id="signup-modal">
+      <button id="signup-close" aria-label="Close">×</button>
+      <div class="eyebrow" id="signup-eyebrow">Join the squad</div>
+      <h2 id="signup-title">Play the second half</h2>
+      <p id="signup-text"></p>
+      <div class="ml-embedded" data-form={SIGNUP_FORM}></div>
+      <div id="signup-done">
+        <p>You're in the squad. Enjoy the full demo!</p>
+        <button class="btn-primary" id="signup-back">Back to the match</button>
       </div>
     </div>
   </div>
-
 </Main>
+
+<script>
+  const MEMBER_COOKIE = 'tf_member';
+
+  const COPY: Record<string, { eyebrow: string; title: string; text: string }> = {
+    halftime: {
+      eyebrow: 'Half-time',
+      title: 'Play the second half',
+      text: 'Join the squad to play on. It’s free, and you’ll unlock Chaos Cards and unlimited matches, plus Kickstarter launch news.',
+    },
+    replay: {
+      eyebrow: 'Full-time',
+      title: 'Fancy another match?',
+      text: 'Join the squad for unlimited matches and Chaos Cards. Be the first to hear when the Kickstarter launches.',
+    },
+    chaos: {
+      eyebrow: 'Chaos Cards',
+      title: 'Unlock the chaos',
+      text: 'VAR decisions, penalties, injuries and transfer drama. Join the squad to play with Chaos Cards.',
+    },
+  };
+
+  const getCookie = (name: string) =>
+    document.cookie.split('; ').find((c) => c.startsWith(`${name}=`))?.split('=')[1] ?? null;
+  const setCookie = (name: string, value: string, days = 365) => {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+  };
+
+  const frame = document.getElementById('play') as HTMLIFrameElement;
+  const modal = document.getElementById('signup')!;
+  const done = document.getElementById('signup-done')!;
+  let member = getCookie(MEMBER_COOKIE) === '1';
+
+  // Members skip the gates; the demo also remembers sign-ups itself.
+  frame.src = member ? '/play/?member=1' : '/play/';
+
+  const tellDemo = (type: string) =>
+    frame.contentWindow?.postMessage({ source: 'totally-football-site', type }, window.location.origin);
+
+  function openSignup(reason: string) {
+    if (member) {
+      tellDemo('member');
+      return;
+    }
+    const copy = COPY[reason] ?? COPY.replay;
+    document.getElementById('signup-eyebrow')!.textContent = copy.eyebrow;
+    document.getElementById('signup-title')!.textContent = copy.title;
+    document.getElementById('signup-text')!.textContent = copy.text;
+    modal.classList.add('show');
+    track('demo_gate', { reason });
+  }
+
+  const closeSignup = () => modal.classList.remove('show');
+
+  function track(name: string, params: Record<string, unknown> = {}) {
+    const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+    if (typeof w.gtag === 'function') w.gtag('event', name, params);
+  }
+
+  function signedUp() {
+    if (member) return;
+    member = true;
+    setCookie(MEMBER_COOKIE, '1');
+    tellDemo('member');
+    done.classList.add('show');
+  }
+
+  window.addEventListener('message', (e) => {
+    if (e.origin !== window.location.origin || e.source !== frame.contentWindow) return;
+    const data = e.data;
+    if (data?.source !== 'totally-football-demo') return;
+    if (data.type === 'gate') openSignup(data.reason);
+    if (data.type === 'event') track(data.name, data.params);
+  });
+
+  document.getElementById('signup-close')!.addEventListener('click', closeSignup);
+  document.getElementById('signup-back')!.addEventListener('click', closeSignup);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeSignup(); });
+
+  // MailerLite swaps in a success message when the form submits.
+  new MutationObserver(() => {
+    const form = modal.querySelector('.ml-embedded');
+    const success = form?.querySelector('.ml-form-successBody') as HTMLElement | null;
+    const text = form?.textContent?.toLowerCase() ?? '';
+    if ((success && getComputedStyle(success).display !== 'none') || text.includes('thanks for joining the squad')) signedUp();
+  }).observe(modal, { childList: true, subtree: true, attributes: true, characterData: true });
+</script>
