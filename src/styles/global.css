@@ -79,7 +79,7 @@ article a:hover {
 	color: var(--navy-dark);
 	box-shadow: 0 4px 28px rgba(184,224,74,0.4);
 }
-.btn-primary.small, .btn-secondary.small, .btn-white.small {
+.btn-primary.small, .btn-secondary.small, .btn-white.small, .btn-kickstarter.small {
 	height: 40px;
 	padding: 10px;
 	font-size: 1rem;

@@ -8,10 +8,12 @@ import Main from '../layouts/Main.astro';
 const SIGNUP_FORM = 'q1gvNS';
 ---
 <style>
+  /* No Kickstarter banner here (it's in the header), so the game runs to the bottom. */
+  :global(body) { padding-bottom: 0 !important; }
   #play-frame {
     position: fixed;
     top: 100px;
-    bottom: 60px;
+    bottom: 0;
     left: 0;
     right: 0;
     display: flex;
@@ -27,9 +29,6 @@ const SIGNUP_FORM = 'q1gvNS';
   }
   @media (max-width: 799px) {
     #play-frame { top: 60px; }
-  }
-  @media (max-width: 768px) {
-    #play-frame { bottom: 52px; }
   }
 
   #signup {
@@ -91,6 +90,8 @@ const SIGNUP_FORM = 'q1gvNS';
   includeDiscoverMore={false}
   includeJoinTheSquad={false}
   hideFooter={true}
+  kickstarterCta={true}
+  hideKickstarterBanner={true}
 >
   <div id="play-frame">
     <iframe id="play" title="Totally Football demo" allow="autoplay"></iframe>
