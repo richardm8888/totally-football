@@ -52,7 +52,7 @@ We're biased, but we think [Totally Football](/) is the perfect present for fans
 
 It's a football board game for 2–4 players built around 1v1 duels. You draft your squad, battle through the build-up, progression and final third, and play chaos cards when your opponent least expects it. Games take around 30 minutes, it's suitable from age 8, and nobody plays the same match twice. The box comes with 90 player cards, 50 action cards, 40 chaos cards and the game board.
 
-Totally Football isn't in shops yet because we're bringing it to life on Kickstarter. That makes it a fun gift with a twist:
+Totally Football isn't in shops yet because we're bringing it to life on Kickstarter, launching on 26 January 2027. That makes it a fun gift with a twist:
 
 - **Try it together first.** The [free browser demo](/demo/) takes a couple of minutes and shows exactly how a duel plays out.
 - **Get early access.** [Join the squad](#signup) for launch announcements and exclusive Kickstarter rewards.

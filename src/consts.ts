@@ -35,6 +35,6 @@ export const FAQS = [
     },
     {
         question: 'When does the Kickstarter launch?',
-        answer: 'We\'re preparing for launch later in 2026. Join the mailing list to get early access updates, launch announcements and exclusive Kickstarter rewards.'
+        answer: 'Totally Football launches on Kickstarter on Tuesday 26 January 2027. Follow the Kickstarter page to be notified the moment it goes live, and join the mailing list for early access and exclusive Kickstarter rewards.'
     }   
 ];

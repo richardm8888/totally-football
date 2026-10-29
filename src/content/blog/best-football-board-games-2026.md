@@ -60,7 +60,7 @@ Instead of simulating every pass in microscopic detail, it distils football into
 It's a football strategy game that's quick to learn, and matches stay tense without bogging down in rules. You can [try the free demo](/demo/) in your browser to see how a match plays out.
 
 * **Why it works:** quick to learn, real tactical choices, full of goals and momentum swings
-* **Good to know:** coming to Kickstarter; [follow the campaign](https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments?ref=blog_best_games) to hear when it launches
+* **Good to know:** launches on Kickstarter on 26 January 2027; [follow the campaign](https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments?ref=blog_best_games) to hear when it launches
 
 
 ### 2. Subbuteo
@@ -217,7 +217,7 @@ Football board games are far more varied than many people realise. What was once
 
 Whether you want deep strategy, a quick rivalry with a friend or a football-themed family game night, there has never been a better time to explore tabletop football.
 
-If fast tactical matches sound like your thing, [Totally Football](/) is coming to Kickstarter. [Play the free demo](/demo/) or [follow the campaign](https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments?ref=blog_best_games) to be notified at launch.
+If fast tactical matches sound like your thing, [Totally Football](/) launches on Kickstarter on 26 January 2027. [Play the free demo](/demo/) or [follow the campaign](https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments?ref=blog_best_games) to be notified at launch.
 
 ### Related Articles
 
