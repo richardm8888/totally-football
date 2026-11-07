@@ -14,6 +14,12 @@ import Infographic from '../assets/press/infographic.jpg';
 import CardStar from '../assets/press/card-star-player.png';
 import CardAction from '../assets/press/card-action.png';
 import CardChaos from '../assets/press/card-chaos.png';
+import PlayCelebrationTable from '../assets/press/playing-celebration-table.jpg';
+import PlayThreePlayers from '../assets/press/playing-three-players.jpg';
+import PlayHeadToHead from '../assets/press/playing-head-to-head.jpg';
+import PlayGoalCelebration from '../assets/press/playing-goal-celebration.jpg';
+import PlayWinningReaction from '../assets/press/playing-winning-reaction.jpg';
+import PlayCardsInHand from '../assets/press/playing-cards-in-hand.jpg';
 
 // Full-size originals live in public/press so their URLs stay stable for
 // anyone who links to them; the previews below are resized copies.
@@ -26,6 +32,16 @@ const images = [
 	{ src: CardStar, file: 'card-star-player.png', label: 'Star Player card' },
 	{ src: CardAction, file: 'card-action.png', label: 'Action card' },
 	{ src: CardChaos, file: 'card-chaos.png', label: 'Chaos card' },
+];
+
+// Stills from the trailer shoot, for coverage that wants people at the table.
+const photos = [
+	{ src: PlayCelebrationTable, file: 'totally-football-playing-celebration-table.jpg', label: 'Celebrating at the table' },
+	{ src: PlayThreePlayers, file: 'totally-football-playing-three-players.jpg', label: 'A three-player match' },
+	{ src: PlayHeadToHead, file: 'totally-football-playing-head-to-head.jpg', label: 'Head to head' },
+	{ src: PlayGoalCelebration, file: 'totally-football-playing-goal-celebration.jpg', label: 'Goal!' },
+	{ src: PlayWinningReaction, file: 'totally-football-playing-winning-reaction.jpg', label: 'The winning moment' },
+	{ src: PlayCardsInHand, file: 'totally-football-playing-cards-in-hand.jpg', label: 'Action cards in hand' },
 ];
 
 const facts = [
@@ -107,6 +123,19 @@ const shortDescription =
 	<Trailer />
 
 	<section class="press">
+		<h2>Photos</h2>
+		<p>People playing Totally Football. Click any photo to download it at full resolution (3840 × 2160).</p>
+		<ul class="gallery photos">
+			{photos.map((photo) => (
+				<li>
+					<a href={`/press/${photo.file}`} download>
+						<Image src={photo.src} alt={`People playing Totally Football: ${photo.label}`} widths={[400, 800]} sizes="(min-width: 800px) 280px, 45vw" />
+						<span>{photo.label}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+
 		<h2>Images</h2>
 		<p>Click any image to download the full-resolution file.</p>
 		<ul class="gallery">
@@ -255,6 +284,10 @@ const shortDescription =
 		background: var(--navy-mid);
 		border-radius: 6px;
 		padding: 8px;
+	}
+	.gallery.photos img {
+		object-fit: cover;
+		padding: 0;
 	}
 	.gallery span {
 		font-family: 'Barlow Condensed', sans-serif;
