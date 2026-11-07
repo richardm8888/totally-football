@@ -26,7 +26,7 @@ export const FAQS = [
     },
     {
         question: 'How long does a match take?',
-        answer: 'Each match takes 20–30 minutes, depending on your experience and playing style. Play a best-of-three for a quick rivalry, or a league or knockout competition for a longer football game night with friends.'
+        answer: 'A single match takes roughly 20 minutes. Playing a league or knockout competition means playing several matches, so allow longer for a full football game night with friends.'
     },
     {
         question: 'What\'s in the box?',
