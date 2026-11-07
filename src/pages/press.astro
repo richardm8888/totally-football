@@ -1,0 +1,281 @@
+---
+import { Image } from 'astro:assets';
+import Main from '../layouts/Main.astro';
+import Trailer from '../components/Home/Trailer.astro';
+import { kickstarterLink, PRESS_EMAIL } from '../consts';
+
+import BoxFront from '../assets/box-front.jpg';
+import BoxBack from '../assets/box-back.jpg';
+import InPlay from '../assets/game-board-in-play.jpg';
+import Founders from '../assets/founders.png';
+import PitchCloseUp from '../assets/blog/trailer/pitch-low-angle.jpg';
+import Logo from '../assets/logo.svg';
+import Board from '../assets/press/board.jpg';
+import Infographic from '../assets/press/infographic.jpg';
+import CardStar from '../assets/press/card-star-player.png';
+import CardAction from '../assets/press/card-action.png';
+import CardChaos from '../assets/press/card-chaos.png';
+
+// Full-size originals live in public/press so their URLs stay stable for
+// anyone who links to them; the previews below are resized copies.
+const images = [
+	{ src: Infographic, file: 'totally-football-infographic.jpg', label: 'Infographic' },
+	{ src: BoxFront, file: 'totally-football-box-front.jpg', label: 'Box front' },
+	{ src: BoxBack, file: 'totally-football-box-back.jpg', label: 'Box back' },
+	{ src: InPlay, file: 'totally-football-in-play.jpg', label: 'Game in play' },
+	{ src: Board, file: 'totally-football-board.jpg', label: 'Game board' },
+	{ src: PitchCloseUp, file: 'totally-football-pitch-close-up.jpg', label: 'Table close-up' },
+	{ src: CardStar, file: 'card-star-player.png', label: 'Star Player card' },
+	{ src: CardAction, file: 'card-action.png', label: 'Action card' },
+	{ src: CardChaos, file: 'card-chaos.png', label: 'Chaos card' },
+	{ src: Founders, file: 'sean-and-richard-moss.png', label: 'Sean and Richard Moss' },
+];
+
+const facts = [
+	['Game', 'Totally Football'],
+	['Publisher', 'Double Time Games (UK)'],
+	['Designers', 'Sean Moss and Richard Moss'],
+	['Artwork', 'Richard Moss, drawn by hand (no AI)'],
+	['Players', '2–4'],
+	['Age', '8+'],
+	['Play time', '30+ minutes'],
+	['Genre', 'Tactical football board game: squad drafting, duels, card play'],
+	['In the box', "90 Player Cards, 50 Action Cards, 40 Chaos Cards, game board, 24 goal tokens, 4 ball tokens, 4 dice, Manager's Guide"],
+	['Status', 'Coming soon to Kickstarter'],
+];
+
+const shortDescription =
+	'Totally Football is a fast, tactical football board game for 2–4 players. Draft a squad, win one-on-one duels to work the ball up the pitch, and survive the Chaos cards that can turn a match in an instant. Play time: 30+ minutes.';
+---
+
+<Main
+	title="Press Kit | Totally Football Board Game"
+	description="Press kit for Totally Football, the tactical football board game: fact sheet, descriptions, trailer, high-resolution images, logos and an infographic to download."
+	includeDiscoverMore={false}
+	includeJoinTheSquad={false}
+>
+	<section class="press">
+		<header class="press-hero">
+			<p class="section-eyebrow">Press kit</p>
+			<Image src={Logo} alt="Totally Football logo" class="press-logo" />
+			<p class="lede">{shortDescription}</p>
+			<div class="press-actions">
+				<a href="/press/totally-football-press-kit.zip" class="btn-primary" download>Download all images (ZIP)</a>
+				<a target="_blank" href={kickstarterLink('website_press')} data-ks-location="press" class="btn-secondary">Kickstarter page</a>
+			</div>
+			<p class="note">Everything here is free to use in coverage of Totally Football.</p>
+		</header>
+
+		<h2>Fact sheet</h2>
+		<dl class="facts">
+			{facts.map(([term, value]) => (
+				<div>
+					<dt>{term}</dt>
+					<dd>{value}</dd>
+				</div>
+			))}
+		</dl>
+
+		<h2>About the game</h2>
+		<h3>Short description</h3>
+		<p>{shortDescription}</p>
+
+		<h3>Long description</h3>
+		<p>
+			Totally Football puts you in the dugout. Each player drafts a squad of stars, squad players and a goalkeeper,
+			then takes them into matches decided by one-on-one duels: pass, dribble and shoot your way up the pitch, and
+			read what the other manager is about to do. Action cards give you the moves; Chaos cards bring the moments
+			football is famous for, from a spilled save to a last-gasp chance in added time.
+		</p>
+		<p>
+			It was designed to fix what its makers disliked about other football board games. You can unbox it and be
+			playing in minutes, results come from your decisions rather than dice rolls, and every match plays out like
+			football. Play time is 30+ minutes, and it works as a quick head-to-head or as a full league or knockout
+			competition on a game night.
+		</p>
+
+		<h3>About the makers</h3>
+		<div class="makers">
+			<Image src={Founders} alt="Sean and Richard Moss as Totally Football player cards" widths={[300, 600]} sizes="300px" />
+			<p>
+				Totally Football is made by brothers <strong>Sean and Richard Moss</strong> of Double Time Games in the UK.
+				After years of playing every football board game they could find, they decided to make the one they
+				wanted to play. Richard taught himself to draw and created every player portrait in the game by hand;
+				Sean wrote the player names, so the puns are his fault. <a href="/about-us/">Read their story</a>.
+			</p>
+		</div>
+	</section>
+
+	<Trailer />
+
+	<section class="press">
+		<h2>Images</h2>
+		<p>Click any image to download the full-resolution file.</p>
+		<ul class="gallery">
+			{images.map((image) => (
+				<li>
+					<a href={`/press/${image.file}`} download>
+						<Image src={image.src} alt={`Totally Football: ${image.label}`} widths={[300, 600]} sizes="(min-width: 800px) 280px, 45vw" />
+						<span>{image.label}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+
+		<h2>Logos</h2>
+		<ul class="downloads">
+			<li><a href="/press/totally-football-logo.svg" download>Logo (SVG)</a></li>
+			<li><a href="/press/totally-football-logo.png" download>Logo (PNG)</a></li>
+			<li><a href="/press/totally-football-icon.svg" download>Icon (SVG)</a></li>
+			<li><a href="/press/totally-football-icon.png" download>Icon (PNG)</a></li>
+		</ul>
+
+		<h2>Links</h2>
+		<ul class="downloads">
+			<li><a target="_blank" href={kickstarterLink('website_press')}>Kickstarter</a></li>
+			<li><a href="/demo/">Free online demo</a></li>
+			<li><a href="/how-to-play/">How to play</a></li>
+			<li><a target="_blank" href="https://boardgamegeek.com/boardgame/475887">BoardGameGeek</a></li>
+			<li><a target="_blank" href="https://www.youtube.com/watch?v=_7mviL_i4nE">Trailer on YouTube</a></li>
+		</ul>
+
+		<h2>Contact</h2>
+		<p>
+			For review copies, interviews or anything else,
+			{PRESS_EMAIL
+				? <>email <a href={`mailto:${PRESS_EMAIL}`}>{PRESS_EMAIL}</a> or message us on </>
+				: <>message us on </>}
+			<a target="_blank" href="https://www.instagram.com/totallyfootballgame">Instagram</a>,
+			<a target="_blank" href="https://www.facebook.com/totallyfootballgame">Facebook</a> or
+			<a target="_blank" href="https://x.com/TFBoardGame">X</a>.
+		</p>
+	</section>
+</Main>
+
+<style>
+	.press {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 40px 20px;
+	}
+	.press-hero {
+		text-align: center;
+		margin-bottom: 30px;
+	}
+	.press-logo {
+		width: min(420px, 85%);
+		height: auto;
+		margin: 10px auto 20px;
+	}
+	.lede {
+		font-size: 1.15rem;
+		line-height: 1.6;
+		max-width: 680px;
+		margin: 0 auto 24px;
+	}
+	.press-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		justify-content: center;
+	}
+	.note {
+		margin-top: 14px;
+		color: var(--text-muted);
+	}
+	.press h2 {
+		font-family: 'Bebas Neue', sans-serif;
+		font-size: 2.4rem;
+		letter-spacing: 0.04em;
+		color: var(--lime);
+		margin: 40px 0 14px;
+	}
+	.press h3 {
+		font-family: 'Barlow Condensed', sans-serif;
+		font-size: 1.4rem;
+		margin: 22px 0 8px;
+	}
+	.press p {
+		line-height: 1.65;
+		margin-bottom: 12px;
+	}
+	.press a:not([class]) {
+		color: var(--lime);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.facts {
+		display: grid;
+		gap: 2px;
+		background: var(--navy-mid);
+		border-radius: 8px;
+		overflow: hidden;
+	}
+	.facts div {
+		display: grid;
+		grid-template-columns: 9rem 1fr;
+		gap: 12px;
+		padding: 12px 16px;
+		background: var(--navy);
+	}
+	.facts dt {
+		font-family: 'Barlow Condensed', sans-serif;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--lime);
+	}
+	.makers {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: center;
+	}
+	.makers img {
+		width: 260px;
+		height: auto;
+		flex: none;
+	}
+	.gallery {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 14px;
+	}
+	.gallery a {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		color: var(--white);
+		text-decoration: none;
+	}
+	.gallery img {
+		width: 100%;
+		height: 180px;
+		object-fit: contain;
+		background: var(--navy-mid);
+		border-radius: 6px;
+		padding: 8px;
+	}
+	.gallery span {
+		font-family: 'Barlow Condensed', sans-serif;
+		font-weight: 600;
+		font-size: 1.05rem;
+	}
+	.downloads {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px 22px;
+	}
+	@media (min-width: 800px) {
+		.makers {
+			flex-direction: row;
+		}
+		.gallery {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+</style>

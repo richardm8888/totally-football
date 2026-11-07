@@ -51,7 +51,7 @@ The best football board games usually get three things right:
 
 ### 1. Totally Football
 
-**Best for:** fast, tactical head-to-head matches · **Players:** 2–4 · **Age:** 8+ · **Match length:** 20–30 minutes
+**Best for:** fast, tactical head-to-head matches · **Players:** 2–4 · **Age:** 8+ · **Play time:** roughly 20 minutes a match; leagues and knockouts take several matches
 
 [Totally Football](/) focuses on one of the most exciting parts of football: individual player duels.
 
@@ -188,7 +188,7 @@ It depends what you enjoy. For fast, tactical head-to-head matches, Totally Foot
 
 ### What is the best football board game for adults?
 
-Totally Football, Superclub and Counter Attack all reward real tactical thinking. Totally Football plays in 20–30 minutes per match, while Superclub and Counter Attack are longer, heavier games.
+Totally Football, Superclub and Counter Attack all reward real tactical thinking. A Totally Football match takes roughly 20 minutes, while Superclub and Counter Attack are longer, heavier games.
 
 ### What is the best 2-player football board game?
 

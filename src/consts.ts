@@ -8,6 +8,9 @@ export const SITE_DESCRIPTION = 'A fast tactical football board game for 2–4 p
 export const KICKSTARTER_URL = 'https://www.kickstarter.com/projects/double-time-games/totally-football-football-board-game-with-chaotic-moments';
 export const kickstarterLink = (ref: string) => `${KICKSTARTER_URL}?ref=${ref}`;
 
+// Shown on the press page. Left empty, the page points journalists to our socials only.
+export const PRESS_EMAIL = 'info@totallyfootballgame.co.uk';
+
 export const FAQS = [
     {
         question: 'What type of game is Totally Football?',
@@ -23,7 +26,7 @@ export const FAQS = [
     },
     {
         question: 'How long does a match take?',
-        answer: 'Each match takes 20–30 minutes, depending on your experience and playing style. Play a best-of-three for a quick rivalry, or a league or knockout competition for a longer football game night with friends.'
+        answer: 'A single match takes roughly 20 minutes. Playing a league or knockout competition means playing several matches, so allow longer for a full football game night with friends.'
     },
     {
         question: 'What\'s in the box?',
