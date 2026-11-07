@@ -8,13 +8,18 @@ import BoxFront from '../assets/box-front.jpg';
 import BoxBack from '../assets/box-back.jpg';
 import InPlay from '../assets/game-board-in-play.jpg';
 import Founders from '../assets/founders.png';
-import PitchCloseUp from '../assets/blog/trailer/pitch-low-angle.jpg';
 import Logo from '../assets/logo.svg';
 import Board from '../assets/press/board.jpg';
 import Infographic from '../assets/press/infographic.jpg';
 import CardStar from '../assets/press/card-star-player.png';
 import CardAction from '../assets/press/card-action.png';
 import CardChaos from '../assets/press/card-chaos.png';
+import PlayCelebrationTable from '../assets/press/playing-celebration-table.jpg';
+import PlayThreePlayers from '../assets/press/playing-three-players.jpg';
+import PlayHeadToHead from '../assets/press/playing-head-to-head.jpg';
+import PlayGoalCelebration from '../assets/press/playing-goal-celebration.jpg';
+import PlayWinningReaction from '../assets/press/playing-winning-reaction.jpg';
+import PlayCardsInHand from '../assets/press/playing-cards-in-hand.jpg';
 
 // Full-size originals live in public/press so their URLs stay stable for
 // anyone who links to them; the previews below are resized copies.
@@ -24,18 +29,26 @@ const images = [
 	{ src: BoxBack, file: 'totally-football-box-back.jpg', label: 'Box back' },
 	{ src: InPlay, file: 'totally-football-in-play.jpg', label: 'Game in play' },
 	{ src: Board, file: 'totally-football-board.jpg', label: 'Game board' },
-	{ src: PitchCloseUp, file: 'totally-football-pitch-close-up.jpg', label: 'Table close-up' },
 	{ src: CardStar, file: 'card-star-player.png', label: 'Star Player card' },
 	{ src: CardAction, file: 'card-action.png', label: 'Action card' },
 	{ src: CardChaos, file: 'card-chaos.png', label: 'Chaos card' },
-	{ src: Founders, file: 'sean-and-richard-moss.png', label: 'Sean and Richard Moss' },
+];
+
+// Stills from the trailer shoot, for coverage that wants people at the table.
+const photos = [
+	{ src: PlayCelebrationTable, file: 'totally-football-playing-celebration-table.jpg', label: 'Celebrating at the table' },
+	{ src: PlayThreePlayers, file: 'totally-football-playing-three-players.jpg', label: 'A three-player match' },
+	{ src: PlayHeadToHead, file: 'totally-football-playing-head-to-head.jpg', label: 'Head to head' },
+	{ src: PlayGoalCelebration, file: 'totally-football-playing-goal-celebration.jpg', label: 'Goal!' },
+	{ src: PlayWinningReaction, file: 'totally-football-playing-winning-reaction.jpg', label: 'The winning moment' },
+	{ src: PlayCardsInHand, file: 'totally-football-playing-cards-in-hand.jpg', label: 'Action cards in hand' },
 ];
 
 const facts = [
 	['Game', 'Totally Football'],
 	['Publisher', 'Double Time Games (UK)'],
 	['Designers', 'Sean Moss and Richard Moss'],
-	['Artwork', 'Richard Moss, drawn by hand (no AI)'],
+	['Artwork', 'Richard Moss (players, iconography and board) and Sean Moss (box front, card backgrounds and card backs), all made by hand (no AI)'],
 	['Players', '2–4'],
 	['Age', '8+'],
 	['Play time', '30+ minutes'],
@@ -100,8 +113,9 @@ const shortDescription =
 			<p>
 				Totally Football is made by brothers <strong>Sean and Richard Moss</strong> of Double Time Games in the UK.
 				After years of playing every football board game they could find, they decided to make the one they
-				wanted to play. Richard taught himself to draw and created every player portrait in the game by hand;
-				Sean wrote the player names, so the puns are his fault. <a href="/about-us/">Read their story</a>.
+				wanted to play. Richard taught himself to draw and created every
+				player, the icons and the board; Sean made the box front, the card backgrounds and the card backs, and
+				wrote the player names, so the puns are his fault. <a href="/about-us/">Read their story</a>.
 			</p>
 		</div>
 	</section>
@@ -109,6 +123,19 @@ const shortDescription =
 	<Trailer />
 
 	<section class="press">
+		<h2>Photos</h2>
+		<p>People playing Totally Football. Click any photo to download it at full resolution (3840 × 2160).</p>
+		<ul class="gallery photos">
+			{photos.map((photo) => (
+				<li>
+					<a href={`/press/${photo.file}`} download>
+						<Image src={photo.src} alt={`People playing Totally Football: ${photo.label}`} widths={[400, 800]} sizes="(min-width: 800px) 280px, 45vw" />
+						<span>{photo.label}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+
 		<h2>Images</h2>
 		<p>Click any image to download the full-resolution file.</p>
 		<ul class="gallery">
@@ -257,6 +284,10 @@ const shortDescription =
 		background: var(--navy-mid);
 		border-radius: 6px;
 		padding: 8px;
+	}
+	.gallery.photos img {
+		object-fit: cover;
+		padding: 0;
 	}
 	.gallery span {
 		font-family: 'Barlow Condensed', sans-serif;
