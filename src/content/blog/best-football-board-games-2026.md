@@ -3,7 +3,7 @@
 title: "Best Football Board Games in 2026"
 description: "The best football (soccer) board games in 2026: tactical duels, Subbuteo and games like it, football management sims, picks for kids and 2-player games, compared."
 pubDate: 2026-05-13
-updatedDate: 2026-10-26
+updatedDate: 2026-11-07
 heroImage: "../../assets/blog/best-football-board-games-2026.jpg"
 tags:
  - football board games
@@ -30,6 +30,7 @@ The best football board games in 2026 are:
 * **Counter Attack**: best detailed match simulation
 * **Blood Bowl**: best fantasy football game
 * **Flip Football**: best pocket-sized card game for kids
+* **Olé11**: best for bigger groups, with up to six players
 
 Not sure which suits you? Jump to the [comparison table](#which-football-board-game-is-right-for-you) or the [FAQ](#football-board-game-faq).
 
@@ -157,6 +158,16 @@ Flip Football is a small card game for ages 8 and up that you can take anywhere.
 * **Downsides:** light on strategy for adults
 
 
+### 11. Olé11
+
+**Best for:** bigger groups · **Players:** 2–6 · **Age:** 10+
+
+Olé11 comes from Tiki2Taka Games in New Zealand and was funded on Kickstarter in 2025. Rather than playing out a match move by move, each coach races to build a team of 11 using open card drafting and tile laying, with goals to chase across two halves. It plays up to six, and you can play in teams, which makes it one of the few football games that suits a bigger group.
+
+* **Why it works:** up to six players, team play, options to make games shorter or longer
+* **Downsides:** newer and harder to get hold of, more about team building than match play
+
+
 ## Which Football Board Game Is Right For You?
 
 | If you want...                     | Play                                  |
@@ -169,6 +180,7 @@ Flip Football is a small card game for ages 8 and up that you can take anywhere.
 | A quicker management game          | Superclub Rivals                      |
 | A family game for kids             | Totally Football (8+), Tipp-Kick, Flip Football |
 | A fantasy twist                    | Blood Bowl                            |
+| A game for 5 or 6 players          | Olé11                                 |
 
 Shopping for someone else? See our [football gift guide for Black Friday and Christmas](/blog/football-gifts-black-friday-christmas-2026/).
 
