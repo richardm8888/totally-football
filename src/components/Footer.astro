@@ -80,6 +80,7 @@ const { includeDiscoverMore, includeJoinTheSquad = true } = Astro.props;
 			<a href="https://boardgamegeek.com/boardgame/475887" target="_blank"><Image src={BoardGameGeek} alt="Totally Football on BoardGameGeek" width="40" /></a>
 		</div>
 	</div>
+	<p class="footer-links"><a href="/about-us/">About us</a> · <a href="/press/">Press kit</a></p>
 	<p>&copy; {today.getFullYear()} Totally Football. All rights reserved.</p>
 </footer>
 
@@ -135,6 +136,8 @@ const { includeDiscoverMore, includeJoinTheSquad = true } = Astro.props;
 	}
 
 	footer p { font-size: 0.78rem; color: var(--off-white); }
+	footer .footer-links { margin-bottom: 6px; }
+	footer .footer-links a { color: var(--off-white); }
 
 	.featured-link {
 		display: flex;
