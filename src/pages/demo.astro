@@ -125,7 +125,8 @@ const SIGNUP_FORM = 'q1gvNS';
 </Main>
 
 <script>
-  const MEMBER_COOKIE = 'tf_member';
+  // Renamed from tf_member, which was set for every visitor by mistake.
+  const MEMBER_COOKIE = 'tf_squad';
 
   const COPY: Record<string, { eyebrow: string; title: string; text: string }> = {
     halftime: {
@@ -203,11 +204,11 @@ const SIGNUP_FORM = 'q1gvNS';
   document.getElementById('signup-back')!.addEventListener('click', closeSignup);
   modal.addEventListener('click', (e) => { if (e.target === modal) closeSignup(); });
 
-  // MailerLite swaps in a success message when the form submits.
+  // MailerLite shows its success message when the form submits. The message is in the
+  // page from the start, just hidden, so only count it once it's actually showing in the
+  // open sign-up pop-up.
   new MutationObserver(() => {
-    const form = modal.querySelector('.ml-embedded');
-    const success = form?.querySelector('.ml-form-successBody') as HTMLElement | null;
-    const text = form?.textContent?.toLowerCase() ?? '';
-    if ((success && getComputedStyle(success).display !== 'none') || text.includes('thanks for joining the squad')) signedUp();
+    const success = modal.querySelector('.ml-embedded .ml-form-successBody');
+    if (modal.classList.contains('show') && success && success.getClientRects().length > 0) signedUp();
   }).observe(modal, { childList: true, subtree: true, attributes: true, characterData: true });
 </script>
