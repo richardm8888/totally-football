@@ -12,7 +12,7 @@ tags:
 
 ---
 
-At the heart of [Totally Football, our tactical football board game](/), is the duel system.
+Every attack in [Totally Football, our tactical football board game](/), comes down to the duel system.
 
 From the very beginning, we wanted every challenge, matchup and decision to feel meaningful.
 
