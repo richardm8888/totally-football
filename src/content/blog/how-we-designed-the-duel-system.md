@@ -3,6 +3,7 @@
 title: "How We Designed the Duel System for Our Football Board Game"
 description: "The 1v1 duel system is the heart of Totally Football. Here's how we designed tactical player battles for a football board game that's fast, tense and full of goals."
 pubDate: 2026-06-02
+author: "Richard Moss"
 heroImage: "../../assets/blog/how-we-designed-the-duel-system.jpg"
 tags:
   - football board games
