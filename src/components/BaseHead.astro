@@ -144,26 +144,28 @@ const shareImageURL = new URL(shareImage.src, Astro.site);
 			if (form.dataset.metaLeadObserver) return;
 			form.dataset.metaLeadObserver = 'true';
 
+			const container = form.closest('.ml-embedded') || form;
 			const observer = new MutationObserver(function () {
 				/*
-				* MailerLite changes the form DOM when a submission succeeds.
-				* Look for the success message/state rather than the submit click.
+				* MailerLite shows its success message when a submission succeeds. The
+				* message is in the page from the start, just hidden, so check that it's
+				* actually showing (not merely present) before counting a lead.
 				*/
-
-				const text = form.innerText.toLowerCase();
-
-				if (
-					text.includes('thanks for joining the squad')
-				) {
-					trackLead(form.closest('.ml-embedded')?.dataset.form);
+				const success = container.querySelector('.ml-form-successBody');
+				if (success && success.getClientRects().length > 0) {
+					trackLead(container.dataset ? container.dataset.form : undefined);
+					// Signed up anywhere on the site: the demo's sign-up gates stay open.
+					document.cookie = 'tf_squad=1; max-age=31536000; path=/; SameSite=Lax';
 					observer.disconnect();
 				}
 			});
 
-			observer.observe(form, {
+			observer.observe(container, {
 				childList: true,
 				subtree: true,
-				characterData: true
+				characterData: true,
+				attributes: true,
+				attributeFilter: ['style', 'class']
 			});
 		}
 
