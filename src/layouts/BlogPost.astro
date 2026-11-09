@@ -11,7 +11,7 @@ import { graph, organization, article } from '../structured-data';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, author } = Astro.props;
 
 // Google shows about 60 characters of a title, so only add the brand when it fits.
 const pageTitle = title.length <= 41 ? `${title} | Totally Football` : title;
@@ -26,6 +26,7 @@ const articleSchema = graph(
 		image: new URL(articleImage.src, Astro.site).href,
 		pubDate,
 		updatedDate,
+		author,
 	}),
 );
 ---
@@ -35,6 +36,11 @@ const articleSchema = graph(
 
 <style>
 
+	.byline {
+		color: var(--off-white);
+		margin-bottom: 4px;
+	}
+	.byline a { color: var(--lime); }
 	.date {
 		margin-bottom: 20px;
 	}
@@ -92,6 +98,7 @@ const articleSchema = graph(
 		<h1 class="hero-title">{title}</h1>
 	</section>
 	<section class="content">
+		<p class="byline">By <a href="/about-us/">{author}</a>, co-founder of Double Time Games</p>
 		<div class="date">
 			<FormattedDate date={pubDate} />
 			{

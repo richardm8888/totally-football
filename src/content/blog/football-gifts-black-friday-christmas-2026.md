@@ -3,6 +3,7 @@
 title: "Football Gifts for Black Friday & Christmas 2026"
 description: "Football gift ideas for Black Friday and Christmas 2026: board games, stocking fillers and presents for every kind of football fan, from tacticians to matchday regulars."
 pubDate: 2026-10-24
+author: "Richard Moss"
 heroImage: "../../assets/blog/football-gifts-black-friday-christmas-2026.jpg"
 tags:
   - football gifts
@@ -50,7 +51,7 @@ For a deeper look at each of these, read our guide to the [best football board g
 
 We're biased, but we think [Totally Football](/) is the perfect present for fans who want fast, tactical, head-to-head matches.
 
-It's a football board game for 2–4 players built around 1v1 duels. You draft your squad, battle through the build-up, progression and final third, and play chaos cards when your opponent least expects it. Games take around 30 minutes, it's suitable from age 8, and nobody plays the same match twice. The box comes with 90 player cards, 50 action cards, 40 chaos cards and the game board.
+It's a football board game for 2–4 players built around 1v1 duels. You draft your squad, battle through the build-up, progression and final third, and play chaos cards when your opponent least expects it. A match takes about 20 minutes (allow 30+ with setup), it's suitable from age 8, and nobody plays the same match twice. The box comes with 90 player cards, 50 action cards, 40 chaos cards and the game board.
 
 Totally Football isn't in shops yet because we're bringing it to life on Kickstarter. That makes it a fun gift with a twist:
 

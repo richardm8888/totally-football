@@ -57,6 +57,7 @@ export const article = (post: {
 	image: string;
 	pubDate: Date;
 	updatedDate?: Date;
+	author: string;
 }) => ({
 	'@type': 'BlogPosting',
 	headline: post.title,
@@ -66,7 +67,12 @@ export const article = (post: {
 	image: post.image,
 	datePublished: post.pubDate.toISOString(),
 	dateModified: (post.updatedDate ?? post.pubDate).toISOString(),
-	author: { '@id': ORGANIZATION_ID },
+	author: {
+		'@type': 'Person',
+		name: post.author,
+		url: `${SITE_URL}about-us/`,
+		worksFor: { '@id': ORGANIZATION_ID },
+	},
 	publisher: { '@id': ORGANIZATION_ID },
 	about: { '@id': GAME_ID },
 });

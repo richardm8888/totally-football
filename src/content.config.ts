@@ -13,6 +13,8 @@ const blog = defineCollection({
 			// Transform string to Date object
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
+			// Shown as the byline and in the article's structured data.
+			author: z.string().default('Richard Moss'),
 			heroImage: z.optional(image()),
 		}),
 });
