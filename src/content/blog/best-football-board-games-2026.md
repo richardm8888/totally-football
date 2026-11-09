@@ -3,6 +3,7 @@
 title: "Best Football Board Games in 2026"
 description: "The best football (soccer) board games in 2026: tactical duels, Subbuteo and games like it, football management sims, picks for kids and 2-player games, compared."
 pubDate: 2026-05-13
+author: "Richard Moss"
 updatedDate: 2026-10-26
 heroImage: "../../assets/blog/best-football-board-games-2026.jpg"
 tags:

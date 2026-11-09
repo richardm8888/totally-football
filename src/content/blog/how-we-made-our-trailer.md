@@ -3,6 +3,7 @@
 title: "How We Made the Totally Football Trailer"
 description: "Behind the scenes of the Totally Football trailer: how we planned, filmed and edited a video that makes a football board game feel like the real thing."
 pubDate: 2026-10-24
+author: "Richard Moss"
 heroImage: "../../assets/blog/trailer/pitch-low-angle.jpg"
 tags:
   - behind the scenes
