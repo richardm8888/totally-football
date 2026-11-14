@@ -14,6 +14,13 @@ permissions:
   pages: write
   id-token: write
 
+# Only one Pages deployment can run at a time. Without this, merging two PRs close
+# together makes the second deploy fail ("in progress deployment") and its changes never go live.
+# Queue the newer run instead of cancelling the one already deploying.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
